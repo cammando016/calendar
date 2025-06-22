@@ -1,0 +1,25 @@
+.dayofmonth {
+    width: 12vw;
+    height: 12vw;
+    display: flex;
+    flex-direction: column;
+    border-style: solid;
+    border-color: black;
+    border-width: 0.5px;
+    border-radius: 10%;
+}
+
+.row {
+    display: flex;
+    height: 50%;
+    align-items: center;
+}
+
+.toprow {
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.bottomrow {
+    justify-content: center;
+}
