@@ -1,0 +1,28 @@
+.layout {
+    width: 100%;
+}
+
+.header {
+    max-height: 10vh;
+    display: flex;
+    flex-grow: 1;
+}
+
+.main {
+    height: 80vh;
+    border-style: solid;
+    border-color: yellow;
+}
+
+.navbar {
+    max-height: 10vh;
+    display: flex;
+}
+
+.navitem {
+    background-color: purple;
+    display: flex;
+    flex-grow: 1;
+    text-align: center;
+    width: 100%;
+}
