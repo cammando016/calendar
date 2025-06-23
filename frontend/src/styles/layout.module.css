@@ -12,6 +12,7 @@
     height: 80vh;
     border-style: solid;
     border-color: yellow;
+    overflow: scroll;
 }
 
 .navbar {

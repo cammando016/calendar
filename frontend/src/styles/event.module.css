@@ -1,0 +1,15 @@
+.event {
+    border-style: solid;
+    border-color: black;
+    border-width: 0.5px;
+    padding: 5px;
+    margin-top: 2px;
+}
+
+.eventoverview {
+    flex-grow: 1;
+}
+
+.eventp{
+    margin: 2px;
+}
