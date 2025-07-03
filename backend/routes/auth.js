@@ -2,26 +2,42 @@ import express from 'express';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
-import pool from '../db/pool';
+import pool from '../db/pool.js';
 
 dotenv.config();
 const router = express.Router();
 
 router.post('/signup', async (req, res) => {
-    const { username, defaultview, recquestion, recanswer, password, birthdate } = req.body;
-    const passwordHash = await bcrypt.hash(password, 10);
-    const creationdate = new Date();
-
     try {
-        await pool.query(
-            `INSERT INTO users (username, defaultview, recquestion, recanswer, passwordhash, creationdate, birthdate)
-             VALUES ($1, $2, $3, $4, $5, $6, $7)`,
-             [username, defaultview, recquestion, recanswer, passwordHash, creationdate, birthdate]
-        );
-        res.status(201).json({message: 'User Registered'});
+        console.log('Received signup request:', req.body);
+
+        const { username, defaultview, recquestion, recanswer, password, birthdate } = req.body;
+
+        if(!username || !password || !defaultview || !recquestion || !recanswer || !birthdate) {
+            throw new Error('Missing required fields');
+        }
+
+        const passwordHash = await bcrypt.hash(password, 10);
+        const creationdate = new Date();
+
+        try {
+            console.log('attempt to insert user');
+            await pool.query(
+                `INSERT INTO users (username, defaultview, recquestion, recanswer, passwordhash, creationdate, birthdate)
+                VALUES ($1, $2, $3, $4, $5, $6, $7)`,
+                [username, defaultview, recquestion, recanswer, passwordHash, creationdate, birthdate]
+            );
+            console.log('user inserted');
+            return res.status(201).json({message: 'User Registered'});
+        }
+        catch (error) {
+            console.error('db insert error:', error);
+            return res.status(500).json({error: error.message});
+        }
     }
     catch (error) {
-        res.status(500).json({error: error.message});
+        console.error('Signup error:', error);
+        return res.status(500).json({error: error.message});
     }
 });
 
