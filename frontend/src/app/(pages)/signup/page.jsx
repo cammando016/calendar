@@ -6,7 +6,7 @@ import AccountDetailsForm from "@/forms/accountForms/AccountDetailsForm";
 
 export default function Page() {
     const [signupForm, setSignupForm] = useState({
-        username: '', password: '', defaultview: '', recquestion: '', recanswer: '', birthdate: ''
+        username: '', password: '', defaultview: '', recquestion: '', recanswer: '', birthdate: '', firstname: '', usertheme: 'default'
     });
     const router = useRouter();
 
