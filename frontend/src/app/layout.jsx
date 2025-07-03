@@ -1,12 +1,16 @@
 "use client"
 import { useState, createContext } from "react"
 import ViewContext from "@/context/ViewContext";
+import { UserProvider, useUser } from "@/context/UserContext";
 import styles from '../styles/layout.module.css';
 import sharedStyles from '../styles/shared.module.css';
 import Link from "next/link";
-import Image from "next/image";
 
 const pageNav = [
+  {
+    name: 'Home',
+    href: '/'
+  },
   {
     name: 'Events',
     href: '/events'
@@ -21,10 +25,8 @@ const pageNav = [
   }
 ];
 
-export default function StandardLayout ( { children } ) {
-  const [isAuth, setIsAuth] = useState(true);
-  const [viewMode, setViewMode] = useState('Month');
-
+function LayoutContent({ children, viewMode, setViewMode }) {
+  const { user } = useUser();
   return (
     <ViewContext.Provider value={viewMode}>
       <html>
@@ -45,7 +47,13 @@ export default function StandardLayout ( { children } ) {
                   <label htmlFor="week">Week</label>
                 </fieldset>
               </form>
-              <p>{viewMode}</p>
+              {
+                user ? (
+                  <div><p>Hello, User</p></div>
+                ) : (
+                  <div><p>Hello, Guest</p></div>
+                )
+              }
             </div>
 
             <div id="page-content" className={`${styles.main} ${styles.layout}`}>{children}</div>
@@ -65,10 +73,26 @@ export default function StandardLayout ( { children } ) {
                 })
               }
               {
-                isAuth ? (
-                  <div id="nav-signout" className={styles.navitem}><p>Sign Out</p></div>
+                user ? (
+                  <div id="nav-signout" className={styles.navitem}>
+                    <Link
+                      key='signout'
+                      href='/logout'
+                      className={styles.navitem}
+                    >
+                      <p>Logout</p>
+                    </Link>
+                  </div>
                 ) : (
-                  <div id="nav-signin" className={styles.navitem}><p>Sign In</p></div>
+                  <div id="nav-signin" className={styles.navitem}>
+                    <Link
+                      key='signin'
+                      href='/login'
+                      className={styles.navitem}
+                    >
+                      <p>Sign In</p>
+                    </Link>
+                  </div>
                 )
               }
             </div>
@@ -77,6 +101,18 @@ export default function StandardLayout ( { children } ) {
       </html>
     </ViewContext.Provider>
   )
+}
+
+export default function StandardLayout ( { children } ) {
+  const [viewMode, setViewMode] = useState('Month');
+
+  return (
+      <UserProvider>
+        <LayoutContent viewMode={viewMode} setViewMode={setViewMode}>
+          {children}
+        </LayoutContent>
+      </UserProvider>
+  );
 }
 
 export {ViewContext};
