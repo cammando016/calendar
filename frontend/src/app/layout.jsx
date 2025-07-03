@@ -48,8 +48,8 @@ function LayoutContent({ children, viewMode, setViewMode }) {
                 </fieldset>
               </form>
               {
-                user ? (
-                  <div><p>Hello, User</p></div>
+                user.name ? (
+                  <div><p>Hello, {user.name}</p></div>
                 ) : (
                   <div><p>Hello, Guest</p></div>
                 )
