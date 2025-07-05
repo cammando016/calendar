@@ -5,6 +5,7 @@ import { UserProvider, useUser } from "@/context/UserContext";
 import styles from '../styles/layout.module.css';
 import sharedStyles from '../styles/shared.module.css';
 import Link from "next/link";
+import useLogout from "@/utils/useLogout";
 
 const pageNav = [
   {
@@ -26,6 +27,7 @@ const pageNav = [
 ];
 
 function LayoutContent({ children, viewMode, setViewMode }) {
+  const handleLogout = useLogout();
   const { user } = useUser();
   console.log(user);
   return (
@@ -68,7 +70,7 @@ function LayoutContent({ children, viewMode, setViewMode }) {
                       href={page.href}
                       className={styles.navitem}
                     >
-                      <p>{page.name}</p>
+                      <button><p>{page.name}</p></button>
                     </Link>
                   )
                 })
@@ -76,13 +78,9 @@ function LayoutContent({ children, viewMode, setViewMode }) {
               {
                 user?.username ? (
                   <div id="nav-signout" className={styles.navitem}>
-                    <Link
-                      key='signout'
-                      href='/logout'
-                      className={styles.navitem}
-                    >
+                    <button onClick={handleLogout}>
                       <p>Log Out</p>
-                    </Link>
+                    </button>
                   </div>
                 ) : (
                   <div id="nav-signin" className={styles.navitem}>
@@ -91,7 +89,7 @@ function LayoutContent({ children, viewMode, setViewMode }) {
                       href='/login'
                       className={styles.navitem}
                     >
-                      <p>Log In</p>
+                      <button><p>Log In</p></button>
                     </Link>
                   </div>
                 )
