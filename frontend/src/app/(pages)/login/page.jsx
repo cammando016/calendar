@@ -2,20 +2,23 @@
 import { useState } from "react"
 import { logUserIn } from "@/utils/authenticate"
 import { useRouter } from "next/navigation"
+import { useUser } from "@/context/UserContext"
 
 export default function Page () {
     const [loginForm, setLoginForm] = useState({username: '', password: ''});
     const router = useRouter();
+    const { updateUser } = useUser();
 
     const handleSubmit = async(e) => {
         e.preventDefault();
-        const res = await logUserIn(loginForm);
-        if (res.token) {
+        try {
+            const res = await logUserIn(loginForm);
             localStorage.setItem('token', res.token);
-            router.push('/protected');
+            updateUser(res.user);
+            router.push('/');
         }
-        else {
-            alert (res.message);
+        catch (error) {
+            alert (error.message);
         }
     };
 

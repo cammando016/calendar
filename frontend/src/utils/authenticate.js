@@ -7,7 +7,18 @@ export const logUserIn = async (credentials) => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(credentials)
     });
-    return await res.json();
+
+    const data = await res.json();
+    if (res.ok) {
+        localStorage.setItem('token', data.token);
+        return {
+            user: data.user,
+            token: data.token
+        };
+    }
+    else {
+        throw new Error(data.error);
+    }
 };
 
 export const userSignup = async (details) => {

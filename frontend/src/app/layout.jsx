@@ -1,5 +1,5 @@
 "use client"
-import { useState, createContext } from "react"
+import { useState, useEffect, createContext } from "react"
 import ViewContext from "@/context/ViewContext";
 import { UserProvider, useUser } from "@/context/UserContext";
 import styles from '../styles/layout.module.css';
@@ -27,6 +27,7 @@ const pageNav = [
 
 function LayoutContent({ children, viewMode, setViewMode }) {
   const { user } = useUser();
+  console.log(user);
   return (
     <ViewContext.Provider value={viewMode}>
       <html>
@@ -48,8 +49,8 @@ function LayoutContent({ children, viewMode, setViewMode }) {
                 </fieldset>
               </form>
               {
-                user.name ? (
-                  <div><p>Hello, {user.name}</p></div>
+                user?.firstname ? (
+                  <div><p>Hello, {user.firstname}</p></div>
                 ) : (
                   <div><p>Hello, Guest</p></div>
                 )
@@ -73,14 +74,14 @@ function LayoutContent({ children, viewMode, setViewMode }) {
                 })
               }
               {
-                user ? (
+                user?.username ? (
                   <div id="nav-signout" className={styles.navitem}>
                     <Link
                       key='signout'
                       href='/logout'
                       className={styles.navitem}
                     >
-                      <p>Logout</p>
+                      <p>Log Out</p>
                     </Link>
                   </div>
                 ) : (
@@ -90,7 +91,7 @@ function LayoutContent({ children, viewMode, setViewMode }) {
                       href='/login'
                       className={styles.navitem}
                     >
-                      <p>Sign In</p>
+                      <p>Log In</p>
                     </Link>
                   </div>
                 )

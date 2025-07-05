@@ -11,9 +11,9 @@ router.post('/signup', async (req, res) => {
     try {
         console.log('Received signup request:', req.body);
 
-        const { username, defaultview, recquestion, recanswer, password, birthdate } = req.body;
+        const { username, defaultview, recquestion, recanswer, password, birthdate, firstname, usertheme } = req.body;
 
-        if(!username || !password || !defaultview || !recquestion || !recanswer || !birthdate) {
+        if(!username || !password || !defaultview || !recquestion || !recanswer || !birthdate || !firstname || !usertheme) {
             throw new Error('Missing required fields');
         }
 
@@ -23,9 +23,9 @@ router.post('/signup', async (req, res) => {
         try {
             console.log('attempt to insert user');
             await pool.query(
-                `INSERT INTO users (username, defaultview, recquestion, recanswer, passwordhash, creationdate, birthdate)
-                VALUES ($1, $2, $3, $4, $5, $6, $7)`,
-                [username, defaultview, recquestion, recanswer, passwordHash, creationdate, birthdate]
+                `INSERT INTO users (username, defaultview, recquestion, recanswer, passwordhash, creationdate, birthdate, firstname, usertheme)
+                VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
+                [username, defaultview, recquestion, recanswer, passwordHash, creationdate, birthdate, firstname, usertheme]
             );
             console.log('user inserted');
             return res.status(201).json({message: 'User Registered'});
@@ -55,7 +55,18 @@ router.post('/login', async (req, res) => {
         }
 
         const token = jwt.sign({id: user.userid}, process.env.JWT_SECRET, {expiresIn: '7d'});
-        res.json({token});
+        res.status(200).json({
+            message: 'Login Successful',
+            token,
+            user: {
+                username: user.username,
+                firstname: user.firstname,
+                recoveryQuestion: user.recquestion,
+                defaultView: user.defaultview,
+                birthdate: user.birthdate,
+                theme: user.usertheme
+            }
+        });
     }
     catch (error) {
         res.status(500).json({error: error.message});
