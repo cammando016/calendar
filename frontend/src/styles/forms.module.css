@@ -1,0 +1,12 @@
+.formInput {
+    border-style: solid;
+    border-radius: 5px;
+}
+
+.validInput {
+    border-color: green;
+}
+
+.invalidInput {
+    border-color: red;
+}
