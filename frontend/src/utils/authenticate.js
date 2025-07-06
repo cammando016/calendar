@@ -27,6 +27,5 @@ export const userSignup = async (details) => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(details)
     });
-    console.log(urlWithPort);
     return await res.json();
 };
