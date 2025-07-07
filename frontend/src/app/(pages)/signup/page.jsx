@@ -29,7 +29,7 @@ export default function Page() {
         const hasEmptyField = Object.values(signupForm).some(value => value === '');
         const passwordConfirmationFailure = (createPassword !== signupForm.password);
         (hasEmptyField || passwordConfirmationFailure) ? setDisabled(true) : setDisabled(false);
-    }, [signupForm, createPassword, signupForm]);
+    }, [signupForm, createPassword]);
 
     return <AccountDetailsForm registerAccount={true} submitFunc={handleSubmit} setFormFunc={setSignupForm} form={signupForm} submitDisabled={disabled} createPassword={createPassword} updatePassword={updatePassword} />
 }
