@@ -9,7 +9,7 @@ export default function Page () {
     const router = useRouter();
     const { updateUser } = useUser();
 
-    const handleSubmit = async(e) => {
+    const handleLogin = async(e) => {
         e.preventDefault();
         try {
             const res = await logUserIn(loginForm);
@@ -23,7 +23,7 @@ export default function Page () {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleLogin}>
             <label htmlFor='username'>Username:</label>
             <input id='username' name='username' placeholder='Enter Your Username' onChange={(e) => setLoginForm({ ...loginForm, username: e.target.value })} />
             <label htmlFor='password'>Password:</label>
