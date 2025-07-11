@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useUser } from "@/context/UserContext"
 import useLogin from "@/utils/useLogin";
 import LoginForm from "@/forms/accountForms/LoginForm";
+import Link from "next/link";
 
 export default function Page() {
     //Get current logged in user details
@@ -41,8 +42,12 @@ export default function Page() {
                         </div>
 
                         <div id="account-updaters">
-                            <button>Edit Account Details</button>
-                            <button>Change Password</button>
+                            <Link key='edit-account-button' href='/account/edit' >
+                                <button>Edit Account Details</button>
+                            </Link>
+                            <Link key='change-password-button' href='/account/reset-password'>
+                                <button>Change Password</button>
+                            </Link>
                         </div>
                     </div>
                 ) : (
