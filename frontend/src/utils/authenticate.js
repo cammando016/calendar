@@ -1,6 +1,7 @@
 //env variables
 const urlWithPort = `${process.env.NEXT_PUBLIC_API_BASE}${process.env.NEXT_PUBLIC_PORT}`
 
+//Backend connection to check if submitted username/password matches user details in db
 export const logUserIn = async (credentials) => {
     const res = await fetch(`${urlWithPort}/api/auth/login`, {
         method: 'POST',
@@ -21,6 +22,7 @@ export const logUserIn = async (credentials) => {
     }
 };
 
+//Backend connection to post account details to DB on successful signup
 export const userSignup = async (details) => {
     const res = await fetch(`${urlWithPort}/api/auth/signup`, {
         method: 'POST',

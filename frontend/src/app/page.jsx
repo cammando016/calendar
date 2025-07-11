@@ -1,3 +1,5 @@
+//Homepage main content inside layout, displayed at "/"
+
 "use client"
 import { useContext } from "react";
 import { ViewContext } from "./layout";

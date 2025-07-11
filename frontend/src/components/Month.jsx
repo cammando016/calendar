@@ -1,6 +1,8 @@
+//Display for a month, with each day of the month shown using DayOfMonth component
 import DayOfMonth from "./DayOfMonth"
 import styles from '../styles/month.module.css'
 
+//used to map the individual day components in the month
 const weekdays = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
 const weekNums = [1, 2, 3, 4, 5];
 
@@ -8,6 +10,7 @@ export default function Month ({ month }) {
     return (
         <div className={`${styles.month}`}>
             <div className={`${styles.monthheading}`}>
+                {/* Move between previous/subsequent months */}
                 <h3>
                     <button>prev</button>
                     {month}
@@ -16,6 +19,7 @@ export default function Month ({ month }) {
             </div>
             <table>
                 <thead>
+                    {/* Weekday headings */}
                     <tr>
                         {
                             weekdays.map(weekday => {
@@ -25,6 +29,7 @@ export default function Month ({ month }) {
                     </tr>
                 </thead>
                 <tbody>
+                    {/* Day components */}
                     {
                         weekNums.map(weekNum => {
                             return (<tr key={weekNum}>
@@ -45,6 +50,7 @@ export default function Month ({ month }) {
                     }
                 </tbody>
             </table>
+            {/* List of events in the current month */}
             <div>
                 <h3>{month} Events</h3>
             </div>

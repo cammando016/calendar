@@ -1,3 +1,4 @@
+//Create group form, store form inputs in createGroupForm state object defined in /groups/create page component
 export default function CreateGroupForm ({submitGroupFunc, createGroupForm, setGroupForm}) {
     return (
         <form onSubmit={submitGroupFunc}>

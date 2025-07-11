@@ -1,5 +1,6 @@
+//Home page layout
 "use client"
-import { useState, useEffect, createContext } from "react"
+import { useState } from "react"
 import ViewContext from "@/context/ViewContext";
 import { UserProvider, useUser } from "@/context/UserContext";
 import styles from '../styles/layout.module.css';
@@ -7,6 +8,7 @@ import sharedStyles from '../styles/shared.module.css';
 import Link from "next/link";
 import useLogout from "@/utils/useLogout";
 
+//Link text and assigned route for nav bar links
 const pageNav = [
   {
     name: 'Home',
@@ -27,16 +29,19 @@ const pageNav = [
 ];
 
 function LayoutContent({ children, viewMode, setViewMode }) {
+  //Import logout function
   const handleLogout = useLogout();
+  //Get user if authenticated
   const { user } = useUser();
-  console.log(user);
   return (
+    //View context allows user to switch between viewing year, month or week
     <ViewContext.Provider value={viewMode}>
       <html>
         <body>
           <div id="page-layout">
             <div id="page-heading" className={`${sharedStyles.colflex} ${styles.layout}`}>
               <h1>Group Calendar</h1>
+              {/* User input to switch view mode */}
               <form>
                 <fieldset id="view-mode">
                   <legend>Select View Mode</legend>
@@ -50,6 +55,7 @@ function LayoutContent({ children, viewMode, setViewMode }) {
                   <label htmlFor="week">Week</label>
                 </fieldset>
               </form>
+              {/* Display greeting, general if unauthenticated, personalised if authenticated */}
               {
                 user?.firstname ? (
                   <div><p>Hello, {user.firstname}</p></div>
@@ -61,6 +67,7 @@ function LayoutContent({ children, viewMode, setViewMode }) {
 
             <div id="page-content" className={`${styles.main} ${styles.layout}`}>{children}</div>
 
+            {/* Navigation bar at the bottom of the page */}
             <div id="site-nav" className={`${styles.navbar} ${styles.layout}`}>
               {
                 pageNav.map(page => {
@@ -76,6 +83,7 @@ function LayoutContent({ children, viewMode, setViewMode }) {
                 })
               }
               {
+                //Display login or logout option based on whether user is authenticated
                 user?.username ? (
                   <div id="nav-signout" className={styles.navitem}>
                     <button onClick={handleLogout}>

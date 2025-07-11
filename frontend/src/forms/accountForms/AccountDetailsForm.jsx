@@ -1,3 +1,4 @@
+//Signup form
 import sharedStyles from '../../styles/shared.module.css';
 import formStyles from '../../styles/forms.module.css'
 
@@ -26,6 +27,7 @@ export default function AccountDetailsForm ({registerAccount, submitFunc, setFor
                         <option value="week">Week</option>
                     </select>
                 </div>
+                {/* User theme currently inactive, only default theme in use initially */}
                 <div className={sharedStyles.colflex}>
                     <label htmlFor="account-theme">* Theme</label>
                     <input className={`${formStyles.formInput} ${form.usertheme === '' ? formStyles.invalidInput : formStyles.validInput }`} type="text" id="account-theme" name="account-theme" value={form.usertheme} required disabled />
@@ -45,6 +47,8 @@ export default function AccountDetailsForm ({registerAccount, submitFunc, setFor
             </fieldset>
 
             {
+                //Form can be reused for either edit account details or create account.
+                //Show create and confirm password fields only if it is in the create account page.
                 registerAccount ? (
                     <fieldset id="set-password" name="Set Password">
                         <legend>Password</legend>
