@@ -1,5 +1,4 @@
 //Page displayed at /account. Display basic account details and link to options to update account details or change password
-
 "use client"
 import { useState } from "react";
 import { useUser } from "@/context/UserContext"
@@ -22,23 +21,19 @@ export default function Page() {
                     //Display user account details if authenticated
                     <div id="acc-details-auth">
                         <div id="account-details">
-                            <p>First Name:</p>
-                            <p>{user.firstname}</p>
+                            <p>First Name: {user.firstname}</p>
 
-                            <p>Username:</p>
-                            <p>{user.username}</p>
+                            <p>Username: {user.username}</p>
 
-                            <p>Birthday:</p>
-                            <p>{user.birthdate}</p>
+                            <p>Birthday: {user.birthdate}</p>
 
-                            <p>Default View:</p>
-                            <p>{user.defaultView}</p>
+                            <p>Default View: {user.defaultView}</p>
 
-                            <p>Theme:</p>
-                            <p>{user.theme}</p>
+                            <p>Theme: {user.theme}</p>
 
-                            <p>Recovery Question:</p>
-                            <p>{user.recoveryQuestion}</p>
+                            <p>Recovery Question: {user.recoveryQuestion}</p>
+
+                            <p>Recovery Answer: {user.recoveryAnswer}</p>
                         </div>
 
                         <div id="account-updaters">

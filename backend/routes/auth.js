@@ -62,6 +62,7 @@ router.post('/login', async (req, res) => {
                 username: user.username,
                 firstname: user.firstname,
                 recoveryQuestion: user.recquestion,
+                recoveryAnswer: user.recanswer,
                 defaultView: user.defaultview,
                 birthdate: user.birthdate,
                 theme: user.usertheme
