@@ -5,11 +5,18 @@ import { useUser } from "@/context/UserContext"
 import useLogin from "@/utils/useLogin";
 import LoginForm from "@/forms/accountForms/LoginForm";
 import Link from "next/link";
+import DeleteAccountModal from "@/components/DeleteAccountModal";
 
 export default function Page() {
     //Get current logged in user details
     const { user } = useUser();
 
+    //Allow user to show delete account confirmation dialog modal if user clicks on 
+    const [showDeleteAccount, setShowDeleteAccount] = useState(false);
+    const openDeleteModal = () => setShowDeleteAccount(true);
+    const closeDeleteModal = () => setShowDeleteAccount(false);
+
+    //Allow login directly on account page if user isn't authenticated
     const [loginForm, setLoginForm] = useState({username: '', password: ''});
     const handleLogin = useLogin(loginForm, '/account');
 
@@ -43,7 +50,11 @@ export default function Page() {
                             <Link key='change-password-button' href='/account/reset-password'>
                                 <button>Change Password</button>
                             </Link>
+                            <button onClick={openDeleteModal}>Delete Account</button>
                         </div>
+
+                        {/* Show delete account confirmation pop up if delete account button clicked */}
+                        { showDeleteAccount && <DeleteAccountModal closeDelete={closeDeleteModal} /> }
                     </div>
                 ) : (
                     //Display login form if user is not authenticated

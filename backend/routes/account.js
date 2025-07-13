@@ -52,4 +52,30 @@ router.patch('/edit', async(req, res) => {
     }
 })
 
+router.delete('/delete', async(req, res) => {
+    try {
+        console.log('Received delete account request for username:', req.body);
+        const {username} = req.body;
+        const queryUser = await pool.query('SELECT * FROM users WHERE username = $1', [username]);
+        const user = queryUser.rows[0];
+
+        if (!user) {
+            return res.status(401).json({message: 'Invalid Username'});
+        }
+
+        try {
+            console.log('Attempting to delete user record');
+            await pool.query( 'DELETE FROM users WHERE username = $1', [username] );
+            console.log('Account Deleted');
+            return res.status(200).json({message: 'Account Deleted'});
+        } catch (error) {
+            console.error('Error deleeting account:', error);
+            return res.status(500).json({error: error.message});
+        }
+    } catch (error) {
+        console.error('Delete account route error:', error);
+        res.status(500).json({error: error.message});
+    }
+})
+
 export default router;

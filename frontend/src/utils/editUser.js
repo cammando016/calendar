@@ -9,3 +9,12 @@ export const editUser = async (details) => {
     });
     return await res.json();
 }
+
+export const deleteUser = async (details) => {
+    const res = await fetch(`${urlWithPort}/api/account/delete`, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(details)
+    });
+    return await res.json();
+}
