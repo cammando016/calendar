@@ -1,6 +1,9 @@
-import { Pool } from 'pg';
+import { Pool, types } from 'pg';
 import dotenv from 'dotenv';
 dotenv.config();
+
+//Prevent dates from being offset by timezone differences
+types.setTypeParser(1082, val => val);
 
 const pool = new Pool({
     host: process.env.HOST,
