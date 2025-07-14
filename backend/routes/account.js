@@ -1,10 +1,43 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import pool from '../db/pool.js';
+import bcrypt from 'bcryptjs';
 
 //Configure router
 dotenv.config();
 const router = express.Router();
+
+//Update password for user account record in USERS table
+router.patch('/reset-password', async(req, res) => {
+    try {
+        console.log('Received change password request', req.body);
+        const {username, recoveryAnswer, newPassword} = req.body;
+        const queryUser = await pool.query('SELECT * FROM users WHERE username = $1', [username]);
+        const user = queryUser.rows[0];
+        
+        if(!user) {
+            return res.status(404).json({ error: 'Username not found'});
+        } 
+        if (user.recanswer.trim().toLowerCase() !== recoveryAnswer.trim().toLowerCase()) {
+            return res.status(401).json({ error: 'Incorrect recovery question response' });
+        }
+
+        const passwordHash = await bcrypt.hash(newPassword, 10);
+        
+        try {
+            console.log('Attempting to update password');
+            await pool.query ( 'UPDATE users SET passwordhash = $1 WHERE username = $2', [passwordHash, username] )
+            console.log('Password updated');
+            return res.status(200).json({message: 'Password successfully updated'});
+        } catch (error) {
+            console.error('DB update error:', error);
+            return res.status(500).json({error: error.message});
+        }
+    } catch(error) {
+        console.error('Update password route error:', error);
+        return res.status(500).json({ error: 'Internal server error' });
+    }
+})
 
 //Update user account record in USERS table
 router.patch('/edit', async(req, res) => {

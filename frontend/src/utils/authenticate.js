@@ -31,3 +31,10 @@ export const userSignup = async (details) => {
     });
     return await res.json();
 };
+
+export const getAccountRecovery = async (username) => {
+    const res = await fetch(`${urlWithPort}/api/auth/recover?username=${encodeURIComponent(username)}`, {
+        method: 'GET'
+    });
+    return await res.json();
+};

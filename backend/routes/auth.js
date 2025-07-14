@@ -7,6 +7,30 @@ import pool from '../db/pool.js';
 dotenv.config();
 const router = express.Router();
 
+router.get('/recover', async(req, res) => {
+    try {
+        console.log('Received account recovery request', req.query);
+        const { username } = req.query;
+        const usernameQuery = await pool.query('SELECT * FROM users WHERE username = $1', [username])
+        const user = usernameQuery.rows[0]
+
+        if (!user) {
+            return res.status(401).json({error: 'Username not found'});
+        }
+
+        return res.status(200).json({
+            message: 'Username Found',
+            recoveryDetails: {
+                username: user.username,
+                recoveryQuestion: user.recquestion
+            }
+        })
+    } catch (error) {
+        console.error('Account recovery route error', error.message);
+        return res.status(500).json({error: error.message});
+    }
+})
+
 router.post('/signup', async (req, res) => {
     try {
         console.log('Received signup request:', req.body);

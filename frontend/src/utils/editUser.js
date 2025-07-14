@@ -18,3 +18,12 @@ export const deleteUser = async (details) => {
     });
     return await res.json();
 }
+
+export const changePassword = async (details) => {
+    const res = await fetch(`${urlWithPort}/api/account/reset-password`, {
+        method: 'PATCH', 
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(details)
+    });
+    return await res.json();
+}
