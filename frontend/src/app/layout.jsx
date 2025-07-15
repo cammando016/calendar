@@ -3,6 +3,7 @@
 import { useState } from "react"
 import ViewContext from "@/context/ViewContext";
 import { UserProvider, useUser } from "@/context/UserContext";
+import { DateProvider } from "@/context/DateContext";
 import styles from '../styles/layout.module.css';
 import sharedStyles from '../styles/shared.module.css';
 import Link from "next/link";
@@ -115,9 +116,11 @@ export default function StandardLayout ( { children } ) {
 
   return (
       <UserProvider>
-        <LayoutContent viewMode={viewMode} setViewMode={setViewMode}>
-          {children}
-        </LayoutContent>
+        <DateProvider>
+          <LayoutContent viewMode={viewMode} setViewMode={setViewMode}>
+            {children}
+          </LayoutContent>
+        </DateProvider>
       </UserProvider>
   );
 }
