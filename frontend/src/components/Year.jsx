@@ -2,17 +2,18 @@
 import MonthOfYear from "./MonthOfYear";
 import styles from '../styles/year.module.css';
 
-export default function Year ({year}) {
+export default function Year ({ date }) {
+    const dateObject = new Date(date);
     //Used to map each month of the year to MonthOfYear components on screen
     const years = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     
     return (
         <div className="year-display">
-            <h3>{year}</h3>
+            <h3>{dateObject.getFullYear()}</h3>
             <div className={`${styles.year}`}>
                 {
                     years.map(year => {
-                        return <MonthOfYear key={year} monthName={year} eventCount={3}/>
+                        return <MonthOfYear key={year} monthName={year} />
                     })
                 }
             </div>

@@ -17,7 +17,7 @@ export default function Home() {
     <div id="calendar">
       {
         viewMode === 'Year' ? (
-          <Year year={'2025'}/>
+          <Year date={date.toDateString()}/>
         ) : viewMode === 'Month' ? (
           <Month date={date.toDateString()} />
         ) : (
