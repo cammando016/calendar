@@ -32,3 +32,22 @@ export const populateMonthDates = (date) => {
     const currentDatesInWeekSix = weekSix.some(date => date.getMonth() === month);
     return currentDatesInWeekSix ? dates : dates.slice(0, 35);
 }
+
+export const populateWeekDates = (date) => {
+    //Get weekday num of date
+    const weekdayNum = date.getDay();
+    //If Sunday, set current date, otherwise get date of most recent Sunday
+    const sundayDate = new Date(date);
+    sundayDate.setDate(date.getDate() - weekdayNum);
+    //Empty array for week dates
+    const weekDates = [];
+
+    //Populate weekDates
+    for(let i = 0; i < 7; i++) {
+        const newDate = new Date(sundayDate);
+        newDate.setDate(sundayDate.getDate() + i);
+        weekDates.push(newDate);
+    }
+
+    return weekDates;
+}
