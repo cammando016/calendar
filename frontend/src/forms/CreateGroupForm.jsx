@@ -1,5 +1,8 @@
 //Create group form, store form inputs in createGroupForm state object defined in /groups/create page component
 export default function CreateGroupForm ({submitGroupFunc, createGroupForm, setGroupForm}) {
+    //Empty array that will update with users added to the group before submitting
+    const addedUsers = [];
+    
     return (
         <form onSubmit={submitGroupFunc}>
             <label htmlFor="group-name">Group Name</label>

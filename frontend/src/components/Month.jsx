@@ -2,6 +2,7 @@
 import DayOfMonth from "./DayOfMonth"
 import styles from '../styles/month.module.css'
 import { populateMonthDates } from "@/utils/dateFunctions";
+import { useDate } from "@/context/DateContext";
 
 //used to map the individual day components in the month
 const weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -13,17 +14,19 @@ export default function Month ({ date }) {
     //Fill array of dates to display for month of screen (including sun - sat weekday overflow to past and next month)
     const monthDates = populateMonthDates(dateObject);
     const numWeeks = monthDates.length / 7;
+
+    const { incrementYear, decrementYear, incrementMonth, decrementMonth } = useDate();
     
     return (
         <div className={`${styles.month}`}>
             <div className={`${styles.monthheading}`}>
                 {/* Move between previous/subsequent months */}
                 <h3>
-                    <button>{`<- Year`}</button>
-                    <button>{`<- Month`}</button>
+                    <button onClick={decrementYear}>{`<- Year`}</button>
+                    <button onClick={decrementMonth}>{`<- Month`}</button>
                         {date}
-                    <button>{`Month ->`}</button>
-                    <button>{`Year ->`}</button>
+                    <button onClick={incrementMonth}>{`Month ->`}</button>
+                    <button onClick={incrementYear}>{`Year ->`}</button>
                 </h3>
             </div>
             <table>
@@ -46,8 +49,8 @@ export default function Month ({ date }) {
                                     Array.from({ length: 7 }).map((_, weekDay) => {
                                         const dayDate = monthDates[weekNum * 7 + weekDay];
                                         return (
-                                            <td key={dayDate.toISOString().slice(0,10)}>
-                                                <DayOfMonth date={dayDate.toISOString().slice(0,10)} />
+                                            <td key={dayDate.toDateString().slice(0,10)}>
+                                                <DayOfMonth date={dayDate.toDateString().slice(0,10)} />
                                             </td>
                                         )
                                     }
