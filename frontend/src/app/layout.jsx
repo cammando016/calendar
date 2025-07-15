@@ -8,26 +8,9 @@ import styles from '../styles/layout.module.css';
 import sharedStyles from '../styles/shared.module.css';
 import Link from "next/link";
 import useLogout from "@/utils/useLogout";
-
-//Link text and assigned route for nav bar links
-const pageNav = [
-  {
-    name: 'Home',
-    href: '/'
-  },
-  {
-    name: 'Events',
-    href: '/events'
-  },
-  {
-    name: 'Groups',
-    href: '/groups'
-  },
-  {
-    name: 'Account',
-    href: '/account'
-  }
-];
+import Navbar from "@/components/Navbar";
+import SelectViewMode from "@/components/SelectViewMode";
+import Greeting from "@/components/Greeting";
 
 function LayoutContent({ children, viewMode, setViewMode }) {
   //Import logout function
@@ -41,69 +24,21 @@ function LayoutContent({ children, viewMode, setViewMode }) {
         <body>
           <div id="page-layout">
             <div id="page-heading" className={`${sharedStyles.colflex} ${styles.layout}`}>
-              <h1>Group Calendar</h1>
-              {/* User input to switch view mode */}
-              <form>
-                <fieldset id="view-mode">
-                  <legend>Select View Mode</legend>
-                  <input type="radio" value="Year" id="year" name="view_mode" checked={viewMode === 'Year'} onChange={() => setViewMode('Year')} />
-                  <label htmlFor="year">Year</label>
+              <div className={sharedStyles.rowflex}>
+                <h1>Group Calendar</h1>
+                {/* User input to switch view mode */}
+                <SelectViewMode viewMode={viewMode} setViewMode={setViewMode} />
+              </div>
 
-                  <input type="radio" value="Month" id="month" name="view_mode" checked={viewMode === 'Month'} onChange={() => setViewMode('Month')} />
-                  <label htmlFor="month">Month</label>
-
-                  <input type="radio" value="Week" id="week" name="view_mode" checked={viewMode === 'Week'} onChange={() => setViewMode('Week')} />
-                  <label htmlFor="week">Week</label>
-                </fieldset>
-              </form>
               {/* Display greeting, general if unauthenticated, personalised if authenticated */}
-              {
-                user?.firstname ? (
-                  <div><p>Hello, {user.firstname}</p></div>
-                ) : (
-                  <div><p>Hello, Guest</p></div>
-                )
-              }
+              <Greeting user={user} greeting="Hello" />
             </div>
 
+            {/* Main Page Content */}
             <div id="page-content" className={`${styles.main} ${styles.layout}`}>{children}</div>
 
             {/* Navigation bar at the bottom of the page */}
-            <div id="site-nav" className={`${styles.navbar} ${styles.layout}`}>
-              {
-                pageNav.map(page => {
-                  return (
-                    <Link
-                      key={page.name.toLowerCase()}
-                      href={page.href}
-                      className={styles.navitem}
-                    >
-                      <button><p>{page.name}</p></button>
-                    </Link>
-                  )
-                })
-              }
-              {
-                //Display login or logout option based on whether user is authenticated
-                user?.username ? (
-                  <div id="nav-signout" className={styles.navitem}>
-                    <button onClick={handleLogout}>
-                      <p>Log Out</p>
-                    </button>
-                  </div>
-                ) : (
-                  <div id="nav-signin" className={styles.navitem}>
-                    <Link
-                      key='signin'
-                      href='/login'
-                      className={styles.navitem}
-                    >
-                      <button><p>Log In</p></button>
-                    </Link>
-                  </div>
-                )
-              }
-            </div>
+            <Navbar user={user} handleLogout={handleLogout} />
           </div>
         </body>
       </html>
