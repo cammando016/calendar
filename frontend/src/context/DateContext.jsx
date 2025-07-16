@@ -1,9 +1,11 @@
 import { createContext, useContext, useState } from "react";
+import { useViewMode } from "./ViewContext";
 
 const DateContext = createContext();
 
 export const DateProvider = ({ children }) => {
     const [date, setDate] = useState(() => new Date());
+    const { updateViewMode } = useViewMode();
 
     //Change year functions
     const incrementYear = () => {
@@ -31,11 +33,15 @@ export const DateProvider = ({ children }) => {
         setDate(newDate);
     }
 
-    //TO ADD NEXT
-        //function to set month to clicked month when user selects a month from yearly view
-        //If current date is july 2025, user in yearly view can click on feb and page which switch to feb monthly view
+    const setNewMonthView = (month, year) => {
+        const newDate = new Date(date);
+        newDate.setMonth(month);
+        newDate.setYear(year);
+        updateViewMode('Month');
+        setDate(newDate)
+    }
 
-    return <DateContext.Provider value={{ date, incrementYear, decrementYear, incrementMonth, decrementMonth }}>{children}</DateContext.Provider>
+    return <DateContext.Provider value={{ date, incrementYear, decrementYear, incrementMonth, decrementMonth, setNewMonthView }}>{children}</DateContext.Provider>
 }
 
 export const useDate = () => useContext(DateContext);

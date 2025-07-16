@@ -47,13 +47,13 @@ export default function StandardLayout ({ children }) {
 
   return (
       <UserProvider>
-        <DateProvider>
-          <ViewProvider>
+        <ViewProvider>
+          <DateProvider>
             <LayoutContent>
               {children}
             </LayoutContent>
-          </ViewProvider>
-        </DateProvider>
+          </DateProvider>
+        </ViewProvider>
       </UserProvider>
   );
 }
