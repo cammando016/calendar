@@ -1,23 +1,67 @@
+"use client"
 //Create group form, store form inputs in createGroupForm state object defined in /groups/create page component
-export default function CreateGroupForm ({submitGroupFunc, createGroupForm, setGroupForm}) {
+import sharedStyles from '../styles/shared.module.css';
+import { useState } from 'react';
+
+export default function CreateGroupForm ({submitGroupFunc, createGroupForm, setGroupForm, addedUsers, setAddedUsers, user}) {
     //Empty array that will update with users added to the group before submitting
-    const addedUsers = [];
-    
+    const [newMember, setNewMember] = useState('');
+
+    const addMember = (e) => {
+        e.preventDefault()
+        //Return without adding to addedUsers if input empty
+        if (!newMember.trim()) return;
+        //Add value from group member field to addedUsers
+        setAddedUsers(prev => [...prev, newMember.trim()]);
+        setNewMember('');
+    }
+
+    const removeMember = (i) => {
+        setAddedUsers(addedUsers.filter(user => (user != addedUsers[i])));
+    }
+
     return (
         <form onSubmit={submitGroupFunc}>
-            <label htmlFor="group-name">Group Name</label>
-            <input type="text" id="group-name" name="group-name" onChange={(e) => setGroupForm({...createGroupForm, groupName: e.target.value})} required autoFocus />
+            <div className={sharedStyles.colflex}>
+                <label htmlFor="group-name">Group Name</label>
+                <input type="text" id="group-name" name="group-name" value={createGroupForm.groupName} onChange={(e) => setGroupForm({...createGroupForm, groupName: e.target.value})} required autoFocus />
+            </div>
 
-            <label htmlFor="group-colour">Group Colour</label>
-            <input type="color" id="group-colour" name="group-colour" onChange={(e) => setGroupForm({...createGroupForm, groupColour: e.target.value})} required />
+            <div className={sharedStyles.colflex}>
+                <label htmlFor="group-colour">Group Colour</label>
+                <input type="color" id="group-colour" name="group-colour" value={createGroupForm.groupColour} onChange={(e) => setGroupForm({...createGroupForm, groupColour: e.target.value})} required />
+            </div>
 
-            <label htmlFor="group-members">Group Members</label>
-            <input type="text" id="group-members" name="group-members" required />
+            <div className={sharedStyles.colflex}>
+                <label htmlFor="group-members">Group Members - Please add one username at a time</label>
+                <div className={sharedStyles.rowflex}>
+                    <input type="text" id="group-members" name="group-members" value={newMember} onChange={(e) => setNewMember(e.target.value)} />
+                    <div>
+                        {
+                            newMember === user.username ? (
+                                <p>Group creator cannot be added to group as a member.</p>
+                            ) : (
+                                <button onClick={addMember}>Add Member</button>
+                            )
+                        }
+                    </div>
+                </div>
+            </div>
 
-            <fieldset id="group-form-buttons">
-                <button type="button">Cancel</button>
-                <button type="submit">Create Group</button>
-            </fieldset>
+            <div>
+                {
+                    addedUsers.map((addedUser, i) => {
+                        return (
+                            <div key={addedUser} className={sharedStyles.rowflex}>
+                                <button onClick={() => removeMember(i)}>X</button>
+                                <p>{addedUser}</p>
+                            </div>
+                        )
+                    })
+                }
+            </div>
+      
+            <button type="submit">Create Group</button>
         </form>
     )
 }
