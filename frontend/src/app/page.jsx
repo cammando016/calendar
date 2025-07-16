@@ -1,15 +1,14 @@
 //Homepage main content inside layout, displayed at "/"
 "use client"
-import { useContext } from "react";
 import { useDate } from "@/context/DateContext";
-import { ViewContext } from "./layout";
+import { useViewMode } from "@/context/ViewContext";
 import Month from "@/components/Month";
 import Week from "@/components/Week";
 import Year from "@/components/Year";
 
-export default function Home() {
+export default function Page() {
   //Allow users to change view between year month and week
-  const viewMode = useContext(ViewContext);
+  const { viewMode, updateViewMode } = useViewMode();
   //Get current date for calendar display on load
   const { date } = useDate();
 
