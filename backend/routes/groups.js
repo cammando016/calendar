@@ -85,11 +85,14 @@ router.get('/groups', async (req, res) => {
         if (!user) { return res.status(401).json({error: 'Username not found'});}
 
         const groupsQuery = await pool.query(
-            `SELECT u.username AS creator, g.groupname, g.groupcolour, g.groupid
+            `SELECT u.username AS creator, g.groupname, g.groupcolour, g.groupid, array_agg(m.username) AS members
             FROM user_groups ug
             JOIN groups g ON ug.groupid = g.groupid
             JOIN users u ON g.createdby = u.userid
+            JOIN user_groups ug2 ON g.groupid = ug2.groupid
+            JOIN users m ON ug2.userid = m.userid
             WHERE ug.userid = $1
+            GROUP BY g.groupid, g.groupname, g.groupcolour, u.username
             `,
             [user]
         );
