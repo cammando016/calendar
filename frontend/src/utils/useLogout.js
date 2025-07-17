@@ -9,6 +9,7 @@ export default function useLogout() {
 
     return () => {
         localStorage.removeItem("token");
+        localStorage.removeItem("user");
         updateUser(null);
         router.push('/');
     };

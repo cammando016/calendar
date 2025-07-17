@@ -12,7 +12,6 @@ export default function useLogin (form, route) {
         e.preventDefault();
         try {
             const res = await logUserIn(form);
-            localStorage.setItem('token', res.token);
             updateUser(res.user);
             //Redirect to different pages after login based on route prop at each different page allowing login
             router.push(route);

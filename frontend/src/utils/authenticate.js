@@ -12,6 +12,7 @@ export const logUserIn = async (credentials) => {
     const data = await res.json();
     if (res.ok) {
         localStorage.setItem('token', data.token);
+        localStorage.setItem('user', JSON.stringify(data.user));
         return {
             user: data.user,
             token: data.token

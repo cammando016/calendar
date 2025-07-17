@@ -10,11 +10,18 @@ export const UserProvider = ({ children }) => {
         const token = localStorage.getItem("token");
         if(token) {
             try {
-                const decoded = jwt_decode(token);
-                setUser(decoded);
+                const storedUser = JSON.parse(localStorage.getItem('user'));
+                if (storedUser) {
+                    setUser(storedUser);
+                } else {
+                    const decoded = jwt_decode(token);
+                    setUser(decoded);
+                }
             }
             catch (error) {
                 console.error("Failed to decode token", error);
+                localStorage.removeItem('token');
+                localStorage.removeItem('user');
                 setUser(null);
             }
         }
