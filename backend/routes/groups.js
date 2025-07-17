@@ -75,4 +75,33 @@ router.post('/groups', async (req, res) => {
     }
 });
 
+router.get('/groups', async (req, res) => {
+    try {
+        console.log('Received request for list of groups', req.query);
+        const { username } = req.query;
+        const usernameQuery = await pool.query('SELECT userid FROM users WHERE username = $1', [username]);
+        const user = usernameQuery.rows[0].userid;
+
+        if (!user) { return res.status(401).json({error: 'Username not found'});}
+
+        const groupsQuery = await pool.query(
+            `SELECT u.username AS creator, g.groupname, g.groupcolour, g.groupid
+            FROM user_groups ug
+            JOIN groups g ON ug.groupid = g.groupid
+            JOIN users u ON g.createdby = u.userid
+            WHERE ug.userid = $1
+            `,
+            [user]
+        );
+        
+        return res.status(200).json({
+            message: 'Groups Found', 
+            groups: groupsQuery.rows}
+        );
+    } catch(error) {
+        console.error('Error:', error.message);
+        return res.status(500).json({error: 'An error occurred while retrieving groups.'})
+    }
+})
+
 export default router;

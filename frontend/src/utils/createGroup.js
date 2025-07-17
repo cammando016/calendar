@@ -9,3 +9,10 @@ export const createGroup = async (details) => {
     });
     return await res.json();
 }
+
+export const getUsersGroups = async (username) => {
+    const res = await fetch(`${urlWithPort}/api/groups?username=${encodeURIComponent(username)}`, {
+        method: 'GET'
+    });
+    return await res.json();
+};

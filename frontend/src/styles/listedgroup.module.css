@@ -1,0 +1,14 @@
+.groupcolour {
+    width: 10%;
+    min-height: 100%;
+    border-bottom: solid;
+}
+
+.groupdisplay {
+    border-bottom: solid;
+    min-width: 90%;
+}
+
+.groupname {
+    flex-grow: 1;
+}
