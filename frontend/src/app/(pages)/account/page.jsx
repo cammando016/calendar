@@ -2,23 +2,41 @@
 "use client"
 import { useState } from "react";
 import { useUser } from "@/context/UserContext"
+import { deleteUser } from "@/utils/editUser";
+import { useRouter } from "next/navigation";
 import useLogin from "@/utils/useLogin";
 import LoginForm from "@/forms/accountForms/LoginForm";
 import Link from "next/link";
-import DeleteAccountModal from "@/components/DeleteAccountModal";
+import DeleteModal from "@/components/DeleteModal";
 
 export default function Page() {
     //Get current logged in user details
-    const { user } = useUser();
+    const { user, updateUser } = useUser();
+
+    const router = useRouter();
 
     //Allow user to show delete account confirmation dialog modal if user clicks on 
     const [showDeleteAccount, setShowDeleteAccount] = useState(false);
     const openDeleteModal = () => setShowDeleteAccount(true);
     const closeDeleteModal = () => setShowDeleteAccount(false);
+    const deleteMessage = 'Are you sure you want to delete your account? This will remove you from all groups and delete all events created by you.'
 
     //Allow login directly on account page if user isn't authenticated
     const [loginForm, setLoginForm] = useState({username: '', password: ''});
     const handleLogin = useLogin(loginForm, '/account');
+
+     //Delete currently logged in user from database and return user to home page
+     const handleDeleteAccount = async (e) => {
+        e.preventDefault();
+        const res = await deleteUser({ username: user.username });
+        if (res.message) {
+            updateUser(null);
+            closeDeleteModal();
+            router.push('/');
+        } else {
+            alert(res.error);
+        }
+    }
 
     return (
         <>
@@ -54,7 +72,7 @@ export default function Page() {
                         </div>
 
                         {/* Show delete account confirmation pop up if delete account button clicked */}
-                        { showDeleteAccount && <DeleteAccountModal closeDelete={closeDeleteModal} /> }
+                        { showDeleteAccount && <DeleteModal closeDelete={closeDeleteModal} handleDelete={handleDeleteAccount} deleteMessage={deleteMessage} /> }
                     </div>
                 ) : (
                     //Display login form if user is not authenticated

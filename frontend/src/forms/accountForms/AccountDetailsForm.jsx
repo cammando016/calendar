@@ -18,15 +18,15 @@ export default function AccountDetailsForm ({registerAccount, submitFunc, setFor
                 }
                 <div className={sharedStyles.colflex}>
                     <label htmlFor="first-name">* First Name</label>
-                    <input className={`${formStyles.formInput} ${form.firstname === '' ? formStyles.invalidInput : formStyles.validInput }`} placeholder={!registerAccount && `${user.firstname}` } type="text" id="first-name" name="first-name" value={form.firstname} onChange={(e) => setFormFunc({...form, firstname: e.target.value})} required />
+                    <input className={`${formStyles.formInput} ${form.firstname === '' ? formStyles.invalidInput : formStyles.validInput }`} placeholder={!registerAccount ? `${user.firstname}` : 'Enter your first name' } type="text" id="first-name" name="first-name" value={form.firstname} onChange={(e) => setFormFunc({...form, firstname: e.target.value})} required />
                 </div>
                 <div className={sharedStyles.colflex}>
                     <label htmlFor="account-birthday">* Birthday</label>
-                    <input className={`${formStyles.formInput} ${form.birthdate === '' ? formStyles.invalidInput : formStyles.validInput }`} placeholder={!registerAccount && `${user.birthdate}`} type="date" id="account-birthday" name="account-birthday" value={form.birthdate} onChange={(e) => setFormFunc({...form, birthdate: e.target.value})} required />
+                    <input className={`${formStyles.formInput} ${form.birthdate === '' ? formStyles.invalidInput : formStyles.validInput }`} placeholder={!registerAccount ? `${user.birthdate}` : undefined } type="date" id="account-birthday" name="account-birthday" value={form.birthdate} onChange={(e) => setFormFunc({...form, birthdate: e.target.value})} required />
                 </div>
                 <div className={sharedStyles.colflex}>
                     <label htmlFor="default-view">* Default Calendar View</label>
-                    <select className={`${formStyles.formInput} ${form.defaultview === '' ? formStyles.invalidInput : formStyles.validInput }`} placeholder={!registerAccount && `${user.defaultView}`} id="default-view" name="default-view" size="1" value={form.defaultview} onChange={(e) => setFormFunc({...form, defaultview: e.target.value.toLowerCase()})} required>
+                    <select className={`${formStyles.formInput} ${form.defaultview === '' ? formStyles.invalidInput : formStyles.validInput }`} placeholder={!registerAccount ? `${user.defaultView}` : 'Select your default calendar view' } id="default-view" name="default-view" size="1" value={form.defaultview} onChange={(e) => setFormFunc({...form, defaultview: e.target.value.toLowerCase()})} required>
                         <option value="year">Year</option>
                         <option value="month">Month</option>
                         <option value="week">Week</option>
@@ -35,7 +35,7 @@ export default function AccountDetailsForm ({registerAccount, submitFunc, setFor
                 {/* User theme currently inactive, only default theme in use initially */}
                 <div className={sharedStyles.colflex}>
                     <label htmlFor="account-theme">* Theme</label>
-                    <input className={`${formStyles.formInput} ${form.usertheme === '' ? formStyles.invalidInput : formStyles.validInput }`} placeholder={!registerAccount && `${user.theme}`} type="text" id="account-theme" name="account-theme" value={form.usertheme} required disabled />
+                    <input className={`${formStyles.formInput} ${form.usertheme === '' ? formStyles.invalidInput : formStyles.validInput }`} placeholder={!registerAccount ? `${user.theme}` : undefined } type="text" id="account-theme" name="account-theme" value={form.usertheme} required disabled />
                 </div>
             </fieldset>
 
