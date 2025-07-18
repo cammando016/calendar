@@ -107,4 +107,76 @@ router.get('/groups', async (req, res) => {
     }
 })
 
+router.patch('/groups', async (req, res) => {
+    try {
+        // -------- Update group name and/or colour if different to DB -----------
+        console.log('Received request to update group', req.body);
+        //Get data from front end request
+        const { groupId, groupName, groupColour, groupMembers } = req.body;
+        const groupQuery = await pool.query('SELECT * FROM groups WHERE groupid = $1', [groupId]);
+        const groupQueryResult = groupQuery.rows[0];
+        //Return error if group id submitted from front end not found in db
+        if (!groupQueryResult) {return res.status(400).json({error: `Group ID: ${groupId} not found`})}
+
+        const updateFields = [];
+        const updateValues = [];
+        let paramIndex = 1;
+
+        if (groupName && groupName !== groupQueryResult.groupname) {
+            updateFields.push(`groupname = $${paramIndex++}`);
+            updateValues.push(groupName);
+        }
+        if (groupColour && groupColour !== groupQueryResult.groupcolour) {
+            updateFields.push(`groupcolour = $${paramIndex++}`);
+            updateValues.push(groupColour);
+        }
+
+        if (updateFields.length > 0) {
+            updateValues.push(groupId);
+            const updateGroupQuery = `UPDATE groups SET ${updateFields.join(', ')} WHERE groupid = $${paramIndex}`;
+
+            console.log('Attempting to edit group record in DB')
+            await pool.query(updateGroupQuery, updateValues);
+            console.log('Group basics updated');
+        };
+
+        // ------------ Add new members to DB -----------
+
+        //Get group members currently in database
+        const groupMembersQuery = await pool.query('SELECT ug.userid, u.username FROM user_groups ug JOIN users u ON ug.userid = u.userid WHERE groupid = $1', [groupId])
+        const dbGroupMembers = groupMembersQuery.rows;
+        const dbUsernames = dbGroupMembers.map(dbMember => dbMember.username);
+        
+        //Check for any new members added to the group
+        const newMembers = groupMembers.filter(username => !dbUsernames.includes(username));
+
+        const newUserIds = [];
+        for (const username of newMembers) {
+            const result = await pool.query('SELECT userid FROM users WHERE username = $1', [username])
+            if (result.rows.length > 0) {
+                newUserIds.push(result.rows[0].userid);
+            }
+        }
+
+        for (const userid of newUserIds) {
+            await pool.query('INSERT INTO user_groups (userid, groupid) VALUES ($1, $2)', [userid, groupId]);
+        }
+
+        // ---------- Remove deleted users from DB ----------
+        const membersToDelete = dbGroupMembers.filter(dbMember => !groupMembers.includes(dbMember.username));
+        for (const member of membersToDelete) {
+            await pool.query('DELETE FROM user_groups WHERE userid = $1 AND groupid = $2', [member.userid, groupId])
+        }
+
+        console.log('Group members updated');
+
+        return res.status(200).json({ 
+            message: 'Group successfully updated'
+        });
+            
+    } catch (error) {
+        return res.status(500).json({error: error.message});
+    }
+})
+
 export default router;

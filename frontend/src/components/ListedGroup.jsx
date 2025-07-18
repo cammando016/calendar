@@ -1,7 +1,13 @@
 import sharedStyles from '../styles/shared.module.css';
 import styles from '../styles/listedgroup.module.css';
+import Link from 'next/link';
+import { useGroup } from '@/context/GroupContext';
 
 export default function ListedGroup ({ group, userCreated }) {
+    const { updateActiveGroup } = useGroup();
+    console.log(group);
+    const handleEditClick = () => updateActiveGroup(group);
+
     return (
         //Display group details
         <div className={sharedStyles.colflex}>
@@ -12,7 +18,7 @@ export default function ListedGroup ({ group, userCreated }) {
                     {
                         userCreated && (
                             <div style={{alignItems: "flex-end", justifyContent: 'flex-end'}} className={sharedStyles.colflex}>
-                                <button>Edit</button>
+                                <Link href={`/groups/${group.groupid}`}><button onClick={handleEditClick}>Edit</button></Link>
                                 <button>Delete</button>
                             </div>
                         )
@@ -29,5 +35,3 @@ export default function ListedGroup ({ group, userCreated }) {
         </div>
     )
 }
-
-// className={styles.groupcolor}

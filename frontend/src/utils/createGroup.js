@@ -16,3 +16,12 @@ export const getUsersGroups = async (username) => {
     });
     return await res.json();
 };
+
+export const editGroup = async (details) => {
+    const res = await fetch(`${urlWithPort}/api/groups`, {
+        method: 'PATCH',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(details)
+    });
+    return await res.json();
+}

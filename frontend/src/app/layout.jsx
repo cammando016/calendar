@@ -9,6 +9,7 @@ import useLogout from "@/utils/useLogout";
 import Navbar from "@/components/Navbar";
 import SelectViewMode from "@/components/SelectViewMode";
 import Greeting from "@/components/Greeting";
+import { GroupProvider } from "@/context/GroupContext";
 
 function LayoutContent({ children }) {
   //Import logout function
@@ -49,9 +50,11 @@ export default function StandardLayout ({ children }) {
       <UserProvider>
         <ViewProvider>
           <DateProvider>
-            <LayoutContent>
-              {children}
-            </LayoutContent>
+            <GroupProvider>
+              <LayoutContent>
+                {children}
+              </LayoutContent>
+            </GroupProvider>
           </DateProvider>
         </ViewProvider>
       </UserProvider>

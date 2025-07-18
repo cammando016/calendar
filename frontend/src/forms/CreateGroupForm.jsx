@@ -3,7 +3,7 @@
 import sharedStyles from '../styles/shared.module.css';
 import { useState } from 'react';
 
-export default function CreateGroupForm ({submitGroupFunc, createGroupForm, setGroupForm, addedUsers, setAddedUsers, user}) {
+export default function CreateGroupForm ({submitGroupFunc, createGroupForm, setGroupForm, addedUsers, setAddedUsers, user, editableGroup}) {
     //Empty array that will update with users added to the group before submitting
     const [newMember, setNewMember] = useState('');
 
@@ -16,20 +16,20 @@ export default function CreateGroupForm ({submitGroupFunc, createGroupForm, setG
         setNewMember('');
     }
 
-    const removeMember = (i) => {
-        setAddedUsers(addedUsers.filter(user => (user != addedUsers[i])));
+    const removeMember = (removedUser) => {
+        setAddedUsers(addedUsers.filter(user => (user != addedUsers[removedUser])));
     }
 
     return (
         <form onSubmit={submitGroupFunc}>
             <div className={sharedStyles.colflex}>
                 <label htmlFor="group-name">Group Name</label>
-                <input type="text" id="group-name" name="group-name" value={createGroupForm.groupName} onChange={(e) => setGroupForm({...createGroupForm, groupName: e.target.value})} required autoFocus />
+                <input type="text" id="group-name" name="group-name" placeholder={ editableGroup ? editableGroup.groupname : 'Enter name for new group.' }  value={createGroupForm.groupName} onChange={(e) => setGroupForm({...createGroupForm, groupName: e.target.value})} required autoFocus />
             </div>
 
             <div className={sharedStyles.colflex}>
                 <label htmlFor="group-colour">Group Colour</label>
-                <input type="color" id="group-colour" name="group-colour" value={createGroupForm.groupColour} onChange={(e) => setGroupForm({...createGroupForm, groupColour: e.target.value})} required />
+                <input type="color" id="group-colour" name="group-colour" placeholder={ editableGroup ? editableGroup.groupcolour : undefined } value={createGroupForm.groupColour} onChange={(e) => setGroupForm({...createGroupForm, groupColour: e.target.value})} required />
             </div>
 
             <div className={sharedStyles.colflex}>
