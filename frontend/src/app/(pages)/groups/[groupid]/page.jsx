@@ -19,13 +19,10 @@ export default function Page ({ params }) {
         groupMembers: groupMembers
     })
 
-    useEffect(() => {
-        setEditGroupForm(prev => ({...prev, groupMembers: groupMembers}));
-    }, [groupMembers])
-
     const submitEditGroup = async (e) => {
         e.preventDefault();
-        const res = await editGroup(editGroupForm);
+        const submittedData = ({...editGroupForm, groupMembers: groupMembers})
+        const res = await editGroup(submittedData);
         if (res.message) {
             router.push('/groups');
         }
