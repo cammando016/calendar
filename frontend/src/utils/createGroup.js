@@ -25,3 +25,12 @@ export const editGroup = async (details) => {
     });
     return await res.json();
 }
+
+export const deleteGroup = async (groupId) => {
+    const res = await fetch(`${urlWithPort}/api/groups`, {
+        method: 'DELETE',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(groupId)
+    });
+    return await res.json();
+}

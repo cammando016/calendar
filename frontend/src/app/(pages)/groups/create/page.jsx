@@ -4,8 +4,10 @@ import { useEffect, useState } from "react";
 import CreateGroupForm from "@/forms/CreateGroupForm";
 import { createGroup } from "@/utils/createGroup";
 import { useUser } from "@/context/UserContext";
+import { useRouter } from "next/navigation";
 
 export default function Page() {
+    const router = useRouter();
     //Get user if authenticated to send as group creator, or deny access to group creation form if not authenticated
     const { user } = useUser();
     //Empty array to store members added to the group
@@ -30,6 +32,7 @@ export default function Page() {
         const res = await createGroup(groupSubmission);
         if (res.message) {
             alert('Group Created!');
+            router.push('/groups');
         }
         else {
             alert(res.error);

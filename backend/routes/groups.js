@@ -179,4 +179,14 @@ router.patch('/groups', async (req, res) => {
     }
 })
 
+router.delete('/groups', async (req, res) => {
+    try {
+        const { groupid } = req.body;
+        await pool.query('DELETE FROM groups WHERE groupid = $1', [groupid]);
+        return res.status(200).json({message: 'Group deleted'});
+    } catch (error) {
+        return res.status(500).json({error: error.message});
+    }
+} )
+
 export default router;

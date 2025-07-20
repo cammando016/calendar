@@ -2,10 +2,13 @@
 //Create group form, store form inputs in createGroupForm state object defined in /groups/create page component
 import sharedStyles from '../styles/shared.module.css';
 import { useState } from 'react';
+import Link from 'next/link';
 
 export default function CreateGroupForm ({submitGroupFunc, createGroupForm, setGroupForm, addedUsers, setAddedUsers, user, editableGroup}) {
     //Empty array that will update with users added to the group before submitting
     const [newMember, setNewMember] = useState('');
+
+    const submitText = editableGroup ? 'Edit Group' : 'Create Group';
 
     const addMember = (e) => {
         e.preventDefault()
@@ -60,8 +63,12 @@ export default function CreateGroupForm ({submitGroupFunc, createGroupForm, setG
                     })
                 }
             </div>
-      
-            <button type="submit">Create Group</button>
+
+            <div>
+                <Link href='/groups'><button>Cancel</button></Link>
+                <button type="submit">{submitText}</button>
+            </div>
+            
         </form>
     )
 }
