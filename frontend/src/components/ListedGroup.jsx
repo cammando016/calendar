@@ -34,11 +34,13 @@ export default function ListedGroup ({ group, userCreated, deleteGroup }) {
                     <button onClick={handleClickMembers}>=</button>
                 </div>
                 <div style={{borderColor: group.groupcolour}} className={`${styles.groupdisplay} ${sharedStyles.rowflex}`}>
-                    <p className={styles.groupname}>{group.groupname}</p>
+                    {
+                        userCreated ? <p className={styles.groupname}>{group.groupname} - my group</p> : <p className={styles.groupname}>{group.groupname} - {group.creator}'s group</p>
+                    }
                     {
                         userCreated && (
                             <div style={{alignItems: "flex-end", justifyContent: 'flex-end'}} className={sharedStyles.colflex}>
-                                <Link href={`/groups/${group.groupid}`}><button onClick={() => {handleClickEdit; console.log(group)}}>Edit</button></Link>
+                                <Link href={`/groups/${group.groupid}`}><button onClick={handleClickEdit}>Edit</button></Link>
                                 <button onClick={openDeleteModal}>Delete</button>
                             </div>
                         )
@@ -54,9 +56,15 @@ export default function ListedGroup ({ group, userCreated, deleteGroup }) {
                     {
                         activeGroup === group && (
                             <div className='group-members'>
+                                <p>Group Admin</p>
+                                {
+                                    group.members.filter(memb => (memb === group.creator)).map(member => {
+                                        return <p key={member}>{member}</p>
+                                    })
+                                }
                                 <p>Group Members</p>
                                 {
-                                    group.members.map(member => {
+                                    group.members.filter(memb => (memb !== group.creator)).map(member => {
                                         return <p key={member}>{member}</p>
                                     })
                                 }

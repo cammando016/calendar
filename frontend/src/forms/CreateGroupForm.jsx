@@ -53,7 +53,7 @@ export default function CreateGroupForm ({submitGroupFunc, createGroupForm, setG
 
             <div>
                 {
-                    addedUsers.map((addedUser, i) => {
+                    addedUsers.filter(users => (users !== user.username)).map((addedUser, i) => {
                         return (
                             <div key={addedUser} className={sharedStyles.rowflex}>
                                 <button onClick={() => removeMember(i)}>X</button>

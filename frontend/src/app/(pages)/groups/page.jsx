@@ -9,16 +9,14 @@ import { useGroupList } from "@/context/GroupListContext";
 export default function Page() {
     const { updateActiveGroup } = useGroup();
     const { user } = useUser();
-    //const [usersGroups, setUsersGroups] = useState([]);
-    const { usersGroups, updateUsersGroups } = useGroupList();
+    const { usersGroups, fetchUsersGroups } = useGroupList();
 
     //Function to delete a group and rerender the list of groups
     const handleDeleteGroup = async (group) => {
         updateActiveGroup(group);
         const res = await deleteGroup({groupid: group.groupid})
         if (res.message) {
-            const newGroups = usersGroups.filter(userGroup => (userGroup.groupid !== group.groupid));
-            updateUsersGroups(newGroups);
+            fetchUsersGroups();
             updateActiveGroup(null);
         } else {
             alert(res.error);

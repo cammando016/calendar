@@ -5,25 +5,41 @@ import CreateGroupForm from "@/forms/CreateGroupForm";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { editGroup } from "@/utils/createGroup";
+import { useGroupList } from "@/context/GroupListContext";
 
-export default function Page ({ params }) {
+export default function Page () {
     const router = useRouter();
     const { activeGroup } = useGroup();
+    const { fetchUsersGroups } = useGroupList();
     const { user } = useUser();
-    const [groupMembers, setGroupMembers] = useState(activeGroup.members);
 
-    const [editGroupForm, setEditGroupForm] = useState({
-        groupId: activeGroup.groupid,
-        groupName: activeGroup.groupname,
-        groupColour: activeGroup.groupcolour,
-        groupMembers: groupMembers
-    })
+    const [loading, setLoading] = useState(true);
+
+    //Null states to be updated by useEffect once activeGroup loads context
+    const [groupMembers, setGroupMembers] = useState(null);
+    const [editGroupForm, setEditGroupForm] = useState(null)
+
+    useEffect(() => {
+        if (activeGroup) {
+            setGroupMembers(activeGroup.members);
+
+            setEditGroupForm({
+                groupId: activeGroup.groupid,
+                groupName: activeGroup.groupname,
+                groupColour: activeGroup.groupcolour,
+                groupMembers: activeGroup.members
+            });
+
+            setLoading(false);
+        }
+    }, [activeGroup]);
 
     const submitEditGroup = async (e) => {
         e.preventDefault();
         const submittedData = ({...editGroupForm, groupMembers: groupMembers})
         const res = await editGroup(submittedData);
         if (res.message) {
+            fetchUsersGroups();
             router.push('/groups');
         }
         else {
@@ -35,8 +51,19 @@ export default function Page ({ params }) {
     return (
         <div>
             <p>Edit Group Page</p>
-            <p>{activeGroup.groupname}</p>
-            <CreateGroupForm submitGroupFunc={submitEditGroup} createGroupForm={editGroupForm} setGroupForm={setEditGroupForm} addedUsers={groupMembers} setAddedUsers={setGroupMembers} user={user} editableGroup={activeGroup} />
+            {
+                loading ? (
+                    <div id='group-edit-loading'>
+                        <p>Please wait, group details loading.</p>
+                    </div>
+                ) : (
+                    <div id='group-edit-loaded'>
+                        <p>{activeGroup.groupname}</p>
+                        <CreateGroupForm submitGroupFunc={submitEditGroup} createGroupForm={editGroupForm} setGroupForm={setEditGroupForm} addedUsers={groupMembers} setAddedUsers={setGroupMembers} user={user} editableGroup={activeGroup} />
+                    </div>
+                )
+            }
+            
         </div>
     )
 }
