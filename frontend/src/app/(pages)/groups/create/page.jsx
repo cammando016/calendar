@@ -33,8 +33,7 @@ export default function Page() {
         }
         const res = await createGroup(groupSubmission);
         if (res.message) {
-            alert('Group Created!');
-            updateUsersGroups(...usersGroups, [groupSubmission, res.groupid])
+            updateUsersGroups([...usersGroups, {creator: user.username, groupcolour: groupSubmission.groupColour, groupid: res.groupid, groupname: groupSubmission.groupName, members: addedUsers }])
             router.push('/groups');
         }
         else {
