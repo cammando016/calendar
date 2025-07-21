@@ -3,13 +3,14 @@
 import { ViewProvider, useViewMode } from "@/context/ViewContext";
 import { UserProvider, useUser } from "@/context/UserContext";
 import { DateProvider } from "@/context/DateContext";
+import { GroupProvider } from "@/context/GroupContext";
+import { GroupListProvider } from "@/context/GroupListContext";
 import styles from '../styles/layout.module.css';
 import sharedStyles from '../styles/shared.module.css';
 import useLogout from "@/utils/useLogout";
 import Navbar from "@/components/Navbar";
 import SelectViewMode from "@/components/SelectViewMode";
 import Greeting from "@/components/Greeting";
-import { GroupProvider } from "@/context/GroupContext";
 
 function LayoutContent({ children }) {
   //Import logout function
@@ -50,11 +51,13 @@ export default function StandardLayout ({ children }) {
       <UserProvider>
         <ViewProvider>
           <DateProvider>
-            <GroupProvider>
-              <LayoutContent>
-                {children}
-              </LayoutContent>
-            </GroupProvider>
+            <GroupListProvider>
+              <GroupProvider>
+                <LayoutContent>
+                  {children}
+                </LayoutContent>
+              </GroupProvider>
+            </GroupListProvider>
           </DateProvider>
         </ViewProvider>
       </UserProvider>

@@ -64,7 +64,10 @@ router.post('/groups', async (req, res) => {
             await pool.query( 'INSERT INTO user_groups (userid, groupid) VALUES ($1, $2)', [creatorUserId, newGroupId] );
 
             console.log('Group members inserted');
-            return res.status(201).json({ message: 'Group Created' });
+            return res.status(201).json({ 
+                message: 'Group Created',
+                groupid: newGroupId 
+            });
         } catch (error) {
             console.error('db insert error:', error);
             return res.status(500).json({error: error.message});

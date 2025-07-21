@@ -5,8 +5,10 @@ import CreateGroupForm from "@/forms/CreateGroupForm";
 import { createGroup } from "@/utils/createGroup";
 import { useUser } from "@/context/UserContext";
 import { useRouter } from "next/navigation";
+import { useGroupList } from "@/context/GroupListContext";
 
 export default function Page() {
+    const { updateUsersGroups, usersGroups } = useGroupList();
     const router = useRouter();
     //Get user if authenticated to send as group creator, or deny access to group creation form if not authenticated
     const { user } = useUser();
@@ -32,6 +34,7 @@ export default function Page() {
         const res = await createGroup(groupSubmission);
         if (res.message) {
             alert('Group Created!');
+            updateUsersGroups(...usersGroups, [groupSubmission, res.groupid])
             router.push('/groups');
         }
         else {

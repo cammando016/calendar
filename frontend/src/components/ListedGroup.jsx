@@ -38,7 +38,7 @@ export default function ListedGroup ({ group, userCreated, deleteGroup }) {
                     {
                         userCreated && (
                             <div style={{alignItems: "flex-end", justifyContent: 'flex-end'}} className={sharedStyles.colflex}>
-                                <Link href={`/groups/${group.groupid}`}><button onClick={handleClickEdit}>Edit</button></Link>
+                                <Link href={`/groups/${group.groupid}`}><button onClick={() => {handleClickEdit; console.log(group)}}>Edit</button></Link>
                                 <button onClick={openDeleteModal}>Delete</button>
                             </div>
                         )
