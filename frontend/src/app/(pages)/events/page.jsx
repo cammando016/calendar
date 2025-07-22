@@ -1,7 +1,7 @@
 "use client"
 import Link from "next/link"
 import { useEventList } from '@/context/EventListContext'
-import sharedStyles from '@/styles/shared.module.css'
+import Event from "@/components/Event"
 
 export default function Page() {
     const { eventList } = useEventList();
@@ -11,12 +11,7 @@ export default function Page() {
             <div id="event-list">
                 {
                     eventList.map(evt => {
-                        return (
-                            <div key={evt.eventid} id="event" className={sharedStyles.rowflex}>
-                                <p>Name: {evt.eventname}</p>
-                                <p>Date: {evt.eventstartdate}</p>
-                            </div>
-                        )
+                        return <Event key={evt.eventid} eventRecord={evt}/>
                     })
                 }
             </div>

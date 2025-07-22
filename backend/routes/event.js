@@ -59,9 +59,11 @@ router.get('/events', async (req, res) => {
         const userQueryId = userQuery.rows[0].userid;
 
         const events = await pool.query(
-            `SELECT *
+            `SELECT e.eventcreationdate, e.eventenddate, e.eventendtime, e.eventid, e.eventname, e.eventnotes, e.eventstartdate, e.eventstarttime, u.username, g.groupname, g.groupcolour
             FROM events e
             JOIN user_groups ug ON e.eventgroupid = ug.groupid
+            JOIN users u ON e.eventcreatorid = u.userid
+            JOIN groups g ON e.eventgroupid = g.groupid
             WHERE ug.userid = $1`,
             [userQueryId]
         );
