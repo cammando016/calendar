@@ -11,6 +11,7 @@ import useLogout from "@/utils/useLogout";
 import Navbar from "@/components/Navbar";
 import SelectViewMode from "@/components/SelectViewMode";
 import Greeting from "@/components/Greeting";
+import { EventListProvider } from "@/context/EventListContext";
 
 function LayoutContent({ children }) {
   //Import logout function
@@ -53,9 +54,11 @@ export default function StandardLayout ({ children }) {
           <DateProvider>
             <GroupListProvider>
               <GroupProvider>
-                <LayoutContent>
-                  {children}
-                </LayoutContent>
+                <EventListProvider>
+                  <LayoutContent>
+                    {children}
+                  </LayoutContent>
+                </EventListProvider>
               </GroupProvider>
             </GroupListProvider>
           </DateProvider>

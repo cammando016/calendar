@@ -1,6 +1,6 @@
 //Share state between pages/components for the authenticated user
 import { createContext, useContext, useState, useEffect } from "react";
-import jwt_decode from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
@@ -14,7 +14,7 @@ export const UserProvider = ({ children }) => {
                 if (storedUser) {
                     setUser(storedUser);
                 } else {
-                    const decoded = jwt_decode(token);
+                    const decoded = jwtDecode(token);
                     setUser(decoded);
                 }
             }

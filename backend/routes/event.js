@@ -51,4 +51,30 @@ router.post('/events', async (req, res) => {
     }
 })
 
+router.get('/events', async (req, res) => {
+    try {
+        const { username } = req.query;
+
+        const userQuery = await pool.query('SELECT userid FROM users WHERE username = $1', [username]);
+        const userQueryId = userQuery.rows[0].userid;
+
+        const events = await pool.query(
+            `SELECT *
+            FROM events e
+            JOIN user_groups ug ON e.eventgroupid = ug.groupid
+            WHERE ug.userid = $1`,
+            [userQueryId]
+        );
+
+        return res.status(200).json({
+            message: 'Event list successfully retrieved',
+            eventList: events.rows
+        })
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({error: error.message});
+    }
+})
+
 export default router;

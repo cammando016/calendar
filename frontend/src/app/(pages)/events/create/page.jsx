@@ -4,10 +4,15 @@ import { useGroupList } from '@/context/GroupListContext';
 import AddEventForm from '@/forms/AddEventForm';
 import { createEvent } from '@/utils/eventUtils'; 
 import { useUser } from '@/context/UserContext';
+import { useRouter } from 'next/navigation';
+import { useEventList } from '@/context/EventListContext';
 
 export default function Page () {
     const { usersGroups } = useGroupList();
     const { user } = useUser();
+    
+    const router = useRouter();
+    const { fetchUserEvents } = useEventList();
 
     //State object to store form entries in
     const [eventForm, setEventForm] = useState({
@@ -25,7 +30,8 @@ export default function Page () {
         const submissionDetails = {...eventForm, eventCreator: user.username}
         const res = await createEvent(submissionDetails);
         if (res.message) {
-            console.log(res.message);
+            await fetchUserEvents();
+            router.push('/events');
         } else {
             console.log('error');
         }
@@ -35,6 +41,11 @@ export default function Page () {
     return (
         <div>
             <h3>Create Event</h3>
+            <div>
+                {
+                    
+                }
+            </div>
             <AddEventForm groupList={usersGroups} form={eventForm} setForm={setEventForm} submitFunc={handleSubmit} />
         </div>
     )
