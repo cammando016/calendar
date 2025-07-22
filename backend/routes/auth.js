@@ -34,24 +34,39 @@ router.get('/recover', async(req, res) => {
 router.post('/signup', async (req, res) => {
     try {
         console.log('Received signup request:', req.body);
-
+        //Get request values
         const { username, defaultview, recquestion, recanswer, password, birthdate, firstname, usertheme } = req.body;
-
+        //Check all required values exist
         if(!username || !password || !defaultview || !recquestion || !recanswer || !birthdate || !firstname || !usertheme) {
             throw new Error('Missing required fields');
         }
-
+        //Create password hash and get current date to insert with user form values
         const passwordHash = await bcrypt.hash(password, 10);
         const creationdate = new Date();
 
         try {
+            //Insert new user record into DB
             console.log('attempt to insert user');
-            await pool.query(
+            const newUser = await pool.query(
                 `INSERT INTO users (username, defaultview, recquestion, recanswer, passwordhash, creationdate, birthdate, firstname, usertheme)
-                VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
+                VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+                RETURNING userid`,
                 [username, defaultview, recquestion, recanswer, passwordHash, creationdate, birthdate, firstname, usertheme]
             );
             console.log('user inserted');
+
+            //Create private group with new user as only member
+            const newUserId = newUser.rows[0].userid;
+            const newGroup = await pool.query(`
+                INSERT INTO groups (groupname, groupcolour, creationdate, createdby) 
+                VALUES ($1, $2, $3, $4) 
+                RETURNING groupid`, 
+                [`${username} private`, '#7d7f7c', creationdate, newUserId]
+            );
+
+            const newGroupId = newGroup.rows[0].groupid;
+            await pool.query('INSERT INTO user_groups (userid, groupid) VALUES ($1, $2)', [newUserId, newGroupId]);
+
             return res.status(201).json({message: 'User Registered'});
         }
         catch (error) {
