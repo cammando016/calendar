@@ -55,5 +55,5 @@ export default function Page ({ params }) {
 
     }, [eventForm])
 
-    return <AddEventForm form={eventForm} setForm={setEventForm} submitFunc={handleSubmit} edit={true} submitDisabled={submitDisabled}/>
+    return <AddEventForm form={eventForm} setForm={setEventForm} submitFunc={handleSubmit} edit={true} submitDisabled={submitDisabled}/> 
 }
