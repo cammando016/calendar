@@ -3,7 +3,7 @@ import sharedStyles from '../styles/shared.module.css';
 import styles from '../styles/event.module.css';
 import Link from 'next/link';
 
-export default function Event ({ eventRecord, updateEvent, setEdit, activeEvent }) {
+export default function Event ({ eventRecord, updateEvent, setEdit, activeEvent, deleteEvent, userCreated }) {
     //Show and hide remaining details
     const handleClick = () => updateEvent(eventRecord.eventid);
     const handleEditClick = () => setEdit(eventRecord.eventid);
@@ -19,10 +19,14 @@ export default function Event ({ eventRecord, updateEvent, setEdit, activeEvent 
                         <p className={`${styles.eventp}`}>{eventRecord.eventstarttime.slice(0, 10)} {eventRecord.eventstarttime.slice(11, 16)} - {eventRecord.eventendtime.slice(0, 10)} {eventRecord.eventendtime.slice(11, 16)}</p>
                     </div>
                     <div className={`${sharedStyles.colflex}`}>
-                        <div className={`${sharedStyles.rowflex}`}>
-                            <Link href={`/events/${eventRecord.eventid}`}><button type="button" onClick={handleEditClick}>Edit</button></Link>
-                            <button type="button">Delete</button>
-                        </div>
+                        {
+                            userCreated && (
+                                <div className={`${sharedStyles.rowflex}`}>
+                                    <Link href={`/events/${eventRecord.eventid}`}><button type="button" onClick={handleEditClick}>Edit</button></Link>
+                                    <button type="button" onClick={() => deleteEvent(eventRecord.eventid)}>Delete</button>
+                                </div>
+                            )
+                        }
                         <div>
                             <button type="button" onClick={handleClick}>Toggle Details</button>
                         </div>

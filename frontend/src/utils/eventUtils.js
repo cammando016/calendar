@@ -27,3 +27,12 @@ export const fetchEvents = async(username) => {
     });
     return await res.json();
 }
+
+export const deleteEvent = async(eventid) => {
+    const res = await fetch(`${urlWithPort}/api/events`, {
+        method: 'DELETE',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(eventid)
+    });
+    return await res.json();
+}

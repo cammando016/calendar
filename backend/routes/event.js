@@ -33,7 +33,7 @@ router.post('/events', async (req, res) => {
 
         return res.status(200).json({message: 'request received'});
     } catch (error) {
-        console.log(error);
+        console.error(error);
         return res.status(500).json({error: error.message});
     }
 })
@@ -61,7 +61,7 @@ router.get('/events', async (req, res) => {
         })
 
     } catch (error) {
-        console.log(error);
+        console.error(error);
         return res.status(500).json({error: error.message});
     }
 })
@@ -117,8 +117,22 @@ router.patch('/events', async (req, res) => {
         return res.status(200).json({ message: 'Event updated in database' });
 
     } catch (error) {
-        console.log(error);
+        console.error(error);
         return res.status(500).json({ error: error.message })
+    }
+})
+
+router.delete('/events', async (req, res) => {
+    try {
+        const { eventId } = req.body;
+
+        await pool.query('DELETE FROM events WHERE eventid = $1', [eventId]);
+
+        return res.status(200).json({message: 'Event Deleted'});
+
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({error: error.message});
     }
 })
 
