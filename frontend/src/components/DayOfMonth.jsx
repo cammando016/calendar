@@ -7,7 +7,7 @@ export default function DayOfMonth({ date }) {
     const dateObject = new Date(date);
     const { eventList } = useEventList();
 
-    const dailyEvents = eventList.filter(listedEvent => ((new Date(listedEvent.eventstartdate)).getDate()) === dateObject.getDate());
+    const dailyEvents = eventList.filter(listedEvent => ((new Date(listedEvent.eventstarttime.slice(0, 10))).getDate()) === dateObject.getDate());
     //console.log(dailyEvents);
 
     return (

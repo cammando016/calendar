@@ -1,7 +1,7 @@
 import Link from "next/link"
 import sharedStyles from '../styles/shared.module.css'
 
-export default function AddEventForm ({ groupList, form, setForm, submitFunc }) {
+export default function AddEventForm ({ groupList, form, setForm, submitFunc, edit }) {
     //console.log(groupList);
     return (
         <form onSubmit={submitFunc} style={{overflow: scroll, maxHeight: '65vh'}}>
@@ -50,14 +50,20 @@ export default function AddEventForm ({ groupList, form, setForm, submitFunc }) 
                     <input type='text' name="event-notes" id="event-notes" value={form.eventNotes} onChange={(e) => setForm({...form, eventNotes: e.target.value})} />
                 </div>
 
-                <label htmlFor="invite-group">* Invite Group:</label>
-                <select id="invite-group" name="invite-group" size="1" value={form.eventInvited} onChange={(e) => setForm({...form, eventInvited: e.target.value})} required>
-                    {
-                        groupList.map(group => {
-                            return <option value={group.groupid} key={group.groupid} >{group.groupname}</option>
-                        })
-                    }
-                </select>
+                {
+                    !edit && (
+                        <div>
+                            <label htmlFor="invite-group">* Invite Group:</label>
+                            <select id="invite-group" name="invite-group" size="1" value={form.eventInvited} onChange={(e) => setForm({...form, eventInvited: e.target.value})} required>
+                                {
+                                    groupList.map(group => {
+                                        return <option value={group.groupid} key={group.groupid} >{group.groupname}</option>
+                                    })
+                                }
+                            </select>
+                        </div>
+                    )
+                }
             </fieldset>
 
             <fieldset>
@@ -75,7 +81,11 @@ export default function AddEventForm ({ groupList, form, setForm, submitFunc }) 
 
             <div>
                 <Link href='/events'><button type="button">Cancel</button></Link>
-                <button type="submit">Create Event</button>
+                <button type="submit">
+                    { 
+                        edit ? 'Edit Event' : 'Create Event'
+                    }
+                </button>
             </div>
         </form>
     )   

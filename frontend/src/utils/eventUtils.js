@@ -10,6 +10,16 @@ export const createEvent = async (details) => {
     return await res.json();
 }
 
+//Submit event data to edit existing record
+export const editEvent = async(details) => {
+    const res = await fetch(`${urlWithPort}/api/events`, {
+        method: 'PATCH',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(details)
+    });
+    return await res.json();
+}
+
 //Get list of all events authenticated user is part of
 export const fetchEvents = async(username) => {
     const res = await fetch(`${urlWithPort}/api/events?username=${encodeURIComponent(username)}`, {

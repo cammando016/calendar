@@ -5,19 +5,6 @@ import pool from '../db/pool.js';
 dotenv.config();
 const router = express.Router();
 
-/*new event values needed
-- name
-- notes (opt)
-- start time
-- start date
-- end time
-- end date
-- created date (generate)
-- invited group id
-- creator id
-
-*/
-
 router.post('/events', async (req, res) => {
     try {
         //Get request variables
@@ -59,7 +46,7 @@ router.get('/events', async (req, res) => {
         const userQueryId = userQuery.rows[0].userid;
 
         const events = await pool.query(
-            `SELECT e.eventcreationdate, e.eventenddate, e.eventendtime, e.eventid, e.eventname, e.eventnotes, e.eventstartdate, e.eventstarttime, u.username, g.groupname, g.groupcolour
+            `SELECT e.eventcreationdate, e.eventendtime, e.eventid, e.eventname, e.eventnotes, e.eventstarttime, e.eventtype, u.username, g.groupname, g.groupcolour
             FROM events e
             JOIN user_groups ug ON e.eventgroupid = ug.groupid
             JOIN users u ON e.eventcreatorid = u.userid
@@ -76,6 +63,62 @@ router.get('/events', async (req, res) => {
     } catch (error) {
         console.log(error);
         return res.status(500).json({error: error.message});
+    }
+})
+
+router.patch('/events', async (req, res) => {
+    try {
+        //submitted values
+        const { eventId, eventName, eventType, eventNotes, eventStart, eventEnd } = req.body;
+
+        //Get existing details for event ID and check which have changed
+        const eventQuery = await pool.query('SELECT eventname, eventnotes, eventstarttime, eventendtime, eventtype FROM events WHERE eventid = $1', [eventId]);
+        const eventQueryResult = eventQuery.rows[0];
+
+        const updateValues = [], updateFields = [];
+        let placeholderIterator = 2;
+
+        if (eventName !== eventQueryResult.eventname) {
+            updateValues.push(eventName);
+            updateFields.push(`eventname = $${placeholderIterator}`);
+            placeholderIterator ++;
+        }
+        if (eventType !== eventQueryResult.eventtype) {
+            updateValues.push(eventType);
+            updateFields.push(`eventtype = $${placeholderIterator}`);
+            placeholderIterator ++;
+        }
+        if (eventNotes !== eventQueryResult.eventnotes) {
+            updateValues.push(eventNotes);
+            updateFields.push(`eventnotes = $${placeholderIterator}`);
+            placeholderIterator ++;
+        }
+        if (eventStart !== eventQueryResult.eventstarttime) {
+            updateValues.push(eventStart);
+            updateFields.push(`eventstarttime = $${placeholderIterator}`);
+            placeholderIterator ++;
+        }
+        if (eventEnd !== eventQueryResult.eventendtime) {
+            updateValues.push(eventEnd);
+            updateFields.push(`eventendtime = $${placeholderIterator}`);
+            placeholderIterator ++;
+        }
+
+        if (updateFields.length === 0) {
+            return res.status(200).json({message: 'No changes made to event'});
+        }
+
+        //Update DB
+        await pool.query(
+            `UPDATE events SET ${updateFields.join(', ')} WHERE eventid = $1`, 
+            [eventId, ...updateValues]
+        );
+
+        return res.status(200).json({ message: 'Event updated in database' });
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ error: error.message })
     }
 })
 

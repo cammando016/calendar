@@ -68,7 +68,7 @@ export default function Month ({ date }) {
                 <h3>Events</h3>
                 <div>
                     {
-                        eventList.filter(listEvent => ((new Date(listEvent.eventstartdate)).getMonth() === dateObject.getMonth())).map(filteredEvent => {
+                        eventList.filter(listEvent => ((new Date(listEvent.eventstarttime.slice(0,10))).getMonth() === dateObject.getMonth())).map(filteredEvent => {
                             return <Event key={filteredEvent.eventid} eventRecord={filteredEvent} />
                         })
                     }
