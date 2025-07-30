@@ -1,8 +1,7 @@
 import Link from "next/link"
 import sharedStyles from '../styles/shared.module.css'
 
-export default function AddEventForm ({ groupList, form, setForm, submitFunc, edit }) {
-    //console.log(groupList);
+export default function AddEventForm ({ groupList, form, setForm, submitFunc, edit, submitDisabled }) {
     return (
         <form onSubmit={submitFunc} style={{overflow: scroll, maxHeight: '65vh'}}>
             <fieldset>
@@ -81,11 +80,17 @@ export default function AddEventForm ({ groupList, form, setForm, submitFunc, ed
 
             <div>
                 <Link href='/events'><button type="button">Cancel</button></Link>
-                <button type="submit">
-                    { 
-                        edit ? 'Edit Event' : 'Create Event'
-                    }
-                </button>
+                {
+                    submitDisabled ? (
+                        <p>No details changed.</p>
+                    ) : (
+                        <button type="submit">
+                            { 
+                                edit ? 'Edit Event' : 'Create Event'
+                            }
+                        </button>
+                    )
+                }
             </div>
         </form>
     )   
