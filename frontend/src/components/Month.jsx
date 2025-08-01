@@ -14,7 +14,7 @@ export default function Month ({ date }) {
     const { eventList } = useEventList();
     //Convert date prop from string to date object
     const dateObject = new Date(date);
-    //Fill array of dates to display for month of screen (including sun - sat weekday overflow to past and next month)
+    //Fill array of dates to display for month on screen (including sun - sat weekday overflow to past and next month)
     const monthDates = populateMonthDates(dateObject);
     const numWeeks = monthDates.length / 7;
 
@@ -52,8 +52,8 @@ export default function Month ({ date }) {
                                     Array.from({ length: 7 }).map((_, weekDay) => {
                                         const dayDate = monthDates[weekNum * 7 + weekDay];
                                         return (
-                                            <td key={dayDate.toDateString().slice(0,10)}>
-                                                <DayOfMonth date={dayDate.toDateString().slice(0,10)} />
+                                            <td key={dayDate.toDateString().slice(0,15)}>
+                                                <DayOfMonth date={dayDate.toDateString().slice(0,15)} />
                                             </td>
                                         )
                                     }

@@ -9,6 +9,7 @@ router.post('/events', async (req, res) => {
     try {
         //Get request variables
         const { eventName, eventType, eventNotes, eventInvited, eventStart, eventEnd, eventCreator } = req.body;
+        console.log(req.body);
 
         if(!eventName || !eventType || !eventInvited || !eventStart || !eventEnd || !eventCreator) {
             return res.status(400).json({error: 'Missing required fields to create event'});
@@ -26,9 +27,9 @@ router.post('/events', async (req, res) => {
         //Insert event in DB
         await pool.query(
             `INSERT INTO events
-            (eventname, eventnotes, eventstarttime, eventcreationdate, eventstartdate, eventgroupid, eventcreatorid, eventendtime, eventenddate)
-            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
-            [eventName, eventNotes, eventStart, createdDate, startDate, eventInvited, creatorId.rows[0].userid, eventEnd, endDate]
+            (eventname, eventtype, eventnotes, eventstarttime, eventcreationdate, eventstartdate, eventgroupid, eventcreatorid, eventendtime, eventenddate)
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`,
+            [eventName, eventType, eventNotes, eventStart, createdDate, startDate, eventInvited, creatorId.rows[0].userid, eventEnd, endDate]
         );
 
         return res.status(200).json({message: 'request received'});

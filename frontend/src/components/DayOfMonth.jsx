@@ -2,13 +2,13 @@
 import styles from '../styles/dayofmonth.module.css';
 import sharedStyles from '../styles/shared.module.css';
 import { useEventList } from '@/context/EventListContext';
+import { matchDates } from '@/utils/eventUtils';
 
 export default function DayOfMonth({ date }) {
     const dateObject = new Date(date);
     const { eventList } = useEventList();
 
-    const dailyEvents = eventList.filter(listedEvent => ((new Date(listedEvent.eventstarttime.slice(0, 10))).getDate()) === dateObject.getDate());
-    //console.log(dailyEvents);
+    const dailyEvents = eventList.filter(listedEvent => matchDates(dateObject, listedEvent.eventstarttime.slice(0, 10)));
 
     return (
         <div className={`${styles.dayofmonth} ${sharedStyles.rowflex}`}>
