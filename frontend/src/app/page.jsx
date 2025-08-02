@@ -5,6 +5,7 @@ import { useViewMode } from "@/context/ViewContext";
 import Month from "@/components/Month";
 import Week from "@/components/Week";
 import Year from "@/components/Year";
+import SelectViewMode from "@/components/SelectViewMode";
 
 export default function Page() {
   //Allow users to change view between year month and week
@@ -14,6 +15,8 @@ export default function Page() {
 
   return (
     <div id="calendar">
+      {/* User input to switch view mode */}
+      <SelectViewMode viewMode={viewMode} setViewMode={updateViewMode} />
       {
         viewMode === 'Year' ? (
           <Year date={date.toDateString()}/>

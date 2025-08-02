@@ -4,7 +4,7 @@ import sharedStyles from '../styles/shared.module.css';
 export default function SelectViewMode ({ viewMode, setViewMode }) {
     return (
         <form>
-          <fieldset id="view-mode" className={sharedStyles.colflex}>
+          <fieldset id="view-mode" className={sharedStyles.rowflex}>
             <legend>View Mode</legend>
             <div>
                 <input type="radio" value="Year" id="year" name="view_mode" checked={viewMode === 'Year'} onChange={() => setViewMode('Year')} />

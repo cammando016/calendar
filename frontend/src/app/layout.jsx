@@ -1,6 +1,6 @@
 //Home page layout
 "use client"
-import { ViewProvider, useViewMode } from "@/context/ViewContext";
+import { ViewProvider } from "@/context/ViewContext";
 import { UserProvider, useUser } from "@/context/UserContext";
 import { DateProvider } from "@/context/DateContext";
 import { GroupProvider } from "@/context/GroupContext";
@@ -9,7 +9,6 @@ import styles from '../styles/layout.module.css';
 import sharedStyles from '../styles/shared.module.css';
 import useLogout from "@/utils/useLogout";
 import Navbar from "@/components/Navbar";
-import SelectViewMode from "@/components/SelectViewMode";
 import Greeting from "@/components/Greeting";
 import { EventListProvider } from "@/context/EventListContext";
 
@@ -19,20 +18,15 @@ function LayoutContent({ children }) {
   //Get user if authenticated
   const { user } = useUser();
 
-  const { viewMode, updateViewMode } = useViewMode();
   return (
     <html>
       <body>
         <div id="page-layout">
           <div id="page-heading" className={`${sharedStyles.colflex} ${styles.layout}`}>
-            <div className={sharedStyles.rowflex}>
-              <h1>Group Calendar</h1>
-              {/* User input to switch view mode */}
-              <SelectViewMode viewMode={viewMode} setViewMode={updateViewMode} />
+            <div className={styles.heading}>
+              {/* Display greeting, general if unauthenticated, personalised if authenticated */}
+              <Greeting user={user} greeting="Hello" />
             </div>
-
-            {/* Display greeting, general if unauthenticated, personalised if authenticated */}
-            <Greeting user={user} greeting="Hello" />
           </div>
 
           {/* Main Page Content */}
