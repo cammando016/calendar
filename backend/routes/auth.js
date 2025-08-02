@@ -67,6 +67,14 @@ router.post('/signup', async (req, res) => {
             const newGroupId = newGroup.rows[0].groupid;
             await pool.query('INSERT INTO user_groups (userid, groupid) VALUES ($1, $2)', [newUserId, newGroupId]);
 
+            //Create event for new users birthday
+            await pool.query(
+                `INSERT INTO events 
+                (eventname, eventstarttime, eventcreationdate, eventstartdate, eventgroupid, eventcreatorid, eventendtime, eventenddate, eventtype)
+                VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
+                [`${username}'s Birthday`, birthdate, creationdate, birthdate, newGroupId, newUserId, birthdate, birthdate, "birthday"]
+            )
+
             return res.status(201).json({message: 'User Registered'});
         }
         catch (error) {
