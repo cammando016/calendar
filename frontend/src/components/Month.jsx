@@ -8,7 +8,6 @@ import Event from "./Event";
 
 //used to map the individual day components in the month
 const weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
 export default function Month ({ date }) {
     const { eventList } = useEventList();
@@ -68,7 +67,7 @@ export default function Month ({ date }) {
                 <h3>Events</h3>
                 <div>
                     {
-                        eventList.filter(listEvent => ((new Date(listEvent.eventstarttime.slice(0,10))).getMonth() === dateObject.getMonth())).map(filteredEvent => {
+                        eventList.filter(listEvent => ((new Date(listEvent.eventstarttime.slice(0,10))).getMonth() === dateObject.getMonth()) && (new Date(listEvent.eventstarttime.slice(0,10)).getFullYear() === dateObject.getFullYear())).map(filteredEvent => {
                             return <Event key={filteredEvent.eventid} eventRecord={filteredEvent} />
                         })
                     }
