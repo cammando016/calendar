@@ -11,7 +11,7 @@ export default function DayOfWeek({ date }) {
     const { eventList } = useEventList();
     const dayEvents = eventList.filter(evt => matchDates(dateObject, evt.eventstarttime.slice(0, 10)));
     return (
-        <div className={`${styles.dayofweek}`}>
+        <div className={`${styles.dayofweek} ${matchDates(new Date(), dateObject) ? styles.today : ''}`}>
             {/* Show date of each day (Day Month Date) */}
             <div className={sharedStyles.rowflex}>
                 <h3>{date}</h3>

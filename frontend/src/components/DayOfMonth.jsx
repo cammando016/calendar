@@ -8,11 +8,10 @@ import Link from 'next/link';
 export default function DayOfMonth({ date }) {
     const dateObject = new Date(date);
     const { eventList } = useEventList();
-
     const dailyEvents = eventList.filter(listedEvent => matchDates(dateObject, listedEvent.eventstarttime.slice(0, 10)));
 
     return (
-        <div className={`${styles.dayofmonth} ${sharedStyles.rowflex}`}>
+        <div className={`${styles.dayofmonth} ${sharedStyles.rowflex} ${matchDates(new Date(), dateObject) ? styles.today : ''}`}>
             {/* Display dot icons for list of events user is part of for the day */}
             {
                 dailyEvents.length > 0 && (

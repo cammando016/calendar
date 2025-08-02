@@ -1,6 +1,7 @@
 //Display for a month, with each day of the month shown using DayOfMonth component
-import DayOfMonth from "./DayOfMonth"
-import styles from '../styles/month.module.css'
+import DayOfMonth from "./DayOfMonth";
+import styles from '../styles/month.module.css';
+import sharedStyles from '../styles/shared.module.css';
 import { populateMonthDates } from "@/utils/dateFunctions";
 import { useDate } from "@/context/DateContext";
 import { useEventList } from "@/context/EventListContext";
@@ -17,19 +18,20 @@ export default function Month ({ date }) {
     const monthDates = populateMonthDates(dateObject);
     const numWeeks = monthDates.length / 7;
 
-    const { incrementYear, decrementYear, incrementMonth, decrementMonth } = useDate();
+    const { incrementYear, decrementYear, incrementMonth, decrementMonth, resetDate } = useDate();
     
     return (
         <div className={`${styles.month}`}>
-            <div className={`${styles.monthheading}`}>
+            <div className={`${styles.monthheading} ${sharedStyles.colflex}`}>
                 {/* Move between previous/subsequent months */}
-                <h3>
+                <h3>{date}</h3>
+                <p>
                     <button onClick={decrementYear}>{`<- Year`}</button>
                     <button onClick={decrementMonth}>{`<- Month`}</button>
-                        {date}
+                    <button onClick={resetDate}>Today</button>
                     <button onClick={incrementMonth}>{`Month ->`}</button>
                     <button onClick={incrementYear}>{`Year ->`}</button>
-                </h3>
+                </p>
             </div>
             <table>
                 <thead>

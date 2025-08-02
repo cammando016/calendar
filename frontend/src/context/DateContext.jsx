@@ -41,7 +41,12 @@ export const DateProvider = ({ children }) => {
         setDate(newDate)
     }
 
-    return <DateContext.Provider value={{ date, incrementYear, decrementYear, incrementMonth, decrementMonth, setNewMonthView }}>{children}</DateContext.Provider>
+    const resetDate = () => {
+        const newDate = new Date();
+        setDate(newDate);
+    }
+
+    return <DateContext.Provider value={{ date, incrementYear, decrementYear, incrementMonth, decrementMonth, setNewMonthView, resetDate }}>{children}</DateContext.Provider>
 }
 
 export const useDate = () => useContext(DateContext);

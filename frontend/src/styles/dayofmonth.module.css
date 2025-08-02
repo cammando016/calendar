@@ -42,3 +42,7 @@
     justify-content: space-evenly;
     align-items: center;
 }
+
+.today {
+    background-color: pink;
+}
