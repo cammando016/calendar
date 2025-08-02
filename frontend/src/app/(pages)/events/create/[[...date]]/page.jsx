@@ -1,5 +1,5 @@
 "use client"
-import { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useGroupList } from '@/context/GroupListContext';
 import AddEventForm from '@/forms/AddEventForm';
 import { createEvent } from '@/utils/eventUtils'; 
@@ -7,7 +7,31 @@ import { useUser } from '@/context/UserContext';
 import { useRouter } from 'next/navigation';
 import { useEventList } from '@/context/EventListContext';
 
-export default function Page () {
+function formatDateInput(date) {
+    if (!date) {
+        return '';
+    }
+    return date.toISOString().slice(0, -1);
+}
+
+export default function Page ({ params }) {
+    //If there is anything in URL after /events/create, decode param "date" into date object
+    const resolvedParams = React.use(params);
+    const resolvedDate = useMemo(() => {
+        if(!resolvedParams?.date || resolvedParams.date.length === 0) {
+            return null;
+        }
+        try {
+            const decodedDate = decodeURIComponent(resolvedParams.date[0]);
+            return new Date(decodedDate);
+        } catch {
+            return null;
+        }
+    }, [params]);
+
+    const eventStartDate = resolvedDate ? new Date(resolvedDate.getTime() + (12 - resolvedDate.getTimezoneOffset() / 60) * 60 * 60 * 1000) : null;
+    const eventEndDate = resolvedDate ? new Date(resolvedDate.getTime() + (13 - resolvedDate.getTimezoneOffset() / 60) * 60 * 60 * 1000) : null;
+
     const { usersGroups } = useGroupList();
     const { user } = useUser();
     
@@ -20,8 +44,8 @@ export default function Page () {
         eventType: 'activity',
         eventNotes: '',
         eventInvited: usersGroups[0].groupid,
-        eventStart: '',
-        eventEnd: ''
+        eventStart: formatDateInput(eventStartDate),
+        eventEnd: formatDateInput(eventEndDate)
     })
 
     //Submit form entries to DB to create new event
@@ -41,11 +65,6 @@ export default function Page () {
     return (
         <div>
             <h3>Create Event</h3>
-            <div>
-                {
-                    
-                }
-            </div>
             <AddEventForm groupList={usersGroups} form={eventForm} setForm={setEventForm} submitFunc={handleSubmit} />
         </div>
     )

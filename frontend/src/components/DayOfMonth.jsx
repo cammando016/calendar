@@ -3,6 +3,7 @@ import styles from '../styles/dayofmonth.module.css';
 import sharedStyles from '../styles/shared.module.css';
 import { useEventList } from '@/context/EventListContext';
 import { matchDates } from '@/utils/eventUtils';
+import Link from 'next/link';
 
 export default function DayOfMonth({ date }) {
     const dateObject = new Date(date);
@@ -35,7 +36,7 @@ export default function DayOfMonth({ date }) {
                 <div className={`${styles.row} ${styles.bottomrow}`}>
                     {/* Add event to selected date */}
                     <div className="add-event">
-                        <button>+</button>
+                        <Link href={`/events/create/${date}`}><button>+</button></Link>
                     </div>  
                 </div>
             </div>
