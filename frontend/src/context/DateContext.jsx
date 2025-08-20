@@ -41,12 +41,25 @@ export const DateProvider = ({ children }) => {
         setDate(newDate)
     }
 
+    //Change week functions
+    const incrementWeek = () => {
+        const newDate = new Date(date);
+        newDate.setDate(newDate.getDate() + 7);
+        setDate(newDate);
+    }
+
+    const decrementWeek = () => {
+        const newDate = new Date(date);
+        newDate.setDate(newDate.getDate() - 7);
+        setDate(newDate);
+    }
+
     const resetDate = () => {
         const newDate = new Date();
         setDate(newDate);
     }
 
-    return <DateContext.Provider value={{ date, incrementYear, decrementYear, incrementMonth, decrementMonth, setNewMonthView, resetDate }}>{children}</DateContext.Provider>
+    return <DateContext.Provider value={{ date, incrementYear, decrementYear, incrementMonth, decrementMonth, setNewMonthView, incrementWeek, decrementWeek, resetDate }}>{children}</DateContext.Provider>
 }
 
 export const useDate = () => useContext(DateContext);
