@@ -9,6 +9,10 @@
     box-shadow: 2px 2px 3px seagreen;
 }
 
+.offmonth {
+    opacity: 50%;
+}
+
 .datedetails {
     justify-content: space-evenly;
     align-items: center;
