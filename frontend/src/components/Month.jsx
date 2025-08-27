@@ -54,7 +54,7 @@ export default function Month ({ date }) {
                                         const dayDate = monthDates[weekNum * 7 + weekDay];
                                         return (
                                             <td key={dayDate.toDateString().slice(0,15)}>
-                                                <DayOfMonth date={dayDate.toDateString().slice(0,15)} />
+                                                <DayOfMonth inCurrentMonth={dateObject.getMonth() === dayDate.getMonth() ? true : false} date={dayDate.toDateString().slice(0,15)} />
                                             </td>
                                         )
                                     }

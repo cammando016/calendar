@@ -27,3 +27,10 @@
 .btn:hover {
     background-color: lightcyan;
 }
+
+.logoutbtn {
+    background-color: white;
+    border: none;
+    font-size: 1em;
+    padding: 0;
+}
