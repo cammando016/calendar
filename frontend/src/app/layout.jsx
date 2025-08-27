@@ -20,7 +20,7 @@ function LayoutContent({ children }) {
 
   return (
     <html>
-      <body>
+      <body className={styles.body}>
         <div id="page-layout">
           <div id="page-heading" className={`${sharedStyles.colflex} ${styles.layout}`}>
             <div className={styles.heading}>

@@ -25,12 +25,12 @@ export default function Month ({ date }) {
             <div className={`${styles.monthheading} ${sharedStyles.colflex}`}>
                 {/* Move between previous/subsequent months */}
                 <h3>{date}</h3>
-                <p>
-                    <button onClick={decrementYear}>{`<- Year`}</button>
-                    <button onClick={decrementMonth}>{`<- Month`}</button>
-                    <button onClick={resetDate}>Today</button>
-                    <button onClick={incrementMonth}>{`Month ->`}</button>
-                    <button onClick={incrementYear}>{`Year ->`}</button>
+                <p className={styles.calendarnav}>
+                    <button className={`${sharedStyles.medbtn} ${sharedStyles.btn}`} onClick={decrementYear}>{`<- Year`}</button>
+                    <button className={`${sharedStyles.medbtn} ${sharedStyles.btn}`} onClick={decrementMonth}>{`<- Month`}</button>
+                    <button className={`${sharedStyles.medbtn} ${sharedStyles.btn}`} onClick={resetDate}>Today</button>
+                    <button className={`${sharedStyles.medbtn} ${sharedStyles.btn}`} onClick={incrementMonth}>{`Month ->`}</button>
+                    <button className={`${sharedStyles.medbtn} ${sharedStyles.btn}`} onClick={incrementYear}>{`Year ->`}</button>
                 </p>
             </div>
             <table>

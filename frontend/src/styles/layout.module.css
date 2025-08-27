@@ -4,8 +4,6 @@
 
 .main {
     flex-grow: 1;
-    border-style: solid;
-    border-color: yellow;
     overflow: scroll;
     max-height: 65%;
 }
@@ -19,7 +17,6 @@
 }
 
 .navitem {
-    background-color: purple;
     display: flex;
     flex-grow: 1;
     text-align: center;
@@ -28,4 +25,13 @@
 
 .heading {
     text-align: center;
+}
+
+.body {
+    font-family: Arial, sans-serif;
+}
+
+.viewselect {
+    border-color: lightseagreen;
+    border-radius: 10px;
 }

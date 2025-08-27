@@ -1,10 +1,12 @@
 .dayofmonth {
     width: 12vw;
     height: 12vw;
-    border-style: solid;
-    border-color: black;
+    border-left-style: solid;
+    border-top-style: solid;
+    border-color: seagreen;
     border-width: 0.5px;
     border-radius: 10%;
+    box-shadow: 2px 2px 3px seagreen;
 }
 
 .datedetails {
@@ -32,6 +34,9 @@
     width: 10px;
     height: 10px; 
     border-radius: 50%;
+    border-color: black;
+    border-style: solid;
+    border-width: 0.2px;
 }
 
 .eventicons {
@@ -44,5 +49,5 @@
 }
 
 .today {
-    background-color: pink;
+    background-color: rgba(32, 178, 170, 40%);
 }

@@ -35,7 +35,7 @@ export default function DayOfMonth({ date }) {
                 <div className={`${styles.row} ${styles.bottomrow}`}>
                     {/* Add event to selected date */}
                     <div className="add-event">
-                        <Link href={`/events/create/${date}`}><button>+</button></Link>
+                        <Link href={`/events/create/${date}`}><button className={`${sharedStyles.btn} ${sharedStyles.smallbtn}`}>+</button></Link>
                     </div>  
                 </div>
             </div>
