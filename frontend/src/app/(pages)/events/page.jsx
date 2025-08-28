@@ -6,6 +6,7 @@ import Event from "@/components/Event"
 import { useState } from "react";
 import DeleteModal from "@/components/DeleteModal"
 import { deleteEvent } from "@/utils/eventUtils"
+import sharedStyles from '@/styles/shared.module.css';
 
 export default function Page() {
     //Get context values to compare event creator and auth'd user
@@ -48,9 +49,12 @@ export default function Page() {
 
     return (
         <div>
-            <h3>Event Page</h3>
+            <h3 className={sharedStyles.pageheading}>Events</h3>
             <div id="event-list-user-created">
-                <p>Created Events</p>
+                <div className={`${sharedStyles.rowflex} ${sharedStyles.sectionheading}`}>
+                    <h4>Created Events</h4>
+                    <Link href='/events/create'><button type='button' className={`${sharedStyles.btn} ${sharedStyles.medbtn}`}>Create Event</button></Link>
+                </div>
                 {
                     eventList.filter(evnt => (evnt.username === user.username)).map(evt => {
                         return <Event key={evt.eventid} eventRecord={evt} updateEvent={updateActiveEvent} setEdit={setEventEdit} activeEvent={activeEvent} deleteEvent={handleDelete} userCreated={true} />
@@ -58,14 +62,13 @@ export default function Page() {
                 }
             </div>
             <div id="event-list-user-added">
-                <p>Invited Events</p>
+                <h4>Invited Events</h4>
                 {
                     eventList.filter(evnt => (evnt.username !== user.username)).map(evt => {
                         return <Event key={evt.eventid} eventRecord={evt} updateEvent={updateActiveEvent} activeEvent={activeEvent} userCreated={false} />
                     })
                 }
             </div>
-            <Link href='/events/create'><button>Create Event</button></Link>
                 
             { showDeleteAccount && <DeleteModal closeDelete={closeDeleteModal} handleDelete={confirmDelete} deleteMessage={deleteMessage} /> }
         </div>

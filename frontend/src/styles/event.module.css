@@ -1,9 +1,7 @@
 .event {
-    border-style: solid;
-    border-color: black;
-    border-width: 0.5px;
     padding: 5px;
-    margin-top: 2px;
+    margin: 5px;
+    border-radius: 8px;
 }
 
 .eventoverview {

@@ -5,6 +5,7 @@ import { useGroup } from "@/context/GroupContext";
 import ListedGroup from "@/components/ListedGroup";
 import { deleteGroup } from "@/utils/createGroup";
 import { useGroupList } from "@/context/GroupListContext";
+import sharedStyles from '@/styles/shared.module.css';
 
 export default function Page() {
     const { updateActiveGroup } = useGroup();
@@ -25,7 +26,10 @@ export default function Page() {
 
     return (
         <div id="groups-page">
-            <p>Groups Home Page</p>
+            <div className={`${sharedStyles.pageheading} ${sharedStyles.rowflex}`}>
+                <h3>Groups</h3>
+                <Link href={'/groups/create'}><button type="button" className={`${sharedStyles.btn} ${sharedStyles.medbtn}`}>Create New Group</button></Link>
+            </div>
             {
                 user ? (
                     <>
@@ -49,7 +53,6 @@ export default function Page() {
                                 ) : <p>No Groups Found.</p>
                             }
                         </div>
-                        <Link href={'/groups/create'} ><button>Create New Group</button></Link>
                     </>
                 ) : (
                     <p>Please login to view your groups</p>

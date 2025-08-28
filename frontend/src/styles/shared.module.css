@@ -8,6 +8,17 @@
     flex-direction: column;
 }
 
+.pageheading {
+    margin-bottom: 0;
+    padding-left: 5px;
+}
+
+.sectionheading {
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 5px;
+}
+
 .btn {
     background-color: white;
     border-color: lightseagreen;
@@ -29,8 +40,25 @@
 }
 
 .logoutbtn {
-    background-color: white;
+    background-color: rgba(255, 255, 255, 0%);
     border: none;
     font-size: 1em;
     padding: 0;
+}
+
+.cardborder {
+    border-left-style: solid;
+    border-top-style: solid;
+    border-color: seagreen;
+    border-width: 0.5px;
+    box-shadow: 2px 2px 3px seagreen;
+}
+
+.cardcolour {
+    border-radius: 8px;
+}
+
+.cardbuttons {
+    justify-content: space-evenly;
+    align-items: center;
 }

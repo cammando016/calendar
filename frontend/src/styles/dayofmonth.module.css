@@ -1,12 +1,7 @@
 .dayofmonth {
     width: 12vw;
     height: 12vw;
-    border-left-style: solid;
-    border-top-style: solid;
-    border-color: seagreen;
-    border-width: 0.5px;
     border-radius: 10%;
-    box-shadow: 2px 2px 3px seagreen;
 }
 
 .offmonth {

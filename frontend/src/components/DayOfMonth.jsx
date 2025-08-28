@@ -13,7 +13,7 @@ export default function DayOfMonth({ date, inCurrentMonth }) {
     const dailyEvents = eventList.filter(listedEvent => matchDates(dateObject, listedEvent.eventstarttime.slice(0, 10)));
 
     return (
-        <div className={`${styles.dayofmonth} ${sharedStyles.rowflex} ${inCurrentMonth ? '' : styles.offmonth} ${matchDates(new Date(), dateObject) ? styles.today : ''}`}>
+        <div className={`${sharedStyles.cardborder} ${styles.dayofmonth} ${sharedStyles.rowflex} ${inCurrentMonth ? '' : styles.offmonth} ${matchDates(new Date(), dateObject) ? styles.today : ''}`}>
             {/* Display dot icons for list of events user is part of for the day */}
             {
                 dailyEvents.length > 0 && (
