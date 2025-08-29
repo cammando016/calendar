@@ -13,12 +13,12 @@ export default function Event ({ eventRecord, updateEvent, setEdit, activeEvent,
     return (
         <div className={`${sharedStyles.cardborder} ${sharedStyles.rowflex} ${styles.event}`}>
             <div className={sharedStyles.cardcolour} style={{backgroundColor: eventRecord.groupcolour, width: '5%'}}></div>
-            <div style={{width: '95%'}} className={`${sharedStyles.colflex}`}>
+            <div style={{width: '95%'}} className={`${sharedStyles.colflex} ${sharedStyles.cardtext}`}>
                 <div className={`${sharedStyles.rowflex}`}>
                     {/* Display event name and times */}
                     <div className={`${sharedStyles.colflex} ${styles.eventoverview}`}>
                         <h4 className={`${styles.eventp}`}>{eventRecord.eventname}</h4>
-                        <p className={`${styles.eventp}`}>{months[eventRecord.eventstarttime.slice(6,7)]} {eventRecord.eventstarttime.slice(8, 10)} { eventRecord.eventstarttime.slice(0,10) !== eventRecord.eventendtime.slice(0,10) && '- ' + months[eventRecord.eventendtime.slice(6, 7)] + ' ' + eventRecord.eventstarttime.slice(8, 10) }</p>
+                        <p className={`${styles.eventp}`}>{months[parseInt(eventRecord.eventstarttime.slice(5,7))-1]} {eventRecord.eventstarttime.slice(8, 10)} { eventRecord.eventstarttime.slice(0,10) !== eventRecord.eventendtime.slice(0,10) && '- ' + months[parseInt(eventRecord.eventendtime.slice(5, 7))-1] + ' ' + eventRecord.eventendtime.slice(8, 10) }</p>
                         <p className={`${styles.eventp}`}>{eventRecord.eventstarttime.slice(11, 16)} - {eventRecord.eventendtime.slice(11, 16)}</p>
                     </div>
                     <div className={`${sharedStyles.colflex} ${sharedStyles.cardbuttons}`}>

@@ -54,14 +54,14 @@ router.post('/groups', async (req, res) => {
             const values = [];
             const placeholders = userIds.map((id, i) => {
                 const base = i * 2;
-                values.push(id, newGroupId);
-                return `($${base + 1}, $${base + 2})`;
+                values.push(id, newGroupId, creationDate);
+                return `($${base + 1}, $${base + 2}, $${base + 3})`;
             }).join(', ');
 
             //Insert group members into user_groups table
-            await pool.query( `INSERT INTO user_groups (userid, groupid) VALUES ${placeholders}`, values );
+            await pool.query( `INSERT INTO user_groups (userid, groupid, datejoined) VALUES ${placeholders}`, values );
             //Insert group creator into user_groups table
-            await pool.query( 'INSERT INTO user_groups (userid, groupid) VALUES ($1, $2)', [creatorUserId, newGroupId] );
+            await pool.query( 'INSERT INTO user_groups (userid, groupid, datejoined) VALUES ($1, $2, $3)', [creatorUserId, newGroupId, creationDate] );
 
             console.log('Group members inserted');
             return res.status(201).json({ 
@@ -88,14 +88,14 @@ router.get('/groups', async (req, res) => {
         if (!user) { return res.status(401).json({error: 'Username not found'});}
 
         const groupsQuery = await pool.query(
-            `SELECT u.username AS creator, g.groupname, g.groupcolour, g.groupid, array_agg(m.username) AS members
+            `SELECT u.username AS creator, g.groupname, g.groupcolour, g.private, g.groupid, array_agg(json_build_object('username', m.username, 'datejoined', ug2.datejoined)) AS members
             FROM user_groups ug
             JOIN groups g ON ug.groupid = g.groupid
             JOIN users u ON g.createdby = u.userid
             JOIN user_groups ug2 ON g.groupid = ug2.groupid
             JOIN users m ON ug2.userid = m.userid
             WHERE ug.userid = $1
-            GROUP BY g.groupid, g.groupname, g.groupcolour, u.username
+            GROUP BY g.groupid, g.groupname, g.groupcolour, g.private, u.username
             `,
             [user]
         );
@@ -152,6 +152,8 @@ router.patch('/groups', async (req, res) => {
         
         //Check for any new members added to the group
         const newMembers = groupMembers.filter(username => !dbUsernames.includes(username));
+        
+        const joinDate = new Date();
 
         const newUserIds = [];
         for (const username of newMembers) {
@@ -162,7 +164,7 @@ router.patch('/groups', async (req, res) => {
         }
 
         for (const userid of newUserIds) {
-            await pool.query('INSERT INTO user_groups (userid, groupid) VALUES ($1, $2)', [userid, groupId]);
+            await pool.query('INSERT INTO user_groups (userid, groupid, datejoined) VALUES ($1, $2, $3)', [userid, groupId, joinDate]);
         }
 
         // ---------- Remove deleted users from DB ----------

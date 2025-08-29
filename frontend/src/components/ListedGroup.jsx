@@ -2,11 +2,16 @@ import sharedStyles from '../styles/shared.module.css';
 import styles from '../styles/listedgroup.module.css';
 import Link from 'next/link';
 import { useGroup } from '@/context/GroupContext';
+import { useEventList } from '@/context/EventListContext';
 import DeleteModal from './DeleteModal';
 import { useState } from 'react';
 
 export default function ListedGroup ({ group, userCreated, deleteGroup }) {
     const { updateActiveGroup, activeGroup } = useGroup();
+
+    // Get array of events for the group
+    const { eventList } = useEventList();
+    const groupEvents = eventList.filter(evt => evt.eventgroupid === group.groupid);
 
     //Show delete group confirmation dialog modal if user clicks on delete button
     const [showDeleteAccount, setShowDeleteAccount] = useState(false);
@@ -28,49 +33,68 @@ export default function ListedGroup ({ group, userCreated, deleteGroup }) {
 
     return (
         //Display group details
-        <div className={sharedStyles.colflex}>
-            <div className={sharedStyles.rowflex}>
-                <div style={{borderColor: group.groupcolour, background: group.groupcolour}} className={styles.groupcolour}>
-                    <button onClick={handleClickMembers}>=</button>
-                </div>
-                <div style={{borderColor: group.groupcolour}} className={`${styles.groupdisplay} ${sharedStyles.rowflex}`}>
+        <div className={`${sharedStyles.rowflex} ${sharedStyles.cardborder} ${styles.group}`}>
+            <div className={sharedStyles.cardcolour} style={{backgroundColor: group.groupcolour, width: '5%'}}></div>
+            <div style={{width: '95%'}} className={`${sharedStyles.colflex} ${sharedStyles.cardtext}`}>
+                <div className={sharedStyles.rowflex}>
+                    {/* Display group name & creator if not created by logged in user */}
+                    <div className={`${styles.groupdisplay} ${sharedStyles.colflex}`}>
+                        <h4 className={styles.groupp}>{group.groupname}</h4>
+                        <p className={styles.groupp}>{groupEvents.length} upcoming event{groupEvents.length !== 1 && 's'}</p>
+                        {
+                            !userCreated && <p className={styles.groupp}>{group.creator}'s group</p>
+                        }
+                    </div>
                     {
-                        userCreated ? <p className={styles.groupname}>{group.groupname} - my group</p> : <p className={styles.groupname}>{group.groupname} - {group.creator}'s group</p>
-                    }
-                    {
-                        userCreated && (
-                            <div style={{alignItems: "flex-end", justifyContent: 'flex-end'}} className={sharedStyles.colflex}>
-                                <Link href={`/groups/${group.groupid}`}><button onClick={handleClickEdit}>Edit</button></Link>
-                                <button onClick={openDeleteModal}>Delete</button>
+                        !group.private && (
+                            <div className={`${sharedStyles.colflex} ${sharedStyles.cardbuttons}`}>
+                                {
+                                    userCreated && (
+                                        <div className={`${sharedStyles.rowbtns} ${sharedStyles.rowflex}`}>
+                                            <Link href={`/groups/${group.groupid}`}><button className={`${sharedStyles.medbtn} ${sharedStyles.btn}`} type="button" onClick={handleClickEdit}>Edit</button></Link>
+                                            <button className={`${sharedStyles.medbtn} ${sharedStyles.btn}`} type="button" onClick={openDeleteModal}>Delete</button>
+                                        </div>
+                                    )
+                                }
+                                <div>
+                                    <button className={`${sharedStyles.medbtn} ${sharedStyles.btn}`} type="button" onClick={handleClickMembers}>Toggle Members</button>
+                                </div>
                             </div>
                         )
                     }
-                </div>
-                {
-                    showDeleteAccount && (
-                        <DeleteModal closeDelete={closeDeleteModal} handleDelete={() => {deleteGroup(group); closeDeleteModal()}} deleteMessage={deleteMessage} />
-                    )
-                }
-            </div>
-            <div>
                     {
-                        activeGroup === group && (
-                            <div className='group-members'>
-                                <p>Group Admin</p>
-                                {
-                                    group.members.filter(memb => (memb === group.creator)).map(member => {
-                                        return <p key={member}>{member}</p>
-                                    })
-                                }
-                                <p>Group Members</p>
-                                {
-                                    group.members.filter(memb => (memb !== group.creator)).map(member => {
-                                        return <p key={member}>{member}</p>
-                                    })
-                                }
-                            </div>
+                        showDeleteAccount && (
+                            <DeleteModal closeDelete={closeDeleteModal} handleDelete={() => {deleteGroup(group); closeDeleteModal()}} deleteMessage={deleteMessage} />
                         )
                     }
+                </div>
+                <div>
+                        {
+                            !group.private && (
+                                activeGroup === group && (
+                                    <div className={`${styles.groupmembers} ${sharedStyles.rowflex}`}>
+                                        <div>
+                                            <p className={styles.groupmemheading}><u>Group Members</u></p>
+                                            {
+                                                group.members.filter(memb => (memb.username !== group.creator)).map(member => {
+                                                    return <p className={styles.groupp} key={member.username}>{member.username}</p>
+                                                })
+                                            }
+                                        </div>
+                                            
+                                        <div>
+                                            <p className={styles.groupmemheading}><u>Group Admin</u></p>
+                                            {
+                                                group.members.filter(memb => (memb.username === group.creator)).map(member => {
+                                                    return <p className={styles.groupp} key={member.username}>{member.username}</p>
+                                                })
+                                            }
+                                        </div>
+                                    </div>
+                                )
+                            )
+                        }
+                </div>
             </div>
         </div>
     )

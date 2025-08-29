@@ -1,14 +1,22 @@
-.groupcolour {
-    width: 10%;
-    min-height: 100%;
-    border-bottom: solid;
+.group {
+    padding: 5px;
+    margin: 5px;
+    border-radius: 8px;
 }
 
 .groupdisplay {
-    border-bottom: solid;
-    min-width: 90%;
+    flex-grow: 1;
 }
 
-.groupname {
-    flex-grow: 1;
+.groupp {
+    margin: 2px;
+}
+
+.groupmembers {
+    justify-content: space-between;
+    padding-right: 25px;
+}
+
+.groupmemheading {
+    margin-top: 10px;
 }

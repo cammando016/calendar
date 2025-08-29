@@ -26,14 +26,14 @@ export default function Page() {
 
     return (
         <div id="groups-page">
-            <div className={`${sharedStyles.pageheading} ${sharedStyles.rowflex}`}>
-                <h3>Groups</h3>
+            <h3 className={sharedStyles.pageheading}>Groups</h3>
+            <div className={`${sharedStyles.sectionheading} ${sharedStyles.rowflex}`}>
+                <h4>Created groups</h4>
                 <Link href={'/groups/create'}><button type="button" className={`${sharedStyles.btn} ${sharedStyles.medbtn}`}>Create New Group</button></Link>
             </div>
             {
                 user ? (
                     <>
-                        <h4>My created groups</h4>
                         <div>
                             {
                                 usersGroups.length > 0 ? (
@@ -43,8 +43,8 @@ export default function Page() {
                                 ) : <p>No Groups Found.</p>
                             }
                         </div>
-                        <h4>My joined groups</h4>
                         <div>
+                            <h4 className={sharedStyles.sectionheading}>Joined groups</h4>
                             {
                                 usersGroups.length > 0 ? (
                                     usersGroups.filter(userGroup => ( userGroup.creator.trim().toLowerCase() !== user.username.trim().toLowerCase() )).map(group => {

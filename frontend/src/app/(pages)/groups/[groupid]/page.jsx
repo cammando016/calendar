@@ -21,13 +21,14 @@ export default function Page () {
 
     useEffect(() => {
         if (activeGroup) {
-            setGroupMembers(activeGroup.members);
+            const memberUsernames = activeGroup.members.map(member => member.username);
+            setGroupMembers(memberUsernames);
 
             setEditGroupForm({
                 groupId: activeGroup.groupid,
                 groupName: activeGroup.groupname,
                 groupColour: activeGroup.groupcolour,
-                groupMembers: activeGroup.members
+                groupMembers: memberUsernames
             });
 
             setLoading(false);

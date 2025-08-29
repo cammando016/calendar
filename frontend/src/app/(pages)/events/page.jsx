@@ -62,7 +62,7 @@ export default function Page() {
                 }
             </div>
             <div id="event-list-user-added">
-                <h4>Invited Events</h4>
+                <h4 className={sharedStyles.sectionheading}>Invited Events</h4>
                 {
                     eventList.filter(evnt => (evnt.username !== user.username)).map(evt => {
                         return <Event key={evt.eventid} eventRecord={evt} updateEvent={updateActiveEvent} activeEvent={activeEvent} userCreated={false} />

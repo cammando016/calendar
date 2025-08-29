@@ -58,14 +58,14 @@ router.post('/signup', async (req, res) => {
             //Create private group with new user as only member
             const newUserId = newUser.rows[0].userid;
             const newGroup = await pool.query(`
-                INSERT INTO groups (groupname, groupcolour, creationdate, createdby) 
-                VALUES ($1, $2, $3, $4) 
+                INSERT INTO groups (groupname, groupcolour, creationdate, createdby, private) 
+                VALUES ($1, $2, $3, $4, $5) 
                 RETURNING groupid`, 
-                [`${username} private`, '#7d7f7c', creationdate, newUserId]
+                [`${username} private`, '#7d7f7c', creationdate, newUserId, true]
             );
 
             const newGroupId = newGroup.rows[0].groupid;
-            await pool.query('INSERT INTO user_groups (userid, groupid) VALUES ($1, $2)', [newUserId, newGroupId]);
+            await pool.query('INSERT INTO user_groups (userid, groupid, datejoined) VALUES ($1, $2, $3)', [newUserId, newGroupId, creationdate]);
 
             //Create event for new users birthday
             await pool.query(

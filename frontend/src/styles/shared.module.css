@@ -46,6 +46,12 @@
     padding: 0;
 }
 
+.rowbtns {
+    justify-content: space-between;
+    flex-grow: 1;
+    width: 100%;
+}
+
 .cardborder {
     border-left-style: solid;
     border-top-style: solid;
@@ -61,4 +67,8 @@
 .cardbuttons {
     justify-content: space-evenly;
     align-items: center;
+}
+
+.cardtext {
+    padding-left: 5px;
 }
