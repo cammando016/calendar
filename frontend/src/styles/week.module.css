@@ -1,0 +1,23 @@
+.weeknav {
+    margin: 20px 0;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.week {
+    margin: 5px;
+}
+
+.weekday {
+    padding: 8px;
+    margin: 5px;
+}
+
+.weekdate {
+    flex-grow: 1;
+}
+
+.weekheading {
+    margin: 5px;
+    /* padding-left: 5px; */
+}

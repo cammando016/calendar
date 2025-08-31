@@ -66,7 +66,7 @@ export default function Month ({ date }) {
             </table>
             {/* List of events in the current month */}
             <div>
-                <h3>Events</h3>
+                <h4 className={sharedStyles.sectionheading}>Events</h4>
                 <div>
                     {
                         eventList.filter(listEvent => ((new Date(listEvent.eventstarttime.slice(0,10))).getMonth() === dateObject.getMonth()) && (new Date(listEvent.eventstarttime.slice(0,10)).getFullYear() === dateObject.getFullYear())).map(filteredEvent => {

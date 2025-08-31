@@ -1,4 +1,15 @@
 .monthofyear {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
     border-style:solid;
     border-color:black;
+    width: 30vw;
+    height: 30vw;
+    margin-bottom: 5px;
+}
+
+.monthp {
+    margin: 0;
 }

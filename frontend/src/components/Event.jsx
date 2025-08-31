@@ -5,7 +5,7 @@ import Link from 'next/link';
 
 const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
-export default function Event ({ eventRecord, updateEvent, setEdit, activeEvent, deleteEvent, userCreated }) {
+export default function Event ({ eventRecord, updateEvent, setEdit, activeEvent, deleteEvent, userCreated, hideToggle }) {
     //Show and hide remaining details
     const handleClick = () => updateEvent(eventRecord.eventid);
     const handleEditClick = () => setEdit(eventRecord.eventid);
@@ -30,9 +30,13 @@ export default function Event ({ eventRecord, updateEvent, setEdit, activeEvent,
                                 </div>
                             )
                         }
-                        <div>
-                            <button className={`${sharedStyles.medbtn} ${sharedStyles.btn}`} type="button" onClick={handleClick}>Toggle Details</button>
-                        </div>
+                        {
+                            !hideToggle && (
+                                <div>
+                                <button className={`${sharedStyles.medbtn} ${sharedStyles.btn}`} type="button" onClick={handleClick}>Toggle Details</button>
+                                </div>
+                            )
+                        }
                     </div>
                 </div>
                 {

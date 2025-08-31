@@ -1,5 +1,16 @@
 .year {
+    padding: 0 0 20px;
     display: grid;
     grid-template-columns: repeat(3, 33%);
     grid-template-rows: repeat(4, auto);
+}
+
+.yearheading {
+    justify-content: space-around;
+    align-items: center;
+    margin: 20px 0;
+}
+
+.h3 {
+    margin: 0;
 }
