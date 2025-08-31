@@ -67,10 +67,10 @@ export default function Month ({ date }) {
             {/* List of events in the current month */}
             <div>
                 <h4 className={sharedStyles.sectionheading}>Events</h4>
-                <div>
+                <div className={`${sharedStyles.rowflex} ${styles.eventlist}`}>
                     {
                         eventList.filter(listEvent => ((new Date(listEvent.eventstarttime.slice(0,10))).getMonth() === dateObject.getMonth()) && (new Date(listEvent.eventstarttime.slice(0,10)).getFullYear() === dateObject.getFullYear())).map(filteredEvent => {
-                            return <Event key={filteredEvent.eventid} eventRecord={filteredEvent} />
+                            return <Event key={filteredEvent.eventid} eventRecord={filteredEvent} hideToggle={true} />
                         })
                     }
                 </div>

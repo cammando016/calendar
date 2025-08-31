@@ -20,9 +20,11 @@ export default function Week ({ date }) {
                 <button className={`${sharedStyles.btn} ${sharedStyles.medbtn}`} onClick={resetDate}>Today</button>
                 <button className={`${sharedStyles.btn} ${sharedStyles.medbtn}`} onClick={incrementWeek}>{`Week ->`}</button>
             </div>
-            {
-                weekdays.map((weekday, i) => <DayOfWeek key={weekday} date={weekDates[i].toDateString()} />)
-            }
+            <div className={styles.weekdays}>
+                {
+                    weekdays.map((weekday, i) => <DayOfWeek key={weekday} date={weekDates[i].toDateString()} />)
+                }
+            </div>
         </div>
     )
 }

@@ -18,7 +18,7 @@ export default function DayOfWeek({ date }) {
                 <Link href={`/events/create/${date}`}><button type="button" className={`${sharedStyles.btn} ${sharedStyles.medbtn}`}>Create Event</button></Link>
             </div>
             {/* Display list of events user is part of on each day */}
-            <div className={styles.weekdate}>
+            <div className={`${styles.weekdate} ${styles.eventlist}`}>
                 {
                     dayEvents.map(dayEvent => {
                         return <Event key={dayEvent.eventid} eventRecord={dayEvent} hideToggle={true} />

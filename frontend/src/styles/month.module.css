@@ -18,3 +18,7 @@
 .calendarnav {
     margin: 0;
 }
+
+.eventlist {
+    overflow-x: auto;
+}

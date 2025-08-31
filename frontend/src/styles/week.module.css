@@ -11,6 +11,7 @@
 .weekday {
     padding: 8px;
     margin: 5px;
+    max-height: 95px;
 }
 
 .weekdate {
@@ -19,5 +20,13 @@
 
 .weekheading {
     margin: 5px;
-    /* padding-left: 5px; */
+}
+
+.weekdays {
+    overflow-y: auto;
+    max-height: 70dvh;
+}
+
+.eventlist {
+    overflow-y: auto;
 }
