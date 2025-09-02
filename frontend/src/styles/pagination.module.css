@@ -1,0 +1,18 @@
+.pageicon {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    margin: 5px;
+    height: 20px;
+    width: 20px;
+}
+
+.currentpage {
+    border-bottom: solid;
+    border-radius: 2px;
+}
+
+.pagebtns {
+    justify-content: center;
+    margin-top: 10px;
+}

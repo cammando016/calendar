@@ -7,32 +7,13 @@ import { useState } from "react";
 import DeleteModal from "@/components/DeleteModal"
 import { deleteEvent } from "@/utils/eventUtils"
 import sharedStyles from '@/styles/shared.module.css';
+import styles from '@/styles/event.module.css';
 import Pagination from "@/components/Pagination"
+import { incrementPage, decrementPage, firstPage, lastPage } from "@/utils/pagination"
 
 export default function Page() {
     const [createdPageNum, setCreatedPageNum] = useState(0);
     const [invitedPageNum, setInvitedPageNum] = useState(0);
-
-    //Page nav functions
-    const incrementPage = (stateValue, stateSetter, pageCount) => {
-        if(stateValue < pageCount - 1) {
-            stateSetter(stateValue + 1);
-        }
-    }
-
-    const decrementPage = (stateValue, stateSetter) => {
-        if (stateValue > 0) {
-            stateSetter(stateValue - 1);
-        }
-    }
-
-    const firstPage = (stateSetter) => {
-        stateSetter(0);
-    }
-
-    const lastPage = (stateSetter, pageCount) => {
-        stateSetter(pageCount - 1);
-    }
 
     //Get context values to compare event creator and auth'd user
     const { eventList } = useEventList();
@@ -78,26 +59,28 @@ export default function Page() {
     return (
         <div>
             <h3 className={sharedStyles.pageheading}>Events</h3>
-            <div id="event-list-user-created">
-                <div className={`${sharedStyles.rowflex} ${sharedStyles.sectionheading}`}>
-                    <h4>Created Events</h4>
-                    <Link href='/events/create'><button type='button' className={`${sharedStyles.btn} ${sharedStyles.medbtn}`}>Create Event</button></Link>
+            <div className={styles.events}>
+                <div id="event-list-user-created">
+                    <div className={`${sharedStyles.rowflex} ${sharedStyles.sectionheading}`}>
+                        <h4>Created Events</h4>
+                        <Link href='/events/create'><button type='button' className={`${sharedStyles.btn} ${sharedStyles.medbtn}`}>Create Event</button></Link>
+                    </div>
+                    {
+                        createdEvents.slice(createdPageNum * 3, (createdPageNum + 1) * 3).map(evt => {
+                            return <Event key={evt.eventid} eventRecord={evt} updateEvent={updateActiveEvent} setEdit={setEventEdit} activeEvent={activeEvent} deleteEvent={handleDelete} userCreated={true} />
+                        })
+                    }
+                    <Pagination currentPage={createdPageNum + 1} pageCount={Math.ceil(createdEvents.length/3)} increment={incrementPage} decrement={decrementPage} firstPage={firstPage} lastPage={lastPage} pageState={createdPageNum} stateSetter={setCreatedPageNum} />
                 </div>
-                {
-                    createdEvents.slice(createdPageNum * 3, (createdPageNum + 1) * 3).map(evt => {
-                        return <Event key={evt.eventid} eventRecord={evt} updateEvent={updateActiveEvent} setEdit={setEventEdit} activeEvent={activeEvent} deleteEvent={handleDelete} userCreated={true} />
-                    })
-                }
-                <Pagination currentPage={createdPageNum + 1} pageCount={Math.ceil(createdEvents.length/3)} increment={incrementPage} decrement={decrementPage} firstPage={firstPage} lastPage={lastPage} pageState={createdPageNum} stateSetter={setCreatedPageNum} />
-            </div>
-            <div id="event-list-user-added">
-                <h4 className={sharedStyles.sectionheading}>Invited Events</h4>
-                {
-                    invitedEvents.slice(invitedPageNum * 3, (invitedPageNum + 1) * 3).map(evt => {
-                        return <Event key={evt.eventid} eventRecord={evt} updateEvent={updateActiveEvent} activeEvent={activeEvent} userCreated={false} />
-                    })
-                }
-                <Pagination currentPage={invitedPageNum + 1} pageCount={Math.ceil(invitedEvents.length/3)} increment={incrementPage} decrement={decrementPage} firstPage={firstPage} lastPage={lastPage} pageState={invitedPageNum} stateSetter={setInvitedPageNum} />
+                <div id="event-list-user-added">
+                    <h4 className={sharedStyles.sectionheading}>Invited Events</h4>
+                    {
+                        invitedEvents.slice(invitedPageNum * 3, (invitedPageNum + 1) * 3).map(evt => {
+                            return <Event key={evt.eventid} eventRecord={evt} updateEvent={updateActiveEvent} activeEvent={activeEvent} userCreated={false} />
+                        })
+                    }
+                    <Pagination currentPage={invitedPageNum + 1} pageCount={Math.ceil(invitedEvents.length/3)} increment={incrementPage} decrement={decrementPage} firstPage={firstPage} lastPage={lastPage} pageState={invitedPageNum} stateSetter={setInvitedPageNum} />
+                </div>
             </div>
                 
             { showDeleteAccount && <DeleteModal closeDelete={closeDeleteModal} handleDelete={confirmDelete} deleteMessage={deleteMessage} /> }
