@@ -7,7 +7,6 @@ import { useState } from "react";
 import DeleteModal from "@/components/DeleteModal"
 import { deleteEvent } from "@/utils/eventUtils"
 import sharedStyles from '@/styles/shared.module.css';
-import styles from '@/styles/event.module.css';
 import Pagination from "@/components/Pagination"
 import { incrementPage, decrementPage, firstPage, lastPage } from "@/utils/pagination"
 
@@ -59,7 +58,7 @@ export default function Page() {
     return (
         <div>
             <h3 className={sharedStyles.pageheading}>Events</h3>
-            <div className={styles.events}>
+            <div className={sharedStyles.overflow}>
                 <div id="event-list-user-created">
                     <div className={`${sharedStyles.rowflex} ${sharedStyles.sectionheading}`}>
                         <h4>Created Events</h4>

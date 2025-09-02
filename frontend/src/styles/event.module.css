@@ -12,8 +12,3 @@
 .eventp{
     margin: 2px;
 }
-
-.events {
-    max-height: 85dvh;
-    overflow-y: auto;
-}

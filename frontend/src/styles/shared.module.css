@@ -72,3 +72,8 @@
 .cardtext {
     padding-left: 5px;
 }
+
+.overflow {
+    max-height: 85dvh;
+    overflow-y: auto;
+}
