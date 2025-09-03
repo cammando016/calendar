@@ -52,6 +52,10 @@
     width: 100%;
 }
 
+.stackedbtn {
+    margin: 5px 0;
+}
+
 .cardborder {
     border-left-style: solid;
     border-top-style: solid;
@@ -76,4 +80,9 @@
 .overflow {
     max-height: 85dvh;
     overflow-y: auto;
+}
+
+.overflowsmall {
+    overflow-y: auto;
+    max-height: 35dvh;
 }

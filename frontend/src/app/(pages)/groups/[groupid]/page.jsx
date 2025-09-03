@@ -51,7 +51,6 @@ export default function Page () {
 
     return (
         <div>
-            <p>Edit Group Page</p>
             {
                 loading ? (
                     <div id='group-edit-loading'>
@@ -59,7 +58,6 @@ export default function Page () {
                     </div>
                 ) : (
                     <div id='group-edit-loaded'>
-                        <p>{activeGroup.groupname}</p>
                         <CreateGroupForm submitGroupFunc={submitEditGroup} createGroupForm={editGroupForm} setGroupForm={setEditGroupForm} addedUsers={groupMembers} setAddedUsers={setGroupMembers} user={user} editableGroup={activeGroup} />
                     </div>
                 )

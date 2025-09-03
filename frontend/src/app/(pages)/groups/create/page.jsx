@@ -43,7 +43,6 @@ export default function Page() {
     
     return (
         <div>
-            <p>Group Page</p>
             {
                 user ? (
                     <CreateGroupForm submitGroupFunc={handleCreateGroup} createGroupForm={createGroupForm} setGroupForm={setCreateGroupForm} addedUsers={addedUsers} setAddedUsers={setAddedUsers} user={user} />

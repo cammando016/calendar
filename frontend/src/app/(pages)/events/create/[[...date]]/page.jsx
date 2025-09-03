@@ -64,7 +64,6 @@ export default function Page ({ params }) {
 
     return (
         <div>
-            <h3>Create Event</h3>
             <AddEventForm groupList={usersGroups} form={eventForm} setForm={setEventForm} submitFunc={handleSubmit} />
         </div>
     )

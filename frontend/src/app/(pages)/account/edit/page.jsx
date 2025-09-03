@@ -57,7 +57,6 @@ export default function Page () {
 
     return (
         <div>
-            <h3>Edit Account Page</h3>
             {
                 user !== null ? (
                     <div>
