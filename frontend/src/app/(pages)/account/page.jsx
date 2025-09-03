@@ -9,6 +9,8 @@ import LoginForm from "@/forms/accountForms/LoginForm";
 import Link from "next/link";
 import DeleteModal from "@/components/DeleteModal";
 
+import sharedStyles from '@/styles/shared.module.css';
+
 export default function Page() {
     //Get current logged in user details
     const { user, updateUser } = useUser();
@@ -57,18 +59,16 @@ export default function Page() {
                             <p>Theme: {user.theme}</p>
 
                             <p>Recovery Question: {user.recoveryQuestion}</p>
-
-                            <p>Recovery Answer: {user.recoveryAnswer}</p>
                         </div>
 
                         <div id="account-updaters">
-                            <Link key='edit-account-button' href='/account/edit' >
-                                <button>Edit Account Details</button>
-                            </Link>
                             <Link key='change-password-button' href='/account/reset-password'>
-                                <button>Change Password</button>
+                                <button className={`${sharedStyles.btn} ${sharedStyles.medbtn}`} type="button">Change Password</button>
                             </Link>
-                            <button onClick={openDeleteModal}>Delete Account</button>
+                            <Link key='edit-account-button' href='/account/edit' >
+                                <button className={`${sharedStyles.btn} ${sharedStyles.medbtn}`} type="button">Edit Account</button>
+                            </Link>
+                            <button className={`${sharedStyles.btn} ${sharedStyles.medbtn}`} type="button" onClick={openDeleteModal}>Delete Account</button>
                         </div>
 
                         {/* Show delete account confirmation pop up if delete account button clicked */}
