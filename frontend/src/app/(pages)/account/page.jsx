@@ -41,27 +41,28 @@ export default function Page() {
     }
 
     return (
-        <>
+        <div>
+            <h3 className={sharedStyles.sectionheading}>My Account</h3>
             {
                 //Check if a user is authenticated to render relevant page content
                 user !== null ? (
                     //Display user account details if authenticated
                     <div id="acc-details-auth">
-                        <div id="account-details">
-                            <p>First Name: {user.firstname}</p>
+                        <div style={{paddingLeft: '5px'}} id="account-details">
+                            <h4 style={{marginBottom: '0'}}>First Name</h4> <p style={{marginTop: '10px'}}>{user.firstname}</p>
 
-                            <p>Username: {user.username}</p>
+                            <h4 style={{marginBottom: '0'}}>Username</h4> <p style={{marginTop: '10px'}}>{user.username}</p>
 
-                            <p>Birthday: {user.birthdate}</p>
+                            <h4 style={{marginBottom: '0'}}>Birthday</h4> <p style={{marginTop: '10px'}}>{user.birthdate}</p>
 
-                            <p>Default View: {user.defaultView}</p>
+                            <h4 style={{marginBottom: '0'}}>Default View</h4> <p style={{marginTop: '10px'}}>{user.defaultView}</p>
 
-                            <p>Theme: {user.theme}</p>
+                            <h4 style={{marginBottom: '0'}}>Theme</h4> <p style={{marginTop: '10px'}}>{user.theme}</p>
 
-                            <p>Recovery Question: {user.recoveryQuestion}</p>
+                            <h4 style={{marginBottom: '0'}}>Recovery Question</h4> <p style={{marginTop: '10px'}}>{user.recoveryQuestion}</p>
                         </div>
 
-                        <div id="account-updaters">
+                        <div className={sharedStyles.rowflex} style={{justifyContent: 'center'}} id="account-updaters">
                             <Link key='change-password-button' href='/account/reset-password'>
                                 <button className={`${sharedStyles.btn} ${sharedStyles.medbtn}`} type="button">Change Password</button>
                             </Link>
@@ -82,6 +83,6 @@ export default function Page() {
                     </div>
                 )
             }
-        </>
+        </div>
     )
 }

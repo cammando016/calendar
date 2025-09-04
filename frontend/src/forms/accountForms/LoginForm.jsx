@@ -1,11 +1,24 @@
+import styles from '@/styles/forms.module.css';
+import sharedStyles from '@/styles/shared.module.css';
+
 export default function LoginForm ({ form, setForm, submitFunction }) {
     return (
-        <form onSubmit={submitFunction}>
-            <label htmlFor='username'>Username:</label>
-            <input id='username' name='username' placeholder='Enter Your Username' onChange={(e) => setForm({ ...form, username: e.target.value })} />
-            <label htmlFor='password'>Password:</label>
-            <input id='password' name='password' placeholder='Enter Your Password' onChange={(e) => setForm({ ...form, password: e.target.value })} />
-            <button type="submit">Login</button>
-        </form>
+        <div>
+            <h3 className={sharedStyles.sectionheading}>Log In</h3>
+            <form onSubmit={submitFunction}>
+                <fieldset className={styles.fieldset}>
+                    <legend><h4 className={styles.legendHeading}>Account Details</h4></legend>
+                    <div className={sharedStyles.colflex}>
+                        <label className={styles.inputLabel} htmlFor='username'>Username</label>
+                        <input className={styles.formInput} type='text' id='username' name='username' placeholder='Enter Your Username' onChange={(e) => setForm({ ...form, username: e.target.value })} />
+                    </div>
+                    <div className={sharedStyles.colflex}>
+                        <label className={styles.inputLabel} htmlFor='password'>Password</label>
+                        <input className={styles.formInput} type='password' id='password' name='password' placeholder='Enter Your Password' onChange={(e) => setForm({ ...form, password: e.target.value })} />
+                    </div>
+                    <button className={`${sharedStyles.btn} ${sharedStyles.medbtn}`} type="submit">Log In</button>
+                </fieldset>
+            </form>
+        </div>
     )
 }

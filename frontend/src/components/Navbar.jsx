@@ -1,8 +1,10 @@
+"use client"
 //nav bar at the bottom of the page
 import styles from '../styles/layout.module.css'
 import sharedStyles from '../styles/shared.module.css';
 import Link from 'next/link';
 import Image from 'next/image';
+import { usePathname } from 'next/navigation';
 
 // Sign Out: <a href="https://www.flaticon.com/free-icons/check-out" title="check out icons">Check out icons created by apien - Flaticon</a>
 // Group : <a href="https://www.flaticon.com/free-icons/multiple-users" title="multiple users icons">Multiple users icons created by apien - Flaticon</a>
@@ -34,6 +36,9 @@ export default function Navbar ({ user, handleLogout }) {
             href: '/'
         }
     ];
+
+    const currentPage = usePathname();
+
     return (
         // Navigation bar at the bottom of the page
         <div id="site-nav" className={`${styles.navbar} ${styles.layout}`}>
@@ -54,7 +59,7 @@ export default function Navbar ({ user, handleLogout }) {
                                         width={30}
                                         height={30}
                                     />
-                                    <p className={styles.navtext}>{page.name}</p>
+                                    <p className={`${styles.navtext} ${currentPage === page.href ? styles.activeLink : null}`}>{page.name}</p>
                                 </Link>
                             )
                         })
@@ -70,7 +75,7 @@ export default function Navbar ({ user, handleLogout }) {
                                 width={30}
                                 height={30}
                             />
-                            <p className={styles.navtext}>Account</p>
+                            <p className={`${styles.navtext} ${currentPage === '/account' ? styles.activeLink : null}`}>Account</p>
                         </Link>
                         <button onClick={handleLogout} id="nav-signout" style={{paddingTop: 0}} className={`${styles.navitem} ${sharedStyles.colflex} ${sharedStyles.logoutbtn}`}>
                             <Image 
@@ -95,7 +100,7 @@ export default function Navbar ({ user, handleLogout }) {
                                 width={30}
                                 height={30}
                             />
-                            <p className={styles.navtext}>Home</p>
+                            <p className={`${styles.navtext} ${currentPage === '/' ? styles.activeLink : null}`}>Home</p>
                         </Link>
                         <Link 
                             key={'signup'}
@@ -108,7 +113,7 @@ export default function Navbar ({ user, handleLogout }) {
                                 width={30}
                                 height={30}
                             />
-                            <p className={styles.navtext}>Sign Up</p>
+                            <p className={`${styles.navtext} ${currentPage === '/signup' ? styles.activeLink : null}`}>Sign Up</p>
                         </Link>
                         <Link
                             id="nav-signin" 
@@ -122,7 +127,7 @@ export default function Navbar ({ user, handleLogout }) {
                                 width={30}
                                 height={30}
                             />
-                            <p className={styles.navtext}>Log In</p>
+                            <p className={`${styles.navtext} ${currentPage === '/login' ? styles.activeLink : null}`}>Log In</p>
                         </Link>
                     </>
                 )
