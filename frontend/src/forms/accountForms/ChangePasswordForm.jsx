@@ -2,12 +2,16 @@
 import { useState } from 'react';
 import sharedStyles from '../../styles/shared.module.css';
 import styles from '@/styles/forms.module.css';
+import theme from '@/styles/theme.module.css';
 import { getAccountRecovery } from '@/utils/authenticate';
 import { changePassword } from '@/utils/editUser';
 import { useRouter } from 'next/navigation';
+import { useUser } from '@/context/UserContext';
+import Link from 'next/link';
 
 export default function ChangePasswordForm({}) {
     const router = useRouter();
+    const { user } = useUser();
     //Store and update state of user entry into account recovery fields
     const [fieldValues, setFieldValues] = useState({
         recoveryUsername: '',
@@ -62,20 +66,20 @@ export default function ChangePasswordForm({}) {
             <h3 className={sharedStyles.sectionheading}>Change Password</h3>
             <form onSubmit={handleSubmit}>
                 {/* User must enter their username first, to check if it is found in the DB and get recovery question */}
-                <fieldset className={styles.fieldset}>
+                <fieldset className={`${styles.fieldset} ${user ? theme[`fldst${user.theme}`] : theme.fldstgreen}`}>
                     <legend><h4 className={styles.legendHeading}>Account Reset</h4></legend>
                     <div className={sharedStyles.colflex}>
                         <label className={styles.inputLabel} htmlFor='recover-username'>Account Username *</label>
                         <input className={styles.formInput} id='recover-username' type='text' placeholder='Enter the username of the account to reset password for' value={fieldValues.recoveryUsername} onChange={(e) => setFieldValues({...fieldValues, recoveryUsername: e.target.value })} autoFocus />
                     </div>
 
-                    <button className={`${sharedStyles.btn} ${sharedStyles.medbtn}`} onClick={fetchUserRecovery}>Check Username</button>
+                    <button className={`${sharedStyles.btn} ${sharedStyles.medbtn} ${user ? theme[`btn${user.theme}`] : theme.btngreen}`} onClick={fetchUserRecovery}>Check Username</button>
                 </fieldset>
                 {
                     //If the username was found in DB, display recovery question and input to type answer
                     accountDetails.username && (
                         <>
-                            <fieldset className={styles.fieldset}>
+                            <fieldset className={`${styles.fieldset} ${user ? theme[`fldst${user.theme}`] : theme.fldstgreen}`}>
                                 <legend><h4 className={styles.legendHeading}>Account Recovery</h4></legend>
                                 <p>Recovery Question: {accountDetails.recoveryQuestion}</p>
                                 <div className={sharedStyles.colflex}>
@@ -84,7 +88,7 @@ export default function ChangePasswordForm({}) {
                                 </div>
                             </fieldset>
 
-                            <fieldset  className={styles.fieldset}id="set-password" name="Set Password">
+                            <fieldset  className={`${styles.fieldset} ${user ? theme[`fldst${user.theme}`] : theme.fldstgreen}`}id="set-password" name="Set Password">
                                 <legend><h4 className={styles.legendHeading} >Reset Password</h4></legend>
 
                                 <div className={sharedStyles.colflex}>
@@ -106,12 +110,16 @@ export default function ChangePasswordForm({}) {
                                 ) : fieldValues.createPassword !== fieldValues.confirmPassword ? (
                                     <p>Confirm password must match create password</p>
                                 ) : (
-                                    <button className={`${sharedStyles.btn} ${sharedStyles.medbtn}`} type="submit" id="change-password">Change Password</button>
+                                    <button className={`${sharedStyles.btn} ${sharedStyles.medbtn} ${user ? theme[`btn${user.theme}`] : theme.btngreen}`} type="submit" id="change-password">Change Password</button>
                                 )
                             }
                         </> 
                     )
                 }
+
+                <Link href={'/account'}>
+                    <button type='button' className={`${sharedStyles.btn} ${sharedStyles.medbtn} ${user ? theme[`btn${user.theme}`] : theme.btngreen}`}>Cancel</button>
+                </Link>
             </form>
         </div>
     )

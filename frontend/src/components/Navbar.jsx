@@ -2,6 +2,7 @@
 //nav bar at the bottom of the page
 import styles from '../styles/layout.module.css'
 import sharedStyles from '../styles/shared.module.css';
+import theme from '../styles/theme.module.css';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
@@ -51,7 +52,7 @@ export default function Navbar ({ user, handleLogout }) {
                                 <Link
                                     key={page.name.toLowerCase()}
                                     href={page.href}
-                                    className={`${styles.navitem} ${sharedStyles.colflex}`}
+                                    className={`${styles.navitem} ${user ? theme[`nav${user.theme}`] : theme.navgreen} ${sharedStyles.colflex}`}
                                 >
                                     <Image 
                                         src={page.imgSrc}
@@ -59,7 +60,7 @@ export default function Navbar ({ user, handleLogout }) {
                                         width={30}
                                         height={30}
                                     />
-                                    <p className={`${styles.navtext} ${currentPage === page.href ? styles.activeLink : null}`}>{page.name}</p>
+                                    <p className={`${styles.navtext} ${currentPage === page.href ? styles.activeLink : null} ${user ? theme[`activelink${user.theme}`] : theme.activelinkgreen}`}>{page.name}</p>
                                 </Link>
                             )
                         })
@@ -75,7 +76,7 @@ export default function Navbar ({ user, handleLogout }) {
                                 width={30}
                                 height={30}
                             />
-                            <p className={`${styles.navtext} ${currentPage === '/account' ? styles.activeLink : null}`}>Account</p>
+                            <p className={`${styles.navtext} ${currentPage === '/account' ? styles.activeLink : null} ${user ? theme[`activelink${user.theme}`] : theme.activelinkgreen}`}>Account</p>
                         </Link>
                         <button onClick={handleLogout} id="nav-signout" style={{paddingTop: 0}} className={`${styles.navitem} ${sharedStyles.colflex} ${sharedStyles.logoutbtn}`}>
                             <Image 
@@ -100,7 +101,7 @@ export default function Navbar ({ user, handleLogout }) {
                                 width={30}
                                 height={30}
                             />
-                            <p className={`${styles.navtext} ${currentPage === '/' ? styles.activeLink : null}`}>Home</p>
+                            <p className={`${styles.navtext} ${currentPage === '/' ? styles.activeLink : null} ${user ? theme[`activelink${user.theme}`] : theme.activelinkgreen}`}>Home</p>
                         </Link>
                         <Link 
                             key={'signup'}
@@ -113,7 +114,7 @@ export default function Navbar ({ user, handleLogout }) {
                                 width={30}
                                 height={30}
                             />
-                            <p className={`${styles.navtext} ${currentPage === '/signup' ? styles.activeLink : null}`}>Sign Up</p>
+                            <p className={`${styles.navtext} ${currentPage === '/signup' ? styles.activeLink : null} ${user ? theme[`activelink${user.theme}`] : theme.activelinkgreen}`}>Sign Up</p>
                         </Link>
                         <Link
                             id="nav-signin" 
@@ -127,7 +128,7 @@ export default function Navbar ({ user, handleLogout }) {
                                 width={30}
                                 height={30}
                             />
-                            <p className={`${styles.navtext} ${currentPage === '/login' ? styles.activeLink : null}`}>Log In</p>
+                            <p className={`${styles.navtext} ${currentPage === '/login' ? styles.activeLink : null} ${user ? theme[`activelink${user.theme}`] : theme.activelinkgreen}`}>Log In</p>
                         </Link>
                     </>
                 )

@@ -1,0 +1,89 @@
+/* GREEN THEME */
+.btngreen,
+.fldstgreen,
+.activelinkgreen {
+    border-color: lightseagreen;
+}
+
+.btngreen:hover,
+.navgreen:hover,
+.todaygreen {
+    background-color: rgba(46, 139, 87, 20%);
+}
+
+.cardgreen {
+    border-color: seagreen;
+    box-shadow: 2px 2px 3px seagreen;   
+}
+
+/* RED THEME */
+.btnred,
+.fldstred,
+.activelinkred {
+    border-color: rgb(244, 90, 90);
+}
+
+.btnred:hover,
+.navred:hover,
+.todayred {
+    background-color: rgba(244, 90, 90, 20%);
+}
+
+.cardred {
+    border-color: rgb(244, 90, 90);
+    box-shadow: 2px 2px 3px rgb(244, 90, 90);
+}
+
+/* YELLOW THEME */
+.btnyellow,
+.fldstyellow,
+.activelinkyellow {
+    border-color: rgb(255, 255, 0);
+}
+
+.btnyellow:hover,
+.navyellow:hover,
+.todayyellow {
+    background-color: lightgoldenrodyellow;
+}
+
+.cardyellow {
+    border-color: rgb(255, 255, 0);
+    box-shadow: 2px 2px 3px rgb(255, 255, 0);
+}
+
+/* BLUE THEME */
+.btnblue,
+.fldstblue,
+.activelinkblue {
+    border-color: rgb(14, 206, 236);
+}
+
+.btnblue:hover,
+.navblue:hover,
+.todayblue {
+    background-color: lightskyblue;
+}
+
+.cardblue {
+    border-color: rgb(14, 206, 236);
+    box-shadow: 2px 2px 3px rgb(14, 206, 236);
+}
+
+/* PURPLE THEME */
+.btnpurple,
+.fldstpurple,
+.activelinkpurple {
+    border-color: rgb(198, 63, 236);
+}
+
+.btnpurple:hover,
+.navpurple:hover,
+.todaypurple {
+    background-color: lavender;
+}
+
+.cardpurple {
+    border-color: rgb(198, 63, 236);
+    box-shadow: 2px 2px 3px rgb(198, 63, 236);
+}

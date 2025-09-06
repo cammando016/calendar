@@ -1,14 +1,16 @@
 import sharedStyles from '../styles/shared.module.css';
 import styles from '../styles/listedgroup.module.css';
+import theme from '@/styles/theme.module.css';
 import Link from 'next/link';
 import { useGroup } from '@/context/GroupContext';
 import { useEventList } from '@/context/EventListContext';
 import DeleteModal from './DeleteModal';
 import { useState } from 'react';
+import { useUser } from '@/context/UserContext';
 
 export default function ListedGroup ({ group, userCreated, deleteGroup }) {
     const { updateActiveGroup, activeGroup } = useGroup();
-
+    const { user } = useUser();
     // Get array of events for the group
     const { eventList } = useEventList();
     const groupEvents = eventList.filter(evt => evt.eventgroupid === group.groupid);
@@ -33,8 +35,8 @@ export default function ListedGroup ({ group, userCreated, deleteGroup }) {
 
     return (
         //Display group details
-        <div className={`${sharedStyles.rowflex} ${sharedStyles.cardborder} ${styles.group}`}>
-            <div className={sharedStyles.cardcolour} style={{backgroundColor: group.groupcolour, width: '5%'}}></div>
+        <div className={`${sharedStyles.rowflex} ${sharedStyles.cardborder} ${user ? theme[`card${user.theme}`] : theme.cardgreen} ${styles.group}`}>
+            <div className={`${sharedStyles.cardcolour}`} style={{backgroundColor: group.groupcolour, width: '5%'}}></div>
             <div style={{width: '95%'}} className={`${sharedStyles.colflex} ${sharedStyles.cardtext}`}>
                 <div className={sharedStyles.rowflex}>
                     {/* Display group name & creator if not created by logged in user */}
@@ -50,14 +52,14 @@ export default function ListedGroup ({ group, userCreated, deleteGroup }) {
                             <div className={`${sharedStyles.colflex} ${sharedStyles.cardbuttons}`}>
                                 {
                                     userCreated && (
-                                        <div className={`${sharedStyles.rowbtns} ${sharedStyles.rowflex}`}>
-                                            <Link href={`/groups/${group.groupid}`}><button className={`${sharedStyles.medbtn} ${sharedStyles.btn}`} type="button" onClick={handleClickEdit}>Edit</button></Link>
-                                            <button className={`${sharedStyles.medbtn} ${sharedStyles.btn}`} type="button" onClick={openDeleteModal}>Delete</button>
+                                        <div style={{marginBottom: '5px'}} className={`${sharedStyles.rowbtns} ${sharedStyles.rowflex}`}>
+                                            <Link href={`/groups/${group.groupid}`}><button className={`${sharedStyles.medbtn} ${sharedStyles.btn} ${user ? theme[`btn${user.theme}`] : theme.btngreen}`} type="button" onClick={handleClickEdit}>Edit</button></Link>
+                                            <button className={`${sharedStyles.medbtn} ${sharedStyles.btn} ${user ? theme[`btn${user.theme}`] : theme.btngreen}`} type="button" onClick={openDeleteModal}>Delete</button>
                                         </div>
                                     )
                                 }
                                 <div>
-                                    <button className={`${sharedStyles.medbtn} ${sharedStyles.btn}`} type="button" onClick={handleClickMembers}>Toggle Members</button>
+                                    <button className={`${sharedStyles.medbtn} ${sharedStyles.btn} ${user ? theme[`btn${user.theme}`] : theme.btngreen}`} type="button" onClick={handleClickMembers}>Toggle Members</button>
                                 </div>
                             </div>
                         )

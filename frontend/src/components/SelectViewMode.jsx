@@ -1,11 +1,14 @@
 //Form to allow users to change the view mode on homepage for calendar display
 import sharedStyles from '../styles/shared.module.css';
 import styles from '../styles/layout.module.css';
+import theme from '../styles/theme.module.css';
+import { useUser } from '@/context/UserContext';
 
 export default function SelectViewMode ({ viewMode, setViewMode }) {
+    const { user } = useUser();
     return (
         <form>
-          <fieldset id="view-mode" className={`${sharedStyles.rowflex} ${styles.viewselect}`}>
+          <fieldset id="view-mode" className={`${sharedStyles.rowflex} ${styles.viewselect} ${user ? theme[`fldst${user.theme}`] : theme.fldstgreen}`}>
             <legend>View Mode</legend>
             <div>
                 <input type="radio" value="Year" id="year" name="view_mode" checked={viewMode === 'Year'} onChange={() => setViewMode('Year')} />

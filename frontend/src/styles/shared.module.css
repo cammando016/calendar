@@ -21,7 +21,6 @@
 
 .btn {
     background-color: white;
-    border-color: lightseagreen;
     border-width: 1px;
 }
 
@@ -33,10 +32,6 @@
 
 .smallbtn {
     border-radius: 50%;
-}
-
-.btn:hover {
-    background-color: lightcyan;
 }
 
 .logoutbtn {
@@ -59,9 +54,7 @@
 .cardborder {
     border-left-style: solid;
     border-top-style: solid;
-    border-color: seagreen;
     border-width: 0.5px;
-    box-shadow: 2px 2px 3px seagreen;
 }
 
 .cardcolour {

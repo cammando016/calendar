@@ -10,6 +10,7 @@ import Link from "next/link";
 import DeleteModal from "@/components/DeleteModal";
 
 import sharedStyles from '@/styles/shared.module.css';
+import theme from '@/styles/theme.module.css';
 
 export default function Page() {
     //Get current logged in user details
@@ -64,12 +65,12 @@ export default function Page() {
 
                         <div className={sharedStyles.rowflex} style={{justifyContent: 'center'}} id="account-updaters">
                             <Link key='change-password-button' href='/account/reset-password'>
-                                <button className={`${sharedStyles.btn} ${sharedStyles.medbtn}`} type="button">Change Password</button>
+                                <button className={`${sharedStyles.btn} ${sharedStyles.medbtn} ${user ? theme[`btn${user.theme}`] : theme.btngreen}`} type="button">Change Password</button>
                             </Link>
                             <Link key='edit-account-button' href='/account/edit' >
-                                <button className={`${sharedStyles.btn} ${sharedStyles.medbtn}`} type="button">Edit Account</button>
+                                <button className={`${sharedStyles.btn} ${sharedStyles.medbtn} ${user ? theme[`btn${user.theme}`] : theme.btngreen}`} type="button">Edit Account</button>
                             </Link>
-                            <button className={`${sharedStyles.btn} ${sharedStyles.medbtn}`} type="button" onClick={openDeleteModal}>Delete Account</button>
+                            <button className={`${sharedStyles.btn} ${sharedStyles.medbtn} ${user ? theme[`btn${user.theme}`] : theme.btngreen}`} type="button" onClick={openDeleteModal}>Delete Account</button>
                         </div>
 
                         {/* Show delete account confirmation pop up if delete account button clicked */}

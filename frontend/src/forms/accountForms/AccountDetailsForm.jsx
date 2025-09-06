@@ -1,6 +1,7 @@
 //Signup / edit account details form
 import sharedStyles from '../../styles/shared.module.css';
-import formStyles from '../../styles/forms.module.css'
+import formStyles from '../../styles/forms.module.css';
+import theme from '../../styles/theme.module.css';
 import Link from "next/link";
 
 export default function AccountDetailsForm ({registerAccount, submitFunc, setFormFunc, form, submitDisabled, createPassword, updatePassword, user}) {
@@ -10,15 +11,15 @@ export default function AccountDetailsForm ({registerAccount, submitFunc, setFor
                 registerAccount ? 
                 <div className={`${sharedStyles.sectionheading} ${sharedStyles.rowflex}`}>
                     <h3>Sign-Up</h3>
-                    <button className={`${sharedStyles.btn} ${sharedStyles.medbtn}`} type="submit" disabled={submitDisabled}>Create Account</button>
+                    <button form='account' className={`${sharedStyles.btn} ${sharedStyles.medbtn} ${theme[`btn${form.usertheme}`]}`} type="submit" disabled={submitDisabled}>Create Account</button>
                 </div>
                 :
                 <div className={`${sharedStyles.sectionheading} ${sharedStyles.rowflex}`}>
                     <h3>Update Account</h3>
                 </div>
             }
-            <form onSubmit={submitFunc}>
-                <fieldset className={formStyles.fieldset} >
+            <form id='account' onSubmit={submitFunc}>
+                <fieldset className={`${formStyles.fieldset} ${theme[`fldst${form.usertheme}`]}`} >
                     <legend><h4 className={formStyles.legendHeading}>User Details</h4></legend>
                     {
                         registerAccount && (
@@ -47,11 +48,17 @@ export default function AccountDetailsForm ({registerAccount, submitFunc, setFor
                     {/* User theme currently inactive, only default theme in use initially */}
                     <div className={sharedStyles.colflex}>
                         <label className={formStyles.formLabel} htmlFor="account-theme">Theme *</label>
-                        <input className={`${formStyles.formInput} ${form.usertheme === '' ? formStyles.invalidInput : formStyles.validInput }`} placeholder={!registerAccount ? `${user.theme}` : undefined } type="text" id="account-theme" name="account-theme" value={form.usertheme} required disabled />
+                        <select className={`${formStyles.formInput} ${form.usertheme === '' ? formStyles.invalidInput : formStyles.validInput }`} placeholder={!registerAccount ? `${user.theme}` : 'Select your colour theme' } id="account-theme" name="account-theme" size="1" value={form.usertheme} onChange={(e) => setFormFunc({...form, usertheme: e.target.value.toLowerCase()})} required>
+                            <option value='blue'>Blue</option>
+                            <option value='green'>Green</option>
+                            <option value='purple'>Purple</option>
+                            <option value='red'>Red</option>
+                            <option value='yellow'>Yellow</option>
+                        </select>
                     </div>
                 </fieldset>
 
-                <fieldset className={formStyles.fieldset} id="account-recovery" name="Account Recovery">
+                <fieldset className={`${formStyles.fieldset} ${theme[`fldst${form.usertheme}`]}`} id="account-recovery" name="Account Recovery">
                     <legend><h4 className={formStyles.legendHeading}>Account Recovery</h4></legend>
                     <div className={sharedStyles.colflex}>
                         <label className={formStyles.formLabel} htmlFor="recovery-question">Recovery Question *</label>
@@ -68,7 +75,7 @@ export default function AccountDetailsForm ({registerAccount, submitFunc, setFor
                     //Show create and confirm password fields only if it is in the create account page.
                     registerAccount ? (
                         <>
-                            <fieldset className={formStyles.fieldset} id="set-password" name="Set Password">
+                            <fieldset className={`${formStyles.fieldset} ${theme[`fldst${form.usertheme}`]}`} id="set-password" name="Set Password">
                                 <legend><h4 className={formStyles.legendHeading}>Password</h4></legend>
                                 <div className={sharedStyles.colflex}>
                                     <label className={formStyles.formLabel} htmlFor="create-password">Create Password *</label>
@@ -86,9 +93,9 @@ export default function AccountDetailsForm ({registerAccount, submitFunc, setFor
                     ) : (
                         <div className={`${sharedStyles.rowflex}`} id='edit-account-form-buttons'>
                             <Link key='cancel-account-update' href='/account'>
-                                <button className={`${sharedStyles.btn} ${sharedStyles.medbtn}`} type='button'>Cancel Changes</button>
+                                <button className={`${sharedStyles.btn} ${sharedStyles.medbtn} ${theme[`btn${form.usertheme}`]}`} type='button'>Cancel Changes</button>
                             </Link>
-                            <button className={`${sharedStyles.btn} ${sharedStyles.medbtn}`} type="submit" disabled={submitDisabled}>Update Account</button>
+                            <button className={`${sharedStyles.btn} ${sharedStyles.medbtn} ${theme[`btn${form.usertheme}`]}`} type="submit" disabled={submitDisabled}>Update Account</button>
                         </div>
                     )
                 }

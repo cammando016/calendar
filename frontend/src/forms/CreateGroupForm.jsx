@@ -2,6 +2,7 @@
 //Create group form, store form inputs in createGroupForm state object defined in /groups/create page component
 import sharedStyles from '../styles/shared.module.css';
 import styles from '../styles/forms.module.css';
+import theme from '../styles/theme.module.css';
 import { useState } from 'react';
 import Link from 'next/link';
 
@@ -30,7 +31,7 @@ export default function CreateGroupForm ({submitGroupFunc, createGroupForm, setG
                 <h3>{submitText}</h3>
             </div>
             <form id='create-group' onSubmit={submitGroupFunc}>
-                <fieldset className={styles.fieldset}>
+                <fieldset className={`${styles.fieldset} ${user ? theme[`fldst${user.theme}`] : theme.fldstgreen}`}>
                     <div className={sharedStyles.colflex}>
                         <label className={styles.formLabel} htmlFor="group-name">Group Name *</label>
                         <input className={styles.formInput} type="text" id="group-name" name="group-name" placeholder={ editableGroup ? editableGroup.groupname : 'Enter name for new group.' }  value={createGroupForm.groupName} onChange={(e) => setGroupForm({...createGroupForm, groupName: e.target.value})} required autoFocus />
@@ -50,7 +51,7 @@ export default function CreateGroupForm ({submitGroupFunc, createGroupForm, setG
                                     newMember === user.username ? (
                                         <p style={{margin: '0'}}><em>Group creator cannot be added to group as a member.</em></p>
                                     ) : (
-                                        <button className={`${sharedStyles.btn} ${sharedStyles.medbtn}`} type='button' onClick={addMember}>Add To Member List</button>
+                                        <button className={`${sharedStyles.btn} ${sharedStyles.medbtn} ${user ? theme[`btn${user.theme}`] : theme.btngreen}`} type='button' onClick={addMember}>Add To Member List</button>
                                     )
                                 }
                             </div>
@@ -59,8 +60,8 @@ export default function CreateGroupForm ({submitGroupFunc, createGroupForm, setG
                 </fieldset>
 
                 <div>
-                    <Link href='/groups'><button type='button' className={`${sharedStyles.btn} ${sharedStyles.medbtn}`}>Cancel</button></Link>
-                    <button className={`${sharedStyles.btn} ${sharedStyles.medbtn}`} type="submit">{submitText}</button>  
+                    <Link href='/groups'><button type='button' className={`${sharedStyles.btn} ${sharedStyles.medbtn} ${user ? theme[`btn${user.theme}`] : theme.btngreen}`}>Cancel</button></Link>
+                    <button className={`${sharedStyles.btn} ${sharedStyles.medbtn} ${user ? theme[`btn${user.theme}`] : theme.btngreen}`} type="submit">{submitText}</button>  
                 </div>
                 
             </form>
@@ -73,8 +74,8 @@ export default function CreateGroupForm ({submitGroupFunc, createGroupForm, setG
                 {
                     addedUsers.filter(users => (users !== user.username)).map((addedUser, i) => {
                         return (
-                            <div key={addedUser} className={`${styles.memberList} ${sharedStyles.rowflex} ${sharedStyles.cardborder} ${sharedStyles.cardcolour}`}>
-                                    <button className={`${sharedStyles.btn} ${sharedStyles.smallbtn}`} type='button' onClick={() => removeMember(i)}>X</button>
+                            <div key={addedUser} className={`${styles.memberList} ${sharedStyles.rowflex} ${sharedStyles.cardborder}  ${user ? theme[`card${user.theme}`] : theme.cardgreen} ${sharedStyles.cardcolour}`}>
+                                    <button className={`${sharedStyles.btn} ${sharedStyles.smallbtn} ${user ? theme[`btn${user.theme}`] : theme.btngreen}`} type='button' onClick={() => removeMember(i)}>X</button>
                                     <p className={styles.memberName}>{addedUser}</p>
                             </div>
                         )

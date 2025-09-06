@@ -1,13 +1,16 @@
 import Link from "next/link"
 import sharedStyles from '../styles/shared.module.css'
 import styles from '../styles/forms.module.css';
+import theme from '@/styles/theme.module.css';
+import { useUser } from "@/context/UserContext";
 
 export default function AddEventForm ({ groupList, form, setForm, submitFunc, edit, submitDisabled }) {
+    const { user } = useUser();
     return (
         <div>
             <h3 className={sharedStyles.sectionheading}>{ edit ? 'Edit Event' : 'Create Event' }</h3>
             <form onSubmit={submitFunc} style={{overflowY: scroll, maxHeight: '65dvh'}}>
-                <fieldset className={styles.fieldset}>
+                <fieldset className={`${styles.fieldset} ${user ? theme[`fldst${user.theme}`] : theme.fldstgreen}`}>
                     <legend className={styles.legendHeading}>Event Details</legend>
                     <div className={sharedStyles.colflex}>
                         <label className={styles.formLabel} htmlFor="event-name">Event Name *</label>
@@ -18,27 +21,27 @@ export default function AddEventForm ({ groupList, form, setForm, submitFunc, ed
                         <p style={{marginBottom: '0'}}>Event Type *</p>
                         <div className={sharedStyles.rowflex}>
                             <input className={styles.formInput} type='radio' name="event-type" id="activity" value='activity' checked={form.eventType === 'activity' ? true : false} onChange={(e) => setForm({ ...form, eventType: e.target.value })} required />
-                            <label className={styles.formLabel} htmlFor="activity">Activity</label>
+                            <label className={styles.formLabel} style={{marginLeft: '5px'}} htmlFor="activity">Activity</label>
                         </div>
 
                         <div className={sharedStyles.rowflex}>
                             <input className={styles.formInput} type='radio' name="event-type" id="house" value='house' checked={form.eventType === 'house' ? true : false} onChange={(e) => setForm({ ...form, eventType: e.target.value })} />
-                            <label className={styles.formLabel} htmlFor="house">At Home</label>
+                            <label className={styles.formLabel} style={{marginLeft: '5px'}} htmlFor="house">At Home</label>
                         </div>
 
                         <div className={sharedStyles.rowflex}>
                             <input className={styles.formInput} type='radio' name="event-type" id="birthday" value='birthday' checked={form.eventType === 'birthday' ? true : false} onChange={(e) => setForm({ ...form, eventType: e.target.value })} />
-                            <label className={styles.formLabel} htmlFor="birthday">Birthday</label>
+                            <label className={styles.formLabel} style={{marginLeft: '5px'}} htmlFor="birthday">Birthday</label>
                         </div>
 
                         <div className={sharedStyles.rowflex}>
                             <input className={styles.formInput} type='radio' name="event-type" id="travel" value='travel' checked={form.eventType === 'travel' ? true : false} onChange={(e) => setForm({ ...form, eventType: e.target.value })} />
-                            <label className={styles.formLabel} htmlFor="travel">Travel</label>
+                            <label className={styles.formLabel} style={{marginLeft: '5px'}} htmlFor="travel">Travel</label>
                         </div>
 
                         <div className={sharedStyles.rowflex}>
                             <input className={styles.formInput} type='radio' name="event-type" id="other" value='other' checked={(form.eventType !== 'activity' && form.eventType !== 'house' && form.eventType !== 'birthday' && form.eventType !== 'travel') ? true : false} onChange={(e) => setForm({ ...form, eventType: e.target.value })} />
-                            <label className={styles.formLabel} htmlFor="other">Other</label>
+                            <label className={styles.formLabel} style={{marginLeft: '5px'}} htmlFor="other">Other</label>
                         </div>
                         {
                             (form.eventType !== 'activity' && form.eventType !== 'house' && form.eventType !== 'birthday' && form.eventType !== 'travel') && (
@@ -68,7 +71,7 @@ export default function AddEventForm ({ groupList, form, setForm, submitFunc, ed
                     }
                 </fieldset>
 
-                <fieldset className={styles.fieldset}>
+                <fieldset className={`${styles.fieldset} ${user ? theme[`fldst${user.theme}`] : theme.fldstgreen}`}>
                     <legend className={styles.legendHeading}>Event Times</legend>
                     <div className={sharedStyles.colflex}>
                         <label className={styles.formLabel} htmlFor="event-start">Event Start *</label>
@@ -82,12 +85,12 @@ export default function AddEventForm ({ groupList, form, setForm, submitFunc, ed
                 </fieldset>
 
                 <div>
-                    <Link href='/events'><button className={`${sharedStyles.btn} ${sharedStyles.medbtn}`} type="button">Cancel</button></Link>
+                    <Link href='/events'><button className={`${sharedStyles.btn} ${sharedStyles.medbtn} ${user ? theme[`btn${user.theme}`] : theme.btngreen}`} type="button">Cancel</button></Link>
                     {
                         submitDisabled ? (
                             <p>No details changed.</p>
                         ) : (
-                            <button className={`${sharedStyles.btn} ${sharedStyles.medbtn}`} type="submit"> { edit ? 'Edit Event' : 'Create Event' } </button>
+                            <button className={`${sharedStyles.btn} ${sharedStyles.medbtn} ${user ? theme[`btn${user.theme}`] : theme.btngreen}`} type="submit"> { edit ? 'Edit Event' : 'Create Event' } </button>
                         )
                     }
                 </div>

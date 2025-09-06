@@ -7,6 +7,7 @@ import ListedGroup from "@/components/ListedGroup";
 import { deleteGroup } from "@/utils/createGroup";
 import { useGroupList } from "@/context/GroupListContext";
 import sharedStyles from '@/styles/shared.module.css';
+import theme from '@/styles/theme.module.css';
 import Pagination from "@/components/Pagination";
 import { incrementPage, decrementPage, firstPage, lastPage } from "@/utils/pagination";
 
@@ -39,7 +40,7 @@ export default function Page() {
             <div className={sharedStyles.overflow}>
                 <div className={`${sharedStyles.sectionheading} ${sharedStyles.rowflex}`}>
                     <h4>Created groups</h4>
-                    <Link href={'/groups/create'}><button type="button" className={`${sharedStyles.btn} ${sharedStyles.medbtn}`}>Create Group</button></Link>
+                    <Link href={'/groups/create'}><button type="button" className={`${sharedStyles.btn} ${sharedStyles.medbtn} ${user ? theme[`btn${user.theme}`] : theme.btngreen}`}>Create Group</button></Link>
                 </div>
                 {
                     user ? (

@@ -2,8 +2,11 @@
 import { useState, useEffect, useRef } from "react"
 import styles from '../styles/utils.module.css';
 import sharedStyles from '../styles/shared.module.css';
+import theme from '@/styles/theme.module.css';
+import { useUser } from "@/context/UserContext";
 
 export default function DeleteModal({ closeDelete, handleDelete, deleteMessage }) {
+    const { user } = useUser();
     //Force user to click checkbox to confirm they want to delete account before delete button is enabled
     const [allowDelete, setAllowDelete] = useState(false);
     const toggleAllowDelete = () => setAllowDelete(!allowDelete);
@@ -34,15 +37,15 @@ export default function DeleteModal({ closeDelete, handleDelete, deleteMessage }
     }
     
     return (
-        <dialog className={`${sharedStyles.colflex} ${sharedStyles.cardborder} ${sharedStyles.cardcolour} ${styles.modal}`} ref={dialogRef} onCancel={handleCancelDelete} id="delete-acc-modal">
+        <dialog className={`${sharedStyles.colflex} ${sharedStyles.cardborder} ${sharedStyles.cardcolour} ${styles.modal} ${user ? theme[`card${user.theme}`] : theme.cardgreen}`} ref={dialogRef} onCancel={handleCancelDelete} id="delete-acc-modal">
             <p>{deleteMessage}</p>
             <div>
                 <input type='checkbox' id="confirm-delete" onChange={toggleAllowDelete} />
                 <label htmlFor="confirm-delete">I understand deletion is irreversible and wish to proceed.</label>
             </div>
             <div className={sharedStyles.rowflex} style={{justifyContent: 'center', margin: '15px'}}>
-                <button className={`${sharedStyles.btn} ${sharedStyles.medbtn}`} type="button" onClick={handleCancelDelete}>Cancel Deletion</button>
-                <button className={`${sharedStyles.btn} ${sharedStyles.medbtn}`} type="button" disabled={!allowDelete} onClick={handleDelete}>Confirm Deletion</button>
+                <button className={`${sharedStyles.btn} ${sharedStyles.medbtn} ${user ? theme[`btn${user.theme}`] : theme.btngreen}`} type="button" onClick={handleCancelDelete}>Cancel Deletion</button>
+                <button className={`${sharedStyles.btn} ${sharedStyles.medbtn} ${user ? theme[`btn${user.theme}`] : theme.btngreen}`} type="button" disabled={!allowDelete} onClick={handleDelete}>Confirm Deletion</button>
             </div>
         </dialog>
     )

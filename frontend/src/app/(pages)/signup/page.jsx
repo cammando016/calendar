@@ -9,7 +9,7 @@ import AccountDetailsForm from "@/forms/accountForms/AccountDetailsForm";
 export default function Page() {
     //State object to store form input values for submission to DB
     const [signupForm, setSignupForm] = useState({
-        username: '', password: '', defaultview: 'month', recquestion: '', recanswer: '', birthdate: '', firstname: '', usertheme: 'default'
+        username: '', password: '', defaultview: 'month', recquestion: '', recanswer: '', birthdate: '', firstname: '', usertheme: 'blue'
     });
     //State variable for the create password field, used to compare with confirm password
     const [createPassword, setCreatePassword] = useState("");

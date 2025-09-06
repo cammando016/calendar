@@ -1,19 +1,20 @@
 //Reusable component to display each individual day in "month" view mode
 import styles from '../styles/dayofmonth.module.css';
 import sharedStyles from '../styles/shared.module.css';
+import theme from '../styles/theme.module.css';
 import { useEventList } from '@/context/EventListContext';
 import { matchDates } from '@/utils/eventUtils';
 import Link from 'next/link';
-
-// ${(new Date).getMonth() === dateObject.getMonth() ? '' : styles.offmonth} 
+import { useUser } from '@/context/UserContext';
 
 export default function DayOfMonth({ date, inCurrentMonth }) {
     const dateObject = new Date(date);
     const { eventList } = useEventList();
     const dailyEvents = eventList.filter(listedEvent => matchDates(dateObject, listedEvent.eventstarttime.slice(0, 10)));
+    const { user } = useUser();
 
     return (
-        <div className={`${sharedStyles.cardborder} ${styles.dayofmonth} ${sharedStyles.rowflex} ${inCurrentMonth ? '' : styles.offmonth} ${matchDates(new Date(), dateObject) ? styles.today : ''}`}>
+        <div className={`${sharedStyles.cardborder} ${user ? theme[`card${user.theme}`] : theme.cardgreen} ${styles.dayofmonth} ${sharedStyles.rowflex} ${inCurrentMonth ? '' : styles.offmonth} ${matchDates(new Date(), dateObject) ? user ? theme[`today${user.theme}`] : theme.todaygreen : ''}`}>
             {/* Display dot icons for list of events user is part of for the day */}
             {
                 dailyEvents.length > 0 && (
@@ -37,7 +38,7 @@ export default function DayOfMonth({ date, inCurrentMonth }) {
                 <div className={`${styles.row} ${styles.bottomrow}`}>
                     {/* Add event to selected date */}
                     <div className="add-event">
-                        <Link style={{textDecoration: 'none'}} href={`/events/create/${date}`}><button style={{width: '5vw', height: '5vw', display: 'flex', justifyContent: 'center', alignItems: 'center'}} className={`${sharedStyles.btn} ${sharedStyles.smallbtn}`}>+</button></Link>
+                        <Link style={{textDecoration: 'none'}} href={`/events/create/${date}`}><button style={{width: '5vw', height: '5vw', display: 'flex', justifyContent: 'center', alignItems: 'center'}} className={`${sharedStyles.btn} ${sharedStyles.smallbtn} ${user ? theme[`btn${user.theme}`] : theme.btngreen }`}>+</button></Link>
                     </div>  
                 </div>
             </div>

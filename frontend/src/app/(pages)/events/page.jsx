@@ -7,6 +7,7 @@ import { useState } from "react";
 import DeleteModal from "@/components/DeleteModal"
 import { deleteEvent } from "@/utils/eventUtils"
 import sharedStyles from '@/styles/shared.module.css';
+import theme from '@/styles/theme.module.css';
 import Pagination from "@/components/Pagination"
 import { incrementPage, decrementPage, firstPage, lastPage } from "@/utils/pagination"
 
@@ -62,7 +63,7 @@ export default function Page() {
                 <div id="event-list-user-created">
                     <div className={`${sharedStyles.rowflex} ${sharedStyles.sectionheading}`}>
                         <h4>Created Events</h4>
-                        <Link href='/events/create'><button type='button' className={`${sharedStyles.btn} ${sharedStyles.medbtn}`}>Create Event</button></Link>
+                        <Link href='/events/create'><button type='button' className={`${sharedStyles.btn} ${sharedStyles.medbtn} ${user ? theme[`btn${user.theme}`] : theme.btngreen}`}>Create Event</button></Link>
                     </div>
                     {
                         createdEvents.slice(createdPageNum * 3, (createdPageNum + 1) * 3).map(evt => {
