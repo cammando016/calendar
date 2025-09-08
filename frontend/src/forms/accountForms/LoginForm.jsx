@@ -1,6 +1,7 @@
 import styles from '@/styles/forms.module.css';
 import sharedStyles from '@/styles/shared.module.css';
 import theme from '@/styles/theme.module.css';
+import Link from 'next/link';
 
 export default function LoginForm ({ form, setForm, submitFunction }) {
     return (
@@ -17,7 +18,12 @@ export default function LoginForm ({ form, setForm, submitFunction }) {
                         <label className={styles.inputLabel} htmlFor='password'>Password</label>
                         <input className={styles.formInput} type='password' id='password' name='password' placeholder='Enter Your Password' onChange={(e) => setForm({ ...form, password: e.target.value })} />
                     </div>
-                    <button className={`${sharedStyles.btn} ${sharedStyles.medbtn} ${theme.btngreen}`} type="submit">Log In</button>
+                    <div className={sharedStyles.rowflex}>
+                        <button className={`${sharedStyles.btn} ${sharedStyles.medbtn} ${theme.btngreen}`} type="submit">Log In</button>
+                        <Link key='change-password-button' href='/account/reset-password'>
+                            <button className={`${sharedStyles.btn} ${sharedStyles.medbtn} ${theme.btngreen}`} type="button">Change Password</button>
+                        </Link>
+                    </div>
                 </fieldset>
             </form>
         </div>
