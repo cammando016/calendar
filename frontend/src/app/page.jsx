@@ -27,9 +27,9 @@ export default function Page() {
       {/* User input to switch view mode */}
       <SelectViewMode viewMode={viewMode} setViewMode={updateViewMode} />
       {
-        viewMode === 'Year' ? (
+        viewMode === 'year' ? (
           <Year date={date.toDateString()}/>
-        ) : viewMode === 'Month' ? (
+        ) : viewMode === 'month' ? (
           <Month date={date.toDateString()} />
         ) : (
           <Week date={date.toDateString()}/>

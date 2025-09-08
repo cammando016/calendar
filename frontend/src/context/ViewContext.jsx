@@ -1,9 +1,15 @@
 //Create context to change view mode between yearly, monthly and weekly
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 const ViewContext = createContext();
+import { useUser } from "./UserContext";
 
 export const ViewProvider = ({ children }) => {
-    const [viewMode, setViewMode] = useState('Month');
+    const { user } = useUser()
+    const [viewMode, setViewMode] = useState(user?.defaultView || 'month');
+
+    useEffect(() => {
+        user ? setViewMode(user.defaultView) : setViewMode('month');
+    }, [user]);
 
     const updateViewMode = (newMode) => setViewMode(newMode);
 
