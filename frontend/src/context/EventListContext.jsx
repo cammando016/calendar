@@ -17,7 +17,6 @@ export const EventListProvider = ({ children }) => {
             const res = await fetchEvents(user.username);
             if (res.eventList) {
                 setEventList(res.eventList);
-                console.log(res.eventList);
             } else {
                 throw new Error ({message: 'Error fetching events'});
             }

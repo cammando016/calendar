@@ -3,14 +3,15 @@
 import sharedStyles from '../styles/shared.module.css';
 import styles from '../styles/forms.module.css';
 import theme from '../styles/theme.module.css';
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import Link from 'next/link';
+import { compareMemberArrays } from '@/utils/createGroup';
 
 export default function CreateGroupForm ({submitGroupFunc, createGroupForm, setGroupForm, addedUsers, setAddedUsers, user, editableGroup}) {
     //Empty array that will update with users added to the group before submitting
     const [newMember, setNewMember] = useState('');
-
     const submitText = editableGroup ? 'Edit Group' : 'Create Group';
+    const existingMembers = editableGroup ? editableGroup.members.map(member => member.username) : null;
 
     const addMember = (e) => {
         e.preventDefault()
@@ -22,8 +23,28 @@ export default function CreateGroupForm ({submitGroupFunc, createGroupForm, setG
     }
 
     const removeMember = (removedUser) => {
-        setAddedUsers(addedUsers.filter(user => (user != addedUsers[removedUser])));
+        setAddedUsers(addedUsers.filter(user => (user != removedUser)));
     }
+
+    const validForm = useMemo (() => {
+        if (editableGroup) {
+            return (
+                createGroupForm.groupName.trim() !== '' && 
+                addedUsers.length > 1 &&
+                (
+                    createGroupForm.groupName.trim() !== editableGroup.groupname.trim() ||
+                    !compareMemberArrays(addedUsers, existingMembers) ||
+                    createGroupForm.groupColour != editableGroup.groupcolour
+                )
+            );
+        }
+        else {
+            return (
+                createGroupForm.groupName.trim() !== '' && 
+                addedUsers.length > 0
+            )
+        }
+    }, [createGroupForm.groupName, createGroupForm.groupColour, addedUsers, existingMembers, editableGroup]);
 
     return (
         <div>
@@ -34,7 +55,8 @@ export default function CreateGroupForm ({submitGroupFunc, createGroupForm, setG
                 <fieldset className={`${styles.fieldset} ${user ? theme[`fldst${user.theme}`] : theme.fldstgreen}`}>
                     <div className={sharedStyles.colflex}>
                         <label className={styles.formLabel} htmlFor="group-name">Group Name *</label>
-                        <input className={styles.formInput} type="text" id="group-name" name="group-name" placeholder={ editableGroup ? editableGroup.groupname : 'Enter name for new group.' }  value={createGroupForm.groupName} onChange={(e) => setGroupForm({...createGroupForm, groupName: e.target.value})} required autoFocus />
+                        <input className={`${styles.formInput} ${createGroupForm.groupName === '' ? styles.invalidInput : null}`} maxLength={18} type="text" id="group-name" name="group-name" placeholder={ editableGroup ? editableGroup.groupname : 'Enter name for new group.' }  value={createGroupForm.groupName} onChange={(e) => setGroupForm({...createGroupForm, groupName: e.target.value})} required autoFocus />
+                        <p className={`${createGroupForm.groupName === '' ? styles.invalidMessage : styles.validMessage}`}><em>Group name must not be empty</em></p>
                     </div>
 
                     <div className={sharedStyles.colflex}>
@@ -43,39 +65,40 @@ export default function CreateGroupForm ({submitGroupFunc, createGroupForm, setG
                     </div>
 
                     <div className={sharedStyles.colflex}>
-                        <label className={styles.formLabel} htmlFor="group-members">Group Members - Minimum 1 required *</label>
+                        <label className={styles.formLabel} htmlFor="group-members">Group Members *</label>
                         <div className={sharedStyles.colflex}>
-                            <input className={styles.formInput} type="text" id="group-members" name="group-members" value={newMember} placeholder='Enter username for new member.' onChange={(e) => setNewMember(e.target.value)} />
-                            <div style={{marginTop: '10px'}}>
+                            <input className={`${styles.formInput} ${addedUsers.length === 0 ? styles.invalidInput : null}`} type="text" id="group-members" name="group-members" value={newMember} placeholder='Enter username for new member.' onChange={(e) => setNewMember(e.target.value)} />
+                            <div>
                                 {
                                     newMember === user.username ? (
-                                        <p style={{margin: '0'}}><em>Group creator cannot be added to group as a member.</em></p>
+                                        <p className={`${styles.invalidMessage}`}><em>Group creator cannot be added to group as a member</em></p>
                                     ) : (
-                                        <button className={`${sharedStyles.btn} ${sharedStyles.medbtn} ${user ? theme[`btn${user.theme}`] : theme.btngreen}`} type='button' onClick={addMember}>Add To Member List</button>
+                                        <button className={`${sharedStyles.btn} ${sharedStyles.medbtn} ${user ? theme[`btn${user.theme}`] : theme.btngreen}`} type='button' onClick={addMember} disabled={newMember === ''}>Add To Member List</button>
                                     )
                                 }
                             </div>
+                            <p className={`${addedUsers.length <= (editableGroup ? 1 : 0) ? styles.invalidMessage : styles.validMessage}`}><em>Group must have at least 1 member</em></p>
                         </div>
                     </div>
                 </fieldset>
 
                 <div>
                     <Link href='/groups'><button type='button' className={`${sharedStyles.btn} ${sharedStyles.medbtn} ${user ? theme[`btn${user.theme}`] : theme.btngreen}`}>Cancel</button></Link>
-                    <button className={`${sharedStyles.btn} ${sharedStyles.medbtn} ${user ? theme[`btn${user.theme}`] : theme.btngreen}`} type="submit">{submitText}</button>  
+                    <button className={`${sharedStyles.btn} ${sharedStyles.medbtn} ${user ? theme[`btn${user.theme}`] : theme.btngreen}`} type="submit" disabled={!validForm}>{submitText}</button>  
                 </div>
                 
             </form>
 
             <div>
                 {
-                    addedUsers.length > 0 && <h4 style={{paddingLeft: '5px', marginTop: '20px', marginBottom: '10px'}}>Added Members</h4>
+                    addedUsers.length > (editableGroup ? 1 : 0) && <h4 style={{paddingLeft: '5px', marginTop: '20px', marginBottom: '10px'}}>Added Members</h4>
                 }
                 <div className={`${sharedStyles.overflowsmall}`}>
                 {
                     addedUsers.filter(users => (users !== user.username)).map((addedUser, i) => {
                         return (
                             <div key={addedUser} className={`${styles.memberList} ${sharedStyles.rowflex} ${sharedStyles.cardborder}  ${user ? theme[`card${user.theme}`] : theme.cardgreen} ${sharedStyles.cardcolour}`}>
-                                    <button className={`${sharedStyles.btn} ${sharedStyles.smallbtn} ${user ? theme[`btn${user.theme}`] : theme.btngreen}`} type='button' onClick={() => removeMember(i)}>X</button>
+                                    <button className={`${sharedStyles.btn} ${sharedStyles.smallbtn} ${user ? theme[`btn${user.theme}`] : theme.btngreen}`} type='button' onClick={() => removeMember(addedUser)}>X</button>
                                     <p className={styles.memberName}>{addedUser}</p>
                             </div>
                         )

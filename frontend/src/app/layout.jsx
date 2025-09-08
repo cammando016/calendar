@@ -16,8 +16,6 @@ function LayoutContent({ children }) {
   //Get user if authenticated
   const { user } = useUser();
 
-  console.log(user);
-
   return (
     <html>
       <body className={styles.body}>

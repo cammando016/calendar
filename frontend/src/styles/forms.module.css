@@ -22,6 +22,16 @@
     border-color: red;
 }
 
+.invalidMessage {
+    color: red;
+    font-size: smaller;
+    margin: 5px 0;
+}
+
+.validMessage {
+    display: none;
+}
+
 .fieldset {
     border-radius: 10px;
     margin-bottom: 5px;
