@@ -1,6 +1,7 @@
 .formInput {
     border-style: solid;
     border-radius: 5px;
+    border-width: 2px;
     height: 20px;
     margin: 5px 0;
 }
