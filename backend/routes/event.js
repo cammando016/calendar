@@ -46,14 +46,20 @@ router.get('/events', async (req, res) => {
         const userQuery = await pool.query('SELECT userid FROM users WHERE username = $1', [username]);
         const userQueryId = userQuery.rows[0].userid;
 
+        const firstOfMonth = new Date();
+        firstOfMonth.setDate(1);
+        firstOfMonth.setHours(0,0,0,0);
+
         const events = await pool.query(
             `SELECT e.eventcreationdate, e.eventendtime, e.eventid, e.eventname, e.eventnotes, e.eventstarttime, e.eventtype, e.eventgroupid, u.username, g.groupname, g.groupcolour
             FROM events e
             JOIN user_groups ug ON e.eventgroupid = ug.groupid
             JOIN users u ON e.eventcreatorid = u.userid
             JOIN groups g ON e.eventgroupid = g.groupid
-            WHERE ug.userid = $1`,
-            [userQueryId]
+            WHERE ug.userid = $1
+            AND e.eventstarttime >= $2
+            ORDER BY e.eventstarttime ASC`,
+            [userQueryId, firstOfMonth]
         );
 
         return res.status(200).json({
