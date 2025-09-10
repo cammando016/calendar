@@ -26,7 +26,7 @@ export default function AddEventForm ({ groupList, form, setForm, submitFunc, ed
                     <legend><h4 className={styles.legendHeading}>Event Details</h4></legend>
                     <div className={sharedStyles.colflex}>
                         <label className={styles.formLabel} htmlFor="event-name">Event Name *</label>
-                        <input className={`${styles.formInput} ${form.eventName === '' ? styles.invalidInput : null}`} maxLength={18} type="text" placeholder="Event Name" id="event-name" name="event-name" value={form.eventName} onChange={(e) => setForm({ ...form, eventName: e.target.value.trim()})} required autoFocus />
+                        <input className={`${styles.formInput} ${form.eventName === '' ? styles.invalidInput : null}`} maxLength={18} type="text" placeholder="Event Name" id="event-name" name="event-name" value={form.eventName} onChange={(e) => setForm({ ...form, eventName: e.target.value})} required autoFocus />
                         <p className={form.eventName === '' ? styles.invalidMessage : styles.validMessage}><em>Event name is required</em></p>
                     </div>
 

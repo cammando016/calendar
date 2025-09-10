@@ -51,9 +51,9 @@ export default function AccountDetailsForm ({registerAccount, submitFunc, setFor
                         <select className={`${formStyles.formInput} ${form.usertheme === '' ? formStyles.invalidInput : null }`} placeholder={!registerAccount ? `${user.theme}` : 'Select your colour theme' } id="account-theme" name="account-theme" size="1" value={form.usertheme} onChange={(e) => setFormFunc({...form, usertheme: e.target.value.toLowerCase()})} required>
                             <option value='blue'>Blue</option>
                             <option value='green'>Green</option>
+                            <option value='orange'>Orange</option>
                             <option value='purple'>Purple</option>
                             <option value='red'>Red</option>
-                            <option value='yellow'>Yellow</option>
                         </select>
                     </div>
                 </fieldset>
