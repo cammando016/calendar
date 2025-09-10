@@ -12,3 +12,19 @@
 .eventp{
     margin: 2px;
 }
+
+.groupfilter {
+    position: fixed;
+    right: 13px;
+    top: 50px;
+    z-index: 2;
+
+    background-color: white;
+    padding: 5px;
+}
+
+.filteractive {
+    border-color: black;
+    border-style: solid;
+    border-radius: 4px;
+}
