@@ -22,14 +22,26 @@ export const DateProvider = ({ children }) => {
 
     //Change month functions
     const incrementMonth = () => {
-        const newDate = new Date(date);
-        newDate.setMonth(newDate.getMonth() + 1);
+        const year = date.getFullYear();
+        const month = date.getMonth();
+        const currentDay = date.getDate();
+        //Check if next month has less days
+        const lastNextMonth = new Date(year, month + 2, 0).getDate();
+        const newDay = Math.min(currentDay, lastNextMonth);
+
+        const newDate = new Date(year, month + 1, newDay);
         setDate(newDate);
     }
 
     const decrementMonth = () => {
-        const newDate = new Date(date);
-        newDate.setMonth(newDate.getMonth() - 1);
+        const year = date.getFullYear()
+        const month = date.getMonth();
+        const currentDay = date.getDate();
+        //Check if previous month had less days
+        const lastPrevMonth = new Date(year, month, 0).getDate();
+        const newDay = Math.min(currentDay, lastPrevMonth);
+
+        const newDate = new Date(year, month -1, newDay);
         setDate(newDate);
     }
 
