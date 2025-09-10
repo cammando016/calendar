@@ -11,7 +11,7 @@ export default function Event ({ eventRecord, updateEvent, setEdit, activeEvent,
     //Show and hide remaining details
     const handleClick = () => updateEvent(eventRecord.eventid);
     const handleEditClick = () => setEdit(eventRecord.eventid);
-
+    const now = new Date();
     const { user } = useUser();
 
     return (
@@ -27,7 +27,7 @@ export default function Event ({ eventRecord, updateEvent, setEdit, activeEvent,
                     </div>
                     <div className={`${sharedStyles.colflex} ${sharedStyles.cardbuttons}`}>
                         {
-                            userCreated && (
+                            (userCreated && new Date(eventRecord.eventstarttime) > now) && (
                                 <div className={`${sharedStyles.rowflex}`}>
                                     <Link href={`/events/${eventRecord.eventid}`}><button className={`${sharedStyles.medbtn} ${sharedStyles.btn} ${user ? theme[`btn${user.theme}`] : theme.btngreen}`} type="button" onClick={handleEditClick}>Edit</button></Link>
                                     <button className={`${sharedStyles.medbtn} ${sharedStyles.btn} ${user ? theme[`btn${user.theme}`] : theme.btngreen}`} type="button" onClick={() => deleteEvent(eventRecord.eventid)}>Delete</button>
