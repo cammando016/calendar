@@ -25,21 +25,21 @@ export default function AccountDetailsForm ({registerAccount, submitFunc, setFor
                         registerAccount && (
                             <div className={sharedStyles.colflex}>
                                 <label className={formStyles.formLabel} htmlFor="username">Create Username *</label>
-                                <input className={`${formStyles.formInput} ${form.username === '' ? formStyles.invalidInput : formStyles.validInput }`} type="text" id="username" name="username" value={form.username} onChange={(e) => setFormFunc({...form, username: e.target.value})} required autoFocus />
+                                <input className={`${formStyles.formInput} ${form.username === '' ? formStyles.invalidInput : null }`} type="text" id="username" name="username" value={form.username} onChange={(e) => setFormFunc({...form, username: e.target.value})} required autoFocus />
                             </div>
                         )
                     }
                     <div className={sharedStyles.colflex}>
                         <label className={formStyles.formLabel} htmlFor="first-name">First Name *</label>
-                        <input className={`${formStyles.formInput} ${form.firstname === '' ? formStyles.invalidInput : formStyles.validInput }`} placeholder={!registerAccount ? `${user.firstname}` : 'Enter your first name' } type="text" id="first-name" name="first-name" value={form.firstname} onChange={(e) => setFormFunc({...form, firstname: e.target.value})} required />
+                        <input className={`${formStyles.formInput} ${form.firstname === '' ? formStyles.invalidInput : null }`} placeholder={!registerAccount ? `${user.firstname}` : 'Enter your first name' } type="text" id="first-name" name="first-name" value={form.firstname} onChange={(e) => setFormFunc({...form, firstname: e.target.value})} required />
                     </div>
                     <div className={sharedStyles.colflex}>
                         <label className={formStyles.formLabel} htmlFor="account-birthday">Birthday *</label>
-                        <input className={`${formStyles.formInput} ${form.birthdate === '' ? formStyles.invalidInput : formStyles.validInput }`} placeholder={!registerAccount ? `${user.birthdate}` : undefined } type="date" id="account-birthday" name="account-birthday" value={form.birthdate} onChange={(e) => setFormFunc({...form, birthdate: e.target.value})} required />
+                        <input className={`${formStyles.formInput} ${form.birthdate === '' ? formStyles.invalidInput : null }`} placeholder={!registerAccount ? `${user.birthdate}` : undefined } type="date" id="account-birthday" name="account-birthday" value={form.birthdate} onChange={(e) => setFormFunc({...form, birthdate: e.target.value})} required />
                     </div>
                     <div className={sharedStyles.colflex}>
                         <label className={formStyles.formLabel} htmlFor="default-view">Default Calendar View *</label>
-                        <select className={`${formStyles.formInput} ${form.defaultview === '' ? formStyles.invalidInput : formStyles.validInput }`} placeholder={!registerAccount ? `${user.defaultView}` : 'Select your default calendar view' } id="default-view" name="default-view" size="1" value={form.defaultview} onChange={(e) => setFormFunc({...form, defaultview: e.target.value.toLowerCase()})} required>
+                        <select className={`${formStyles.formInput} ${form.defaultview === '' ? formStyles.invalidInput : null }`} placeholder={!registerAccount ? `${user.defaultView}` : 'Select your default calendar view' } id="default-view" name="default-view" size="1" value={form.defaultview} onChange={(e) => setFormFunc({...form, defaultview: e.target.value.toLowerCase()})} required>
                             <option value="year">Year</option>
                             <option value="month">Month</option>
                             <option value="week">Week</option>
@@ -48,7 +48,7 @@ export default function AccountDetailsForm ({registerAccount, submitFunc, setFor
                     {/* User theme currently inactive, only default theme in use initially */}
                     <div className={sharedStyles.colflex}>
                         <label className={formStyles.formLabel} htmlFor="account-theme">Theme *</label>
-                        <select className={`${formStyles.formInput} ${form.usertheme === '' ? formStyles.invalidInput : formStyles.validInput }`} placeholder={!registerAccount ? `${user.theme}` : 'Select your colour theme' } id="account-theme" name="account-theme" size="1" value={form.usertheme} onChange={(e) => setFormFunc({...form, usertheme: e.target.value.toLowerCase()})} required>
+                        <select className={`${formStyles.formInput} ${form.usertheme === '' ? formStyles.invalidInput : null }`} placeholder={!registerAccount ? `${user.theme}` : 'Select your colour theme' } id="account-theme" name="account-theme" size="1" value={form.usertheme} onChange={(e) => setFormFunc({...form, usertheme: e.target.value.toLowerCase()})} required>
                             <option value='blue'>Blue</option>
                             <option value='green'>Green</option>
                             <option value='purple'>Purple</option>
@@ -62,11 +62,11 @@ export default function AccountDetailsForm ({registerAccount, submitFunc, setFor
                     <legend><h4 className={formStyles.legendHeading}>Account Recovery</h4></legend>
                     <div className={sharedStyles.colflex}>
                         <label className={formStyles.formLabel} htmlFor="recovery-question">Recovery Question *</label>
-                        <input className={`${formStyles.formInput} ${form.recquestion === '' ? formStyles.invalidInput : formStyles.validInput }`} type="text" id="recovery-question" name="recovery-question" placeholder={!registerAccount ? `${user.recoveryQuestion}` : "Enter a password recovery question"} value={form.recquestion} onChange={(e) => setFormFunc({...form, recquestion: e.target.value})} required />
+                        <input className={`${formStyles.formInput} ${form.recquestion === '' ? formStyles.invalidInput : null }`} type="text" id="recovery-question" name="recovery-question" placeholder={!registerAccount ? `${user.recoveryQuestion}` : "Enter a password recovery question"} value={form.recquestion} onChange={(e) => setFormFunc({...form, recquestion: e.target.value})} required />
                     </div>
                     <div className={sharedStyles.colflex}>
                         <label className={formStyles.formLabel} htmlFor="recovery-answer">Recovery Question Answer *</label>
-                        <input className={`${formStyles.formInput} ${form.recanswer === '' ? formStyles.invalidInput : formStyles.validInput }`} type="text" id="recovery-answer" name="recovery-answer" placeholder={!registerAccount ? `${user.recoveryAnswer}` : "Enter the answer for your recovery question"} value={form.recanswer} onChange={(e) => setFormFunc({...form, recanswer: e.target.value})} required />
+                        <input className={`${formStyles.formInput} ${form.recanswer === '' ? formStyles.invalidInput : null }`} type="text" id="recovery-answer" name="recovery-answer" placeholder={!registerAccount ? `${user.recoveryAnswer}` : "Enter the answer for your recovery question"} value={form.recanswer} onChange={(e) => setFormFunc({...form, recanswer: e.target.value})} required />
                     </div>
                 </fieldset>
 
@@ -79,11 +79,11 @@ export default function AccountDetailsForm ({registerAccount, submitFunc, setFor
                                 <legend><h4 className={formStyles.legendHeading}>Password</h4></legend>
                                 <div className={sharedStyles.colflex}>
                                     <label className={formStyles.formLabel} htmlFor="create-password">Create Password *</label>
-                                    <input className={`${formStyles.formInput} ${createPassword === '' ? formStyles.invalidInput : formStyles.validInput }`} type="password" id="create-password" name="create-password" value={createPassword} onChange={(e) => updatePassword(e.target.value)} required />
+                                    <input className={`${formStyles.formInput} ${createPassword === '' ? formStyles.invalidInput : null }`} type="password" id="create-password" name="create-password" value={createPassword} onChange={(e) => updatePassword(e.target.value)} required />
                                 </div>
                                 <div className={sharedStyles.colflex}>
                                     <label className={formStyles.formLabel} htmlFor="confirm-password">Confirm Password *</label>
-                                    <input className={`${formStyles.formInput} ${(form.password === '' || createPassword !== form.password) ? formStyles.invalidInput : formStyles.validInput }`} type="password" id="confirm-password" name="confirm-password" value={form.password} onChange={(e) => setFormFunc({...form, password: e.target.value})} required />
+                                    <input className={`${formStyles.formInput} ${(form.password === '' || createPassword !== form.password) ? formStyles.invalidInput : null }`} type="password" id="confirm-password" name="confirm-password" value={form.password} onChange={(e) => setFormFunc({...form, password: e.target.value})} required />
                                     {
                                         createPassword !== form.password && <p>Confirm Password does not match Create Password.</p>
                                     }

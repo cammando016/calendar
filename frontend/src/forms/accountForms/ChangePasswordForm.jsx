@@ -1,5 +1,5 @@
 "use client"
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import sharedStyles from '../../styles/shared.module.css';
 import styles from '@/styles/forms.module.css';
 import theme from '@/styles/theme.module.css';
@@ -23,8 +23,10 @@ export default function ChangePasswordForm({}) {
     const [accountDetails, setAccountDetails] = useState({
         username: null,
         recoveryQuestion: null,
-        recoveryAnswer: null,
     })
+
+    //Disable username field after submitting so username is not changed when submitting new passowrd
+    const [usernameDisabled, setUsernameDisabled] = useState(false);
 
     //Check with the DB if the submitted username exists.
     //Add username and recovery question/answer into accountDetails state to validate password reset
@@ -36,6 +38,7 @@ export default function ChangePasswordForm({}) {
                 username: res.recoveryDetails.username,
                 recoveryQuestion: res.recoveryDetails.recoveryQuestion
             });
+            setUsernameDisabled(true);
             setFieldValues(prev => ({ ...prev, username: res.recoveryDetails.username }));
         } else {
             alert(res.error)
@@ -61,6 +64,15 @@ export default function ChangePasswordForm({}) {
         }
     };
 
+    const isValid = useMemo (() => {
+        return (
+            fieldValues.recoveryAnswer !== '' &&
+            fieldValues.createPassword !== '' &&
+            fieldValues.confirmPassword !== '' &&
+            fieldValues.createPassword === fieldValues.confirmPassword
+        );
+    }, [fieldValues.recoveryAnswer, fieldValues.createPassword, fieldValues.confirmPassword])
+
     return (
         <div>
             <h3 className={sharedStyles.sectionheading}>Change Password</h3>
@@ -70,10 +82,11 @@ export default function ChangePasswordForm({}) {
                     <legend><h4 className={styles.legendHeading}>Account Reset</h4></legend>
                     <div className={sharedStyles.colflex}>
                         <label className={styles.inputLabel} htmlFor='recover-username'>Account Username *</label>
-                        <input className={styles.formInput} id='recover-username' type='text' placeholder='Enter the username of the account to reset password for' value={fieldValues.recoveryUsername} onChange={(e) => setFieldValues({...fieldValues, recoveryUsername: e.target.value })} autoFocus />
+                        <input className={`${styles.formInput} ${fieldValues.recoveryUsername === '' ? styles.invalidInput : null}`} id='recover-username' type='text' placeholder='Enter your username to reset password' value={fieldValues.recoveryUsername} onChange={(e) => setFieldValues({...fieldValues, recoveryUsername: e.target.value })} autoFocus disabled={usernameDisabled}/>
+                        <p className={fieldValues.recoveryUsername === '' ? styles.invalidMessage : styles.validMessage}><em>Username is required</em></p>
                     </div>
 
-                    <button className={`${sharedStyles.btn} ${sharedStyles.medbtn} ${user ? theme[`btn${user.theme}`] : theme.btngreen}`} onClick={fetchUserRecovery}>Check Username</button>
+                    <button className={`${usernameDisabled && styles.validMessage} ${sharedStyles.btn} ${sharedStyles.medbtn} ${user ? theme[`btn${user.theme}`] : theme.btngreen}`} onClick={fetchUserRecovery} disabled={fieldValues.recoveryUsername === ''}>Check Username</button>
                 </fieldset>
                 {
                     //If the username was found in DB, display recovery question and input to type answer
@@ -81,45 +94,42 @@ export default function ChangePasswordForm({}) {
                         <>
                             <fieldset className={`${styles.fieldset} ${user ? theme[`fldst${user.theme}`] : theme.fldstgreen}`}>
                                 <legend><h4 className={styles.legendHeading}>Account Recovery</h4></legend>
-                                <p>Recovery Question: {accountDetails.recoveryQuestion}</p>
+                                <div className={sharedStyles.colflex}>
+                                    <p style={{marginBottom: '15px', marginTop: '0'}}>Recovery Question:</p> 
+                                    <p style={{marginBottom: '15px', marginTop: '0'}}>{accountDetails.recoveryQuestion}</p>
+                                </div>
                                 <div className={sharedStyles.colflex}>
                                     <label className={styles.inputLabel} htmlFor="enter-rec-answer">Recovery Answer *</label>
-                                    <input className={styles.formInput} placeholder="Enter the answer to your recovery question above" type="text" id="enter-rec-answer" name="enter-rec-answer" value={fieldValues.recoveryAnswer} onChange={(e) => setFieldValues({...fieldValues, recoveryAnswer: e.target.value })} required />
+                                    <input className={`${styles.formInput} ${fieldValues.recoveryAnswer === '' ? styles.invalidInput : null}`} placeholder="Enter the answer to your recovery question above" type="text" id="enter-rec-answer" name="enter-rec-answer" value={fieldValues.recoveryAnswer} onChange={(e) => setFieldValues({...fieldValues, recoveryAnswer: e.target.value })} required />
+                                    <p className={`${fieldValues.recoveryAnswer === '' ? styles.invalidMessage : styles.validMessage}`}><em>Recovery question answer is required</em></p>
                                 </div>
                             </fieldset>
 
                             <fieldset  className={`${styles.fieldset} ${user ? theme[`fldst${user.theme}`] : theme.fldstgreen}`}id="set-password" name="Set Password">
-                                <legend><h4 className={styles.legendHeading} >Reset Password</h4></legend>
+                                <legend><h4 className={styles.legendHeading}>Reset Password</h4></legend>
 
                                 <div className={sharedStyles.colflex}>
                                     <label className={styles.inputLabel} htmlFor="create-password">Create Password *</label>
-                                    <input className={styles.formInput} type="password" placeholder='Enter your new password' id="create-password" name="create-password" value={fieldValues.createPassword} onChange={(e) => setFieldValues({...fieldValues, createPassword: e.target.value })} required />
+                                    <input className={`${styles.formInput} ${fieldValues.createPassword === '' ? styles.invalidInput : null}`} type="password" placeholder='Enter your new password' id="create-password" name="create-password" value={fieldValues.createPassword} onChange={(e) => setFieldValues({...fieldValues, createPassword: e.target.value })} required />
+                                    <p className={`${fieldValues.createPassword === '' ? styles.invalidMessage : styles.validMessage}`}><em>New password is required</em></p>
                                 </div>
 
                                 <div className={sharedStyles.colflex}>
                                     <label className={styles.inputLabel} htmlFor="confirm-password">Confirm Password *</label>
-                                    <input className={styles.formInput} type="password" placeholder='Confirm your new password' id="confirm-password" name="confirm-password" value={fieldValues.confirmPassword} onChange={(e) => setFieldValues({...fieldValues, confirmPassword: e.target.value })} required />
+                                    <input className={`${styles.formInput} ${(fieldValues.confirmPassword === '' || fieldValues.confirmPassword !== fieldValues.createPassword) ? styles.invalidInput : null}`}type="password" placeholder='Confirm your new password' id="confirm-password" name="confirm-password" value={fieldValues.confirmPassword} onChange={(e) => setFieldValues({...fieldValues, confirmPassword: e.target.value })} required />
+                                    <p className={`${fieldValues.confirmPassword === '' ? styles.invalidMessage : styles.validMessage}`}><em>Confirm password is required</em></p>
+                                    <p className={`${fieldValues.confirmPassword !== fieldValues.createPassword ? styles.invalidMessage : styles.validMessage}`}><em>Confirm password must match Create password</em></p>
                                 </div>
                             </fieldset>
 
-                            {
-                                //If create password field is empty, hide change password button and prompt user
-                                //If create password field isn't empty, confirm password field must match to reveal change password button, otherwise prompt user
-                                fieldValues.createPassword === '' ? (
-                                    <p>Please enter your new password</p>
-                                ) : fieldValues.createPassword !== fieldValues.confirmPassword ? (
-                                    <p>Confirm password must match create password</p>
-                                ) : (
-                                    <button className={`${sharedStyles.btn} ${sharedStyles.medbtn} ${user ? theme[`btn${user.theme}`] : theme.btngreen}`} type="submit" id="change-password">Change Password</button>
-                                )
-                            }
+                            <Link href={'/account'}>
+                                <button type='button' className={`${sharedStyles.btn} ${sharedStyles.medbtn} ${user ? theme[`btn${user.theme}`] : theme.btngreen}`}>Cancel</button>
+                            </Link>
+                            <button className={`${sharedStyles.btn} ${sharedStyles.medbtn} ${user ? theme[`btn${user.theme}`] : theme.btngreen}`} type="submit" id="change-password" disabled={!isValid}>Change Password</button>
                         </> 
                     )
                 }
 
-                <Link href={'/account'}>
-                    <button type='button' className={`${sharedStyles.btn} ${sharedStyles.medbtn} ${user ? theme[`btn${user.theme}`] : theme.btngreen}`}>Cancel</button>
-                </Link>
             </form>
         </div>
     )

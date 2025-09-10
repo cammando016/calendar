@@ -6,17 +6,24 @@
     margin: 5px 0;
 }
 
+@keyframes active-input {
+    0% {
+        box-shadow: 1px 1px 2px black;
+    }
+    100% {
+        box-shadow: 1px 1px 10px black;
+    }
+}
+
 .formInput:focus {
-    border-color: rgb(53, 186, 230);
+    /* border-color: rgb(53, 186, 230); */
+    border-color: black;
     outline: none;
+    animation: active-input 2s infinite alternate ease-in-out;
 }
 
 .formLabel {
     margin: 5px 0;
-}
-
-.validInput {
-    border-color: green;
 }
 
 .invalidInput {

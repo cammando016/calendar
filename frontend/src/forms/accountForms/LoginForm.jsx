@@ -19,7 +19,7 @@ export default function LoginForm ({ form, setForm, submitFunction }) {
                         <input className={styles.formInput} type='password' id='password' name='password' placeholder='Enter Your Password' onChange={(e) => setForm({ ...form, password: e.target.value })} />
                     </div>
                     <div className={sharedStyles.rowflex}>
-                        <button className={`${sharedStyles.btn} ${sharedStyles.medbtn} ${theme.btngreen}`} type="submit">Log In</button>
+                        <button className={`${sharedStyles.btn} ${sharedStyles.medbtn} ${theme.btngreen}`} disabled={form.username === '' || form.password === ''} type="submit">Log In</button>
                         <Link key='change-password-button' href='/account/reset-password'>
                             <button className={`${sharedStyles.btn} ${sharedStyles.medbtn} ${theme.btngreen}`} type="button">Change Password</button>
                         </Link>
