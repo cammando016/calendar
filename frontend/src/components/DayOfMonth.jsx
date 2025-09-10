@@ -12,6 +12,8 @@ export default function DayOfMonth({ date, inCurrentMonth }) {
     const { eventList } = useEventList();
     const dailyEvents = eventList.filter(listedEvent => matchDates(dateObject, listedEvent.eventstarttime.slice(0, 10)));
     const { user } = useUser();
+    const today = new Date();
+    today.setHours(0,0,0,0);
 
     return (
         <div className={`${sharedStyles.cardborder} ${user ? theme[`card${user.theme}`] : theme.cardgreen} ${styles.dayofmonth} ${sharedStyles.rowflex} ${inCurrentMonth ? '' : styles.offmonth} ${matchDates(new Date(), dateObject) ? user ? theme[`today${user.theme}`] : theme.todaygreen : ''}`}>
@@ -35,12 +37,15 @@ export default function DayOfMonth({ date, inCurrentMonth }) {
                     </div>
                 </div>
 
-                <div className={`${styles.row} ${styles.bottomrow}`}>
                     {/* Add event to selected date */}
-                    <div className="add-event">
-                        <Link style={{textDecoration: 'none'}} href={`/events/create/${date}`}><button style={{width: '5vw', height: '5vw', display: 'flex', justifyContent: 'center', alignItems: 'center'}} className={`${sharedStyles.btn} ${sharedStyles.smallbtn} ${user ? theme[`btn${user.theme}`] : theme.btngreen }`}>+</button></Link>
-                    </div>  
-                </div>
+                    {
+                        dateObject >= today &&
+                        <div className={`${styles.row} ${styles.bottomrow}`}>
+                            <div className="add-event">
+                                <Link style={{textDecoration: 'none'}} href={`/events/create/${date}`}><button style={{width: '5vw', height: '5vw', display: 'flex', justifyContent: 'center', alignItems: 'center'}} className={`${sharedStyles.btn} ${sharedStyles.smallbtn} ${user ? theme[`btn${user.theme}`] : theme.btngreen }`}>+</button></Link>
+                            </div>  
+                        </div>
+                    }
             </div>
         </div>
     )
