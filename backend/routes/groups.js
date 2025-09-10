@@ -96,7 +96,7 @@ router.get('/groups', async (req, res) => {
             JOIN users m ON ug2.userid = m.userid
             WHERE ug.userid = $1
             GROUP BY g.groupid, g.groupname, g.groupcolour, g.private, u.username
-            `,
+            ORDER BY g.private DESC, g.groupname ASC`,
             [user]
         );
         
