@@ -10,7 +10,7 @@ import { useUser } from '@/context/UserContext';
 export default function DayOfMonth({ date, inCurrentMonth }) {
     const dateObject = new Date(date);
     const { eventList } = useEventList();
-    const dailyEvents = eventList.filter(listedEvent => matchDates(dateObject, listedEvent.eventstarttime.slice(0, 10)));
+    const dailyEvents = eventList.filter(listedEvent => matchDates(dateObject, listedEvent.displaydate.slice(0, 10)));
     const { user } = useUser();
     const today = new Date();
     today.setHours(0,0,0,0);

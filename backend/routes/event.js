@@ -51,15 +51,33 @@ router.get('/events', async (req, res) => {
         firstOfMonth.setHours(0,0,0,0);
 
         const events = await pool.query(
-            `SELECT e.eventcreationdate, e.eventendtime, e.eventid, e.eventname, e.eventnotes, e.eventstarttime, e.eventtype, e.eventgroupid, u.username, g.groupname, g.groupcolour
+            `SELECT e.eventcreationdate, e.eventendtime, e.eventid, e.eventname, e.eventnotes, e.eventstarttime, e.eventtype, e.eventgroupid, u.username, g.groupname, g.groupcolour,
+            CASE 
+                WHEN e.eventtype = $3 THEN
+                    make_date(
+                        EXTRACT(YEAR FROM CURRENT_DATE)::int +
+                            (CASE WHEN to_char(e.eventstarttime, 'MM-DD') < to_char(CURRENT_DATE, 'MM-DD') THEN 1 ELSE 0 END),
+                        EXTRACT(MONTH FROM e.eventstarttime)::int,
+                        EXTRACT(DAY FROM e.eventstarttime)::int
+                    )
+                ELSE e.eventstarttime
+            END AS displaydate,
+            CASE 
+                WHEN e.eventtype = $3 THEN EXTRACT(YEAR FROM AGE(e.eventstarttime))::int
+                ELSE NULL
+            END AS age
             FROM events e
-            JOIN user_groups ug ON e.eventgroupid = ug.groupid
             JOIN users u ON e.eventcreatorid = u.userid
             JOIN groups g ON e.eventgroupid = g.groupid
-            WHERE ug.userid = $1
-            AND e.eventstarttime >= $2
-            ORDER BY e.eventstarttime ASC`,
-            [userQueryId, firstOfMonth]
+            WHERE EXISTS (
+                SELECT 1
+                FROM user_groups ug
+                WHERE ug.groupid = e.eventgroupid
+                AND ug.userid = $1
+            )
+            AND (e.eventtype = $3 OR e.eventstarttime >= $2)
+            ORDER BY displaydate ASC;`,
+            [userQueryId, firstOfMonth, 'birthdate']
         );
 
         return res.status(200).json({

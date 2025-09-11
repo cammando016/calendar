@@ -68,11 +68,13 @@ router.post('/signup', async (req, res) => {
             await pool.query('INSERT INTO user_groups (userid, groupid, datejoined) VALUES ($1, $2, $3)', [newUserId, newGroupId, creationdate]);
 
             //Create event for new users birthday
+            const birthdateEnd = new Date(birthdate);
+            birthdateEnd.setHours(23,59,59,0);
             await pool.query(
                 `INSERT INTO events 
                 (eventname, eventstarttime, eventcreationdate, eventstartdate, eventgroupid, eventcreatorid, eventendtime, eventenddate, eventtype)
                 VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
-                [`${username}'s Birthday`, birthdate, creationdate, birthdate, newGroupId, newUserId, birthdate, birthdate, "birthday"]
+                [`${username}'s Birthday`, birthdate, creationdate, birthdate, newGroupId, newUserId, birthdateEnd, birthdate, "birthdate"]
             )
 
             return res.status(201).json({message: 'User Registered'});

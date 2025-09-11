@@ -72,7 +72,7 @@ export default function Month ({ date }) {
                 <h4 className={sharedStyles.sectionheading}>Events</h4>
                 <div className={`${sharedStyles.rowflex} ${styles.eventlist}`}>
                     {
-                        eventList.filter(listEvent => ((new Date(listEvent.eventstarttime.slice(0,10))).getMonth() === dateObject.getMonth()) && (new Date(listEvent.eventstarttime.slice(0,10)).getFullYear() === dateObject.getFullYear())).map(filteredEvent => {
+                        eventList.filter(listEvent => ((new Date(listEvent.displaydate.slice(0,10))).getMonth() === dateObject.getMonth()) && (new Date(listEvent.displaydate.slice(0,10)).getFullYear() === dateObject.getFullYear())).map(filteredEvent => {
                             return <Event key={filteredEvent.eventid} eventRecord={filteredEvent} hideToggle={true} />
                         })
                     }
