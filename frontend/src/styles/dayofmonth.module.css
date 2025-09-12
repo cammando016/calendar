@@ -29,13 +29,55 @@
     justify-content: center;
 }
 
-.eventicon {
+.eventicon, .birthdayicon, .birthdayiconalt {
     width: 10px;
     height: 10px; 
-    border-radius: 50%;
     border-color: black;
     border-style: solid;
     border-width: 0.2px;
+}
+
+.eventicon {
+    border-radius: 50%;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: 0% 50%;
+    }
+    100% {
+        background-position: 100% 50%;
+    }
+}
+
+.birthdayicon {
+    background: linear-gradient(
+        120deg,
+        #E0F7FA,
+        #B3E5FC,
+        #E0F7FA,
+        #B2EBF2,
+        #E0F7FA
+    );
+    background-size: 300% 300%;
+    animation: shimmer 5s infinite linear;
+    rotate: 45deg;
+    border-radius: 25%;
+}
+
+.birthdayiconalt {
+    background: linear-gradient(
+        120deg,
+        #FFCCCC,
+        #FF4C4C,
+        #B22222,
+        #FF4C4C,
+        #FFCCCC
+    );
+    background-size: 300% 300%;
+    animation: shimmer 5s infinite linear;
+    rotate: 45deg;
+    border-radius: 25%;
 }
 
 .eventicons {
@@ -45,4 +87,5 @@
     flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
+    padding-left: 2px;
 }

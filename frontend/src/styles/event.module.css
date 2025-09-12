@@ -28,3 +28,40 @@
     border-style: solid;
     border-radius: 4px;
 }
+
+@keyframes shimmer {
+    0% {
+        background-position: 0% 50%;
+    }
+    100% {
+        background-position: 100% 50%;
+    }
+}
+
+.birthday {
+    background: linear-gradient(
+        120deg,
+        #E0F7FA,
+        #B3E5FC,
+        #E0F7FA,
+        #B2EBF2,
+        #E0F7FA
+    );
+    background-size: 300% 300%;
+    animation: shimmer 5s infinite linear;
+    width: 5%;
+}
+
+.birthdayalt {
+    background: linear-gradient(
+        120deg,
+        #FFCCCC,
+        #FF4C4C,
+        #B22222,
+        #FF4C4C,
+        #FFCCCC
+    );
+    background-size: 300% 300%;
+    animation: shimmer 5s infinite linear;
+    width: 5%;
+}

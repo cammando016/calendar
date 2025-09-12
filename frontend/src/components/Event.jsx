@@ -4,6 +4,7 @@ import styles from '../styles/event.module.css';
 import theme from '../styles/theme.module.css';
 import Link from 'next/link';
 import { useUser } from '@/context/UserContext';
+import { setOrdinal } from '@/utils/dateFunctions';
 
 const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
@@ -16,7 +17,11 @@ export default function Event ({ eventRecord, updateEvent, setEdit, activeEvent,
 
     return (
         <div className={`${sharedStyles.cardborder} ${user ? theme[`card${user.theme}`] : theme.cardgreen} ${sharedStyles.rowflex} ${styles.event}`}>
-            <div className={sharedStyles.cardcolour} style={{backgroundColor: eventRecord.groupcolour, width: '5%'}}></div>
+            {
+                eventRecord.eventtype === 'birthdate' ?
+                <div className={`${sharedStyles.cardcolour} ${user.theme === 'blue' || user.theme === 'green' ? styles.birthdayalt : styles.birthday}`}></div> :
+                <div className={sharedStyles.cardcolour} style={{backgroundColor: eventRecord.groupcolour, width: '5%'}}></div>
+            }
             <div style={{width: '95%'}} className={`${sharedStyles.colflex} ${sharedStyles.cardtext}`}>
                 <div className={`${sharedStyles.rowflex}`}>
                     {/* Display event name and times */}
@@ -46,9 +51,14 @@ export default function Event ({ eventRecord, updateEvent, setEdit, activeEvent,
                 {
                     activeEvent === eventRecord.eventid && (
                         <div className={`${sharedStyles.colflex}`}>
-                            <p className={`${styles.eventp}`}>Group: {eventRecord.groupname}</p>
-                            <p className={`${styles.eventp}`}>Created By: {eventRecord.username}</p>
-                            <p className={`${styles.eventp}`}>Event Notes: {eventRecord.eventnotes}</p>
+                            {eventRecord.eventtype !== 'birthdate' &&
+                                <p className={`${styles.eventp}`}>Group: {eventRecord.groupname}</p>
+                            }
+                            <p className={`${styles.eventp}`}>Creator: {eventRecord.username}</p>
+                            {eventRecord.eventtype === 'birthdate' ?
+                                <p className={`${styles.eventp}`}>Notes: {eventRecord.eventnotes}{setOrdinal(parseInt(eventRecord.eventnotes))} Birthday</p> :
+                                <p className={`${styles.eventp}`}>Notes: {eventRecord.eventnotes}</p>
+                            }
                         </div>
                     )
                 }   

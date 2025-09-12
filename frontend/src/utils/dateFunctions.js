@@ -51,3 +51,23 @@ export const populateWeekDates = (date) => {
 
     return weekDates;
 }
+
+export const setOrdinal = (number) => {
+    const lastDigit = number % 10;
+    const lastTwo = number % 100;
+
+    if(lastTwo >= 11 && lastTwo <= 13) {
+        return 'th';
+    }
+
+    switch (lastDigit) {
+        case 1:
+            return 'st'
+        case 2:
+            return 'nd'
+        case 3:
+            return 'rd'
+        default:
+            return 'th'
+    }
+}

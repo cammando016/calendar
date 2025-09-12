@@ -21,6 +21,7 @@ export default function Page() {
     //Get context values to compare event creator and auth'd user
     const { eventList } = useEventList();
     const { user } = useUser();
+    console.log(eventList);
     
     const [createdPageNum, setCreatedPageNum] = useState(0);
     const [invitedPageNum, setInvitedPageNum] = useState(0);

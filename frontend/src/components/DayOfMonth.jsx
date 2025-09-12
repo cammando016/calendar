@@ -22,9 +22,11 @@ export default function DayOfMonth({ date, inCurrentMonth }) {
                 dailyEvents.length > 0 && (
                     <div className={`${sharedStyles.colflex} ${styles.eventicons}`}>
                         {
-                            dailyEvents.slice(0,4).map(dailyEvent => {
-                                return <div key={dailyEvent.eventid} style={{backgroundColor: dailyEvent.groupcolour}} className={styles.eventicon}></div>
-                            })
+                            dailyEvents.slice(0,4).map(dailyEvent => (
+                                dailyEvent.eventtype === 'birthdate' ?
+                                <div key={dailyEvent.eventid} className={`${user.theme === 'blue' || user.theme === 'green' ? styles.birthdayiconalt : styles.birthdayicon}`}></div> :
+                                <div key={dailyEvent.eventid} style={{backgroundColor: dailyEvent.groupcolour}} className={styles.eventicon}></div>
+                            ))
                         }
                     </div>
                 ) 
