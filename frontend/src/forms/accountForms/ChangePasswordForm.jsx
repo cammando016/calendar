@@ -83,7 +83,7 @@ export default function ChangePasswordForm({}) {
                     <legend><h4 className={styles.legendHeading}>Account Reset</h4></legend>
                     <div className={sharedStyles.colflex}>
                         <label className={styles.inputLabel} htmlFor='recover-username'>Account Username *</label>
-                        <input className={`${styles.formInput} ${fieldValues.recoveryUsername === '' ? styles.invalidInput : null}`} id='recover-username' type='text' placeholder='Enter your username to reset password' value={fieldValues.recoveryUsername} onChange={(e) => setFieldValues({...fieldValues, recoveryUsername: e.target.value })} autoFocus disabled={usernameDisabled}/>
+                        <input className={`${styles.formInput} ${fieldValues.recoveryUsername === '' ? styles.invalidInput : null}`} maxLength={10} id='recover-username' type='text' placeholder='Enter your username to reset password' value={fieldValues.recoveryUsername} onChange={(e) => setFieldValues({...fieldValues, recoveryUsername: e.target.value })} autoFocus disabled={usernameDisabled}/>
                         <p className={fieldValues.recoveryUsername === '' ? styles.invalidMessage : styles.validMessage}><em>Username is required</em></p>
                     </div>
 
@@ -101,7 +101,7 @@ export default function ChangePasswordForm({}) {
                                 </div>
                                 <div className={sharedStyles.colflex}>
                                     <label className={styles.inputLabel} htmlFor="enter-rec-answer">Recovery Answer *</label>
-                                    <input className={`${styles.formInput} ${fieldValues.recoveryAnswer === '' ? styles.invalidInput : null}`} placeholder="Enter the answer to your recovery question above" type="text" id="enter-rec-answer" name="enter-rec-answer" value={fieldValues.recoveryAnswer} onChange={(e) => setFieldValues({...fieldValues, recoveryAnswer: e.target.value })} required />
+                                    <input className={`${styles.formInput} ${fieldValues.recoveryAnswer === '' ? styles.invalidInput : null}`} maxLength={100} placeholder="Enter the answer to your recovery question above" type="text" id="enter-rec-answer" name="enter-rec-answer" value={fieldValues.recoveryAnswer} onChange={(e) => setFieldValues({...fieldValues, recoveryAnswer: e.target.value })} required />
                                     <p className={`${fieldValues.recoveryAnswer === '' ? styles.invalidMessage : styles.validMessage}`}><em>Recovery question answer is required</em></p>
                                 </div>
                             </fieldset>
@@ -111,13 +111,13 @@ export default function ChangePasswordForm({}) {
 
                                 <div className={sharedStyles.colflex}>
                                     <label className={styles.inputLabel} htmlFor="create-password">Create Password *</label>
-                                    <input className={`${styles.formInput} ${fieldValues.createPassword === '' ? styles.invalidInput : null}`} type="password" placeholder='Enter your new password' id="create-password" name="create-password" value={fieldValues.createPassword} onChange={(e) => setFieldValues({...fieldValues, createPassword: e.target.value })} required />
+                                    <input className={`${styles.formInput} ${fieldValues.createPassword === '' ? styles.invalidInput : null}`} maxLength={20} type="password" placeholder='Enter your new password' id="create-password" name="create-password" value={fieldValues.createPassword} onChange={(e) => setFieldValues({...fieldValues, createPassword: e.target.value })} required />
                                     <p className={`${fieldValues.createPassword === '' ? styles.invalidMessage : styles.validMessage}`}><em>New password is required</em></p>
                                 </div>
 
                                 <div className={sharedStyles.colflex}>
                                     <label className={styles.inputLabel} htmlFor="confirm-password">Confirm Password *</label>
-                                    <input className={`${styles.formInput} ${(fieldValues.confirmPassword === '' || fieldValues.confirmPassword !== fieldValues.createPassword) ? styles.invalidInput : null}`}type="password" placeholder='Confirm your new password' id="confirm-password" name="confirm-password" value={fieldValues.confirmPassword} onChange={(e) => setFieldValues({...fieldValues, confirmPassword: e.target.value })} required />
+                                    <input className={`${styles.formInput} ${(fieldValues.confirmPassword === '' || fieldValues.confirmPassword !== fieldValues.createPassword) ? styles.invalidInput : null}`} maxLength={20} type="password" placeholder='Confirm your new password' id="confirm-password" name="confirm-password" value={fieldValues.confirmPassword} onChange={(e) => setFieldValues({...fieldValues, confirmPassword: e.target.value })} required />
                                     <p className={`${fieldValues.confirmPassword === '' ? styles.invalidMessage : styles.validMessage}`}><em>Confirm password is required</em></p>
                                     <p className={`${fieldValues.confirmPassword !== fieldValues.createPassword ? styles.invalidMessage : styles.validMessage}`}><em>Confirm password must match Create password</em></p>
                                 </div>

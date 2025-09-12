@@ -36,7 +36,8 @@ export default function Page() {
     useEffect(() => {
         const hasEmptyField = Object.values(signupForm).some(value => value === '');
         const passwordConfirmationFailure = (createPassword !== signupForm.password);
-        (hasEmptyField || passwordConfirmationFailure) ? setDisabled(true) : setDisabled(false);
+        const birthdatePastFail = new Date(signupForm.birthdate) > new Date();
+        (hasEmptyField || passwordConfirmationFailure || birthdatePastFail) ? setDisabled(true) : setDisabled(false);
     }, [signupForm, createPassword]);
 
     //Display signup form

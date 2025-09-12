@@ -32,34 +32,17 @@ export default function AddEventForm ({ groupList, form, setForm, submitFunc, ed
                     </div>
 
                     <div className={sharedStyles.colflex}>
-                        <p className={styles.formLabel}>Event Type *</p>
-                        <div className={sharedStyles.rowflex}>
-                            <input className={styles.formInput} type='radio' name="event-type" id="activity" value='activity' checked={form.eventType === 'activity' ? true : false} onChange={(e) => setForm({ ...form, eventType: e.target.value })} required />
-                            <label className={styles.formLabel} style={{marginLeft: '5px'}} htmlFor="activity">Activity</label>
-                        </div>
-
-                        <div className={sharedStyles.rowflex}>
-                            <input className={styles.formInput} type='radio' name="event-type" id="house" value='house' checked={form.eventType === 'house' ? true : false} onChange={(e) => setForm({ ...form, eventType: e.target.value })} />
-                            <label className={styles.formLabel} style={{marginLeft: '5px'}} htmlFor="house">At Home</label>
-                        </div>
-
-                        <div className={sharedStyles.rowflex}>
-                            <input className={styles.formInput} type='radio' name="event-type" id="birthday" value='birthday' checked={form.eventType === 'birthday' ? true : false} onChange={(e) => setForm({ ...form, eventType: e.target.value })} />
-                            <label className={styles.formLabel} style={{marginLeft: '5px'}} htmlFor="birthday">Birthday</label>
-                        </div>
-
-                        <div className={sharedStyles.rowflex}>
-                            <input className={styles.formInput} type='radio' name="event-type" id="travel" value='travel' checked={form.eventType === 'travel' ? true : false} onChange={(e) => setForm({ ...form, eventType: e.target.value })} />
-                            <label className={styles.formLabel} style={{marginLeft: '5px'}} htmlFor="travel">Travel</label>
-                        </div>
-
-                        <div className={sharedStyles.rowflex}>
-                            <input className={styles.formInput} type='radio' name="event-type" id="other" value='other' checked={(form.eventType !== 'activity' && form.eventType !== 'house' && form.eventType !== 'birthday' && form.eventType !== 'travel') ? true : false} onChange={(e) => setForm({ ...form, eventType: e.target.value })} />
-                            <label className={styles.formLabel} style={{marginLeft: '5px'}} htmlFor="other">Other</label>
-                        </div>
+                        <label className={styles.formLabel} htmlFor='event-type'>Event Type *</label>
+                        <select className={`${styles.formInput}`} placeholder='Select the type of event' id="event-type" name="event-type" size="1" value={form.eventType} onChange={(e) => setForm({...form, eventType: e.target.value.toLowerCase()})} required >
+                            <option value='activity'>Activity</option>
+                            <option value='house'>At Home</option>
+                            <option value='birthday'>Birthday</option>
+                            <option value='travel'>Travel</option>
+                            <option value='other'>Other</option>
+                        </select>
                         {
-                            (form.eventType !== 'activity' && form.eventType !== 'house' && form.eventType !== 'birthday' && form.eventType !== 'travel') && (
-                                <input className={styles.formInput} type='text' id='other-event' placeholder="Other event type" rows={10} disabled={(form.eventType !== 'activity' && form.eventType !== 'house' && form.eventType !== 'birthday' && form.eventType !== 'travel') ? false : true} onChange={(e) => setForm({...form, eventType: e.target.value})} />
+                            (form.eventType.toLowerCase() !== 'activity' && form.eventType.toLowerCase() !== 'house' && form.eventType.toLowerCase() !== 'birthday' && form.eventType.toLowerCase() !== 'travel') && (
+                                <input className={styles.formInput} type='text' id='other-event' placeholder="Other event type" maxLength={10} disabled={(form.eventType !== 'activity' && form.eventType !== 'house' && form.eventType !== 'birthday' && form.eventType !== 'travel') ? false : true} onChange={(e) => setForm({...form, eventType: e.target.value})} />
                             )
                         }
                     </div>

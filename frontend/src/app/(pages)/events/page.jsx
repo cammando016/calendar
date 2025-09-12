@@ -100,7 +100,7 @@ export default function Page() {
         <div>
             <div className={`${sharedStyles.rowflex} ${sharedStyles.sectionheading}`}>
                 <h3 style={{marginBottom: '0'}}>Events</h3>
-                <div className={sharedStyles.rowflex}>
+                <div className={sharedStyles.rowflex} style={{alignSelf: 'flex-end'}}>
                     <p style={{margin: '0', padding: '5px'}}>
                         {
                             groupFilter === 'All' ?
