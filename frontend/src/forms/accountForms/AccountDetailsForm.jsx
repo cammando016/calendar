@@ -45,7 +45,7 @@ export default function AccountDetailsForm ({registerAccount, submitFunc, setFor
                         registerAccount && (
                             <div className={sharedStyles.colflex}>
                                 <label className={formStyles.formLabel} htmlFor="username">Create Username *</label>
-                                <input className={`${formStyles.formInput} ${form.username === '' ? formStyles.invalidInput : null }`} placeholder='Create your max 10 character username' maxLength={10} type="text" id="username" name="username" value={form.username} onChange={(e) => setFormFunc({...form, username: e.target.value})} required autoFocus />
+                                <input className={`${formStyles.formInput} ${form.username === '' ? formStyles.invalidInput : null }`} placeholder='Create your max 10 character username' maxLength={10} type="text" id="username" name="username" value={form.username} onChange={(e) => setFormFunc({...form, username: e.target.value.toLowerCase()})} required autoFocus />
                             </div>
                         )
                     }
