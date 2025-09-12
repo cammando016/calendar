@@ -21,47 +21,29 @@ export default function Page() {
     //Get context values to compare event creator and auth'd user
     const { eventList } = useEventList();
     const { user } = useUser();
-    const userTheme = user?.theme || 'green';
-    
+    const { usersGroups } = useGroupList();
+
+    // <----- STATE -----> 
+
+    //Pagination State
     const [createdPageNum, setCreatedPageNum] = useState(0);
     const [invitedPageNum, setInvitedPageNum] = useState(0);
-    const { usersGroups } = useGroupList();
-    
+    //Delete modal open or closed
+    const [showDeleteAccount, setShowDeleteAccount] = useState(false);
+    //Split events into created and invited State arrays
+    const [createdEvents, setCreatedEvents] = useState(eventList.filter(evnt => (evnt.username === user?.username)));
+    const [invitedEvents, setInvitedEvents] = useState(eventList.filter(evnt => (evnt.username !== user?.username)));
     //Used to control filter showing and group being filtered
     const [showFilter, setShowFilter] = useState(false);
-    const toggleFilter = () => setShowFilter(!showFilter);
-    const hideFilter = () => setShowFilter(false);
     const [groupFilter, setGroupFilter] = useState('All');
 
-    const [createdEvents, setCreatedEvents] = useState(eventList.filter(evnt => (evnt.username === user.username)));
-    const [invitedEvents, setInvitedEvents] = useState(eventList.filter(evnt => (evnt.username !== user.username)))
 
-
-    //State to track which event is display additional details
-    const [activeEvent, setActiveEvent] = useState(null);
-    const updateActiveEvent = (newEventId) => {
-        if (newEventId === activeEvent) {
-            setActiveEvent(null);
-        } else {
-            setActiveEvent(newEventId);
-        }
-    }
-
-    useEffect(() => {
-        const filteredEvents = groupFilter === 'All' ? eventList : eventList.filter(evt => evt.eventgroupid === groupFilter);
-
-        const created = filteredEvents.filter(evnt => (evnt.username === user.username));
-        const invited = filteredEvents.filter(evnt => (evnt.username !== user.username));
-
-        setCreatedEvents(created);
-        setInvitedEvents(invited);
-    }, [groupFilter, eventList, user.username]);
-
-    //Update active event id when edit button clicked on any rendered Event component, to pass that id into the url for editing events
-    const setEventEdit = (clickedEvent) => setActiveEvent(clickedEvent)
+    // <------ FUNCTIONS ----->
+    
+    const toggleFilter = () => setShowFilter(!showFilter);
+    const hideFilter = () => setShowFilter(false);
 
     //Allow user to delete an event if they created it
-    const [showDeleteAccount, setShowDeleteAccount] = useState(false);
     const openDeleteModal = () => setShowDeleteAccount(true);
     const closeDeleteModal = () => setShowDeleteAccount(false);
     const deleteMessage = 'Are you sure you want to delete this event?';
@@ -81,6 +63,39 @@ export default function Page() {
         closeDeleteModal();
     }
 
+    //Update active event id when edit button clicked on any rendered Event component, to pass that id into the url for editing events
+    const setEventEdit = (clickedEvent) => setActiveEvent(clickedEvent)
+
+    //State to track which event is display additional details
+    const [activeEvent, setActiveEvent] = useState(null);
+    const updateActiveEvent = (newEventId) => {
+        if (newEventId === activeEvent) {
+            setActiveEvent(null);
+        } else {
+            setActiveEvent(newEventId);
+        }
+    }
+
+    useEffect(() => {
+        if (!user) return;
+
+        const filteredEvents = groupFilter === 'All' ? eventList : eventList.filter(evt => evt.eventgroupid === groupFilter);
+
+        setCreatedEvents(filteredEvents.filter(evnt => (evnt.username === user.username)));
+        setInvitedEvents(filteredEvents.filter(evnt => (evnt.username !== user.username)));
+    }, [groupFilter, eventList, user]);
+
+    const userTheme = user?.theme || 'green';
+
+    // Return skeleton loading page if user does not exist
+    if (!user) {
+        return (
+            <div className={sharedStyles.skeletonContainer}>
+                <p>Loading Events...</p>
+            </div>
+        )
+    }
+
     return (
         <div>
             <div className={`${sharedStyles.rowflex} ${sharedStyles.sectionheading}`}>
@@ -90,7 +105,7 @@ export default function Page() {
                         {
                             groupFilter === 'All' ?
                             'All' :
-                            usersGroups.find(group => group.groupid === groupFilter).groupname
+                            usersGroups.find(group => group.groupid === groupFilter)?.groupname
                         }
                     </p>
                     <button type='button' onClick={toggleFilter} style={{padding: '0', alignSelf: 'flex-end'}} className={`${sharedStyles.logoutbtn} ${showFilter && styles.filteractive}`}>

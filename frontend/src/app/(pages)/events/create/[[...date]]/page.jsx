@@ -43,10 +43,18 @@ export default function Page ({ params }) {
         eventName: '',
         eventType: 'activity',
         eventNotes: '',
-        eventInvited: usersGroups[0].groupid,
+        eventInvited: usersGroups[0]?.groupid,
         eventStart: formatDateInput(eventStartDate),
         eventEnd: formatDateInput(eventEndDate)
-    })
+    });
+
+    if (!user) {
+        return (
+            <div>
+                <p>Loading create event form...</p>
+            </div>
+        )
+    }
 
     //Submit form entries to DB to create new event
     const handleSubmit = async (e) => {

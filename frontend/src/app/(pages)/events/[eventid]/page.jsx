@@ -8,29 +8,48 @@ import { useRouter } from "next/navigation";
 export default function Page ({ params }) {
     const router = useRouter();
     const { eventList } = useEventList();
-    const resolvedParams = React.use(params);
-    const currentEvent = eventList[eventList.findIndex(evt => evt.eventid === resolvedParams.eventid)];
     const [submitDisabled, setSubmitDisabled] = useState(true);
+    const [loading, setLoading] = useState(true);
+    const [eventForm, setEventForm] = useState(null);
 
-    //Initial values from event to compare for changes
-    const initialValues =  {
-        eventName: currentEvent.eventname,
-        eventType: currentEvent.eventtype,
-        eventNotes: currentEvent.eventnotes,
-        eventStart: currentEvent.eventstarttime,
-        eventEnd: currentEvent.eventendtime
-    };
-    
-    //State object to store form entries in
-    const [eventForm, setEventForm] = useState({
-        eventName: currentEvent.eventname,
-        eventType: currentEvent.eventtype,
-        eventNotes: currentEvent.eventnotes,
-        eventStart: currentEvent.eventstarttime.slice(0, -1),
-        eventEnd: currentEvent.eventendtime.slice(0, -1)
-    })
+    const resolvedParams = React.use(params);
+    const resolvedEventId = resolvedParams.eventid;
+    const currentEvent = eventList?.find(evt => evt.eventid === resolvedEventId);
+
+    useEffect(() => {
+        if(currentEvent) {
+            setEventForm({
+                eventName: currentEvent.eventname || '',
+                eventType: currentEvent.eventtype || '',
+                eventNotes: currentEvent.eventnotes || '',
+                eventStart: currentEvent.eventstarttime ? currentEvent.eventstarttime.slice(0, -1) : '',
+                eventEnd: currentEvent.eventendtime ? currentEvent.eventendtime.slice(0, -1) : ''
+            })
+
+            setLoading(false);
+        }
+    }, [currentEvent]);
+
+    //Prevent submitting edit if nothing has changed
+    useEffect(() => {
+        if (!eventForm || !currentEvent) {
+            setSubmitDisabled(true);
+            return;
+        }
+
+        setSubmitDisabled(
+            eventForm.eventname === currentEvent.eventname &&
+            eventForm.eventType === currentEvent.eventtype &&
+            eventForm.eventnotes === currentEvent.eventnotes &&
+            eventForm.eventStart === currentEvent.eventstarttime.slice(0, -1) &&
+            eventForm.eventEnd === currentEvent.eventendtime.slice(0, -1)
+        )
+    }, [eventForm, currentEvent])
 
     const handleSubmit = async () => {
+        if (!currentEvent) {
+            return;
+        }
         const submission = {...eventForm, eventId: currentEvent.eventid}
         const res = await editEvent(submission);
         if (res.message) {
@@ -41,19 +60,13 @@ export default function Page ({ params }) {
         router.push('/events');
     }
 
-    //Prevent user from submitting form unless at least one of the details have changed
-    useEffect(() => {
-        setSubmitDisabled(
-            eventForm.eventName === initialValues.eventName &&
-            eventForm.eventType === initialValues.eventType &&
-            eventForm.eventNotes === initialValues.eventNotes &&
-            eventForm.eventStart === initialValues.eventStart.slice(0, -1) &&
-            eventForm.eventEnd === initialValues.eventEnd.slice(0, -1)
+    if (!currentEvent || loading || !eventForm) {
+        return (
+            <div>
+                <p>Loading event details</p>
+            </div>
         )
-
-        return () => setSubmitDisabled(true);
-
-    }, [eventForm])
+    }
 
     return <AddEventForm form={eventForm} setForm={setEventForm} submitFunc={handleSubmit} edit={true} submitDisabled={submitDisabled}/> 
 }

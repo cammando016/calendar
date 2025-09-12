@@ -20,9 +20,6 @@ export default function Page() {
     const [createdPageNum, setCreatedPageNum] = useState(0);
     const [joinedPageNum, setJoinedPageNum] = useState(0);
 
-    const createdGroups = usersGroups.filter(userGroup => ( userGroup.creator.trim().toLowerCase() === user.username.trim().toLowerCase() ));
-    const joinedGroups = usersGroups.filter(userGroup => ( userGroup.creator.trim().toLowerCase() !== user.username.trim().toLowerCase() ));
-
     //Function to delete a group and rerender the list of groups
     const handleDeleteGroup = async (group) => {
         updateActiveGroup(group);
@@ -34,6 +31,11 @@ export default function Page() {
             alert(res.error);
         }
     }
+
+    if (!user) return <div><p>Please wait, loading...</p></div>
+    
+    const createdGroups = usersGroups.filter(userGroup => ( userGroup.creator.trim().toLowerCase() === user.username.trim().toLowerCase() ));
+    const joinedGroups = usersGroups.filter(userGroup => ( userGroup.creator.trim().toLowerCase() !== user.username.trim().toLowerCase() ));
 
     return (
         <div id="groups-page">

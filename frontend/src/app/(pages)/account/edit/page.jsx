@@ -1,5 +1,5 @@
 "use client"
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { editUser } from "@/utils/editUser";
 import { useRouter } from "next/navigation";
 import AccountDetailsForm from "@/forms/accountForms/AccountDetailsForm"
@@ -8,25 +8,26 @@ import { useUser } from "@/context/UserContext"
 export default function Page () {
     //Access user context to get account details if user is authenticated
     const { user, updateUser } = useUser();
-
-    //Protect site crashing if user goes to /account/edit while not logged in
     const router = useRouter();
-    useEffect(() => {
-        if (!user) router.push('/account');
-    }, [user, router]);
-    if (!user) return <p>Unauthorized: redirecting to account login page.</p>
 
     //Put user account details into state that will be displayed as placeholders on edit
-    const [editUserForm, setEditUserForm] = useState({
-        username: user.username, firstname: user.firstname, defaultview: user.defaultView, recquestion: user.recoveryQuestion, recanswer: user.recoveryAnswer, birthdate: user.birthdate, usertheme: user.theme
-    });
+    const [editUserForm, setEditUserForm] = useState(null);
     //Existing account details before edit, to check if any changes made
-    const existingUserDetails = {
-        firstname: user.firstname, defaultview: user.defaultView, recquestion: user.recoveryQuestion, recanswer: user.recoveryAnswer, birthdate: user.birthdate, usertheme: user.theme
-    }
+    const existingUserDetails = useRef(null)
     //Disable submit button unless all form inputs valid AND at least one field input has changed
     const [disabled, setDisabled] = useState(false);
 
+    useEffect(() => {
+        if (!user) return;
+
+        const initalForm = {
+            username: user.username, firstname: user.firstname, defaultview: user.defaultView, recquestion: user.recoveryQuestion, recanswer: user.recoveryAnswer, birthdate: user.birthdate, usertheme: user.theme
+        };
+
+        setEditUserForm(initalForm);
+        existingUserDetails.current = initalForm;
+        setDisabled(true);
+    }, [user]);
 
     //DB PATCH
     const handleSubmit = async (e) => {
@@ -43,17 +44,21 @@ export default function Page () {
 
     //Update disabled state to enable submission button when form valid
     useEffect(() => {
+        if (!editUserForm || !existingUserDetails.current) return;
+
         const hasEmptyField = Object.values(editUserForm).some(value => value === '');
         const fieldsHaveNotUpdated = (
-            editUserForm.firstname === existingUserDetails.firstname &&
-            editUserForm.defaultview === existingUserDetails.defaultview &&
-            editUserForm.recquestion === existingUserDetails.recquestion &&
-            editUserForm.recanswer === existingUserDetails.recanswer &&
-            editUserForm.birthdate === existingUserDetails.birthdate &&
-            editUserForm.usertheme === existingUserDetails.usertheme
+            editUserForm.firstname === existingUserDetails.current.firstname &&
+            editUserForm.defaultview === existingUserDetails.current.defaultview &&
+            editUserForm.recquestion === existingUserDetails.current.recquestion &&
+            editUserForm.recanswer === existingUserDetails.current.recanswer &&
+            editUserForm.birthdate === existingUserDetails.current.birthdate &&
+            editUserForm.usertheme === existingUserDetails.current.usertheme
         );
         (hasEmptyField || fieldsHaveNotUpdated ? setDisabled(true) : setDisabled(false));
     }, [editUserForm]);
+
+    if (!editUserForm) return <div><p>Loading account details...</p></div>
 
     return (
         <div>

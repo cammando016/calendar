@@ -14,6 +14,9 @@ export default function CreateGroupForm ({submitGroupFunc, createGroupForm, setG
     const submitText = editableGroup ? 'Edit Group' : 'Create Group';
     const existingMembers = editableGroup ? editableGroup.members.map(member => member.username) : null;
 
+    const groupName = createGroupForm?.groupName || '';
+    const groupColour = createGroupForm?.groupColour || '';
+
     const addMember = (e) => {
         e.preventDefault()
         //Return without adding to addedUsers if input empty
@@ -28,24 +31,28 @@ export default function CreateGroupForm ({submitGroupFunc, createGroupForm, setG
     }
 
     const validForm = useMemo (() => {
+        if (!createGroupForm) return false;
+
         if (editableGroup) {
             return (
-                createGroupForm.groupName.trim() !== '' && 
+                groupName.trim() !== '' && 
                 addedUsers.length > 1 &&
                 (
-                    createGroupForm.groupName.trim() !== editableGroup.groupname.trim() ||
+                    groupName.trim() !== editableGroup.groupname?.trim() ||
                     !compareMemberArrays(addedUsers, existingMembers) ||
-                    createGroupForm.groupColour != editableGroup.groupcolour
+                    groupColour !== editableGroup.groupcolour
                 )
             );
         }
         else {
             return (
-                createGroupForm.groupName.trim() !== '' && 
+                groupName.trim() !== '' && 
                 addedUsers.length > 0
             )
         }
-    }, [createGroupForm.groupName, createGroupForm.groupColour, addedUsers, existingMembers, editableGroup]);
+    }, [groupName, groupColour, addedUsers, existingMembers, editableGroup]);
+
+    if (!user) return <div><p>Please wait, loading...</p></div>
 
     return (
         <div>
@@ -56,13 +63,13 @@ export default function CreateGroupForm ({submitGroupFunc, createGroupForm, setG
                 <fieldset className={`${styles.fieldset} ${theme[`fldst${userTheme}`]}`}>
                     <div className={sharedStyles.colflex}>
                         <label className={styles.formLabel} htmlFor="group-name">Group Name *</label>
-                        <input className={`${styles.formInput} ${createGroupForm.groupName === '' ? styles.invalidInput : null}`} maxLength={18} type="text" id="group-name" name="group-name" placeholder={ editableGroup ? editableGroup.groupname : 'Enter name for new group.' }  value={createGroupForm.groupName} onChange={(e) => setGroupForm({...createGroupForm, groupName: e.target.value})} required autoFocus />
-                        <p className={`${createGroupForm.groupName === '' ? styles.invalidMessage : styles.validMessage}`}><em>Group name must not be empty</em></p>
+                        <input className={`${styles.formInput} ${groupName === '' ? styles.invalidInput : null}`} maxLength={18} type="text" id="group-name" name="group-name" placeholder={ editableGroup ? editableGroup.groupname : 'Enter name for new group.' }  value={groupName} onChange={(e) => setGroupForm({...createGroupForm, groupName: e.target.value})} required autoFocus />
+                        <p className={`${groupName === '' ? styles.invalidMessage : styles.validMessage}`}><em>Group name must not be empty</em></p>
                     </div>
 
                     <div className={sharedStyles.colflex}>
                         <label className={styles.formLabel} htmlFor="group-colour">Group Colour</label>
-                        <input type="color" id="group-colour" name="group-colour" placeholder={ editableGroup ? editableGroup.groupcolour : undefined } value={createGroupForm.groupColour} onChange={(e) => setGroupForm({...createGroupForm, groupColour: e.target.value})} required />
+                        <input type="color" id="group-colour" name="group-colour" placeholder={ editableGroup ? editableGroup.groupcolour : '#FFFFFF' } value={groupColour} onChange={(e) => setGroupForm({...createGroupForm, groupColour: e.target.value})} required />
                     </div>
 
                     <div className={sharedStyles.colflex}>
