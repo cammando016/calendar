@@ -1,5 +1,4 @@
 'use client'
-
 import ErrorNavbar from "@/components/ErrorNavbar";
 
 export default function Error({ error }) {
@@ -8,7 +7,7 @@ export default function Error({ error }) {
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "80dvh" }}>
             <h1>Something went wrong</h1>
             <p>{error?.message || 'An unknown error occurred'}</p>
-            <p>Please return to the <a href="/">Home Page</a></p>
+            <p>Please return to the <a href="/">Home Page</a> or <a href="/login">Login</a> to your account.</p>
         </div>
         <ErrorNavbar />
         </div>

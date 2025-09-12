@@ -71,3 +71,16 @@ export const setOrdinal = (number) => {
             return 'th'
     }
 }
+
+export const adjustTz = (date) => {
+    if (!date) {
+        return null;
+    }
+    const dt = new Date(date);
+    if (isNaN(dt.getTime())) {
+        return null;
+    }
+    const offsetTz = dt.getTimezoneOffset();
+    dt.setMinutes(dt.getMinutes() - offsetTz);
+    return dt;
+}

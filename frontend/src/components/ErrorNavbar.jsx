@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import styles from '../styles/layout.module.css';
 import sharedStyles from '../styles/shared.module.css';
 import theme from '../styles/theme.module.css';

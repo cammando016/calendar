@@ -27,7 +27,7 @@ export default function Event ({ eventRecord, updateEvent, setEdit, activeEvent,
                     {/* Display event name and times */}
                     <div className={`${sharedStyles.colflex} ${styles.eventoverview}`}>
                         <h4 className={`${styles.eventp}`}>{eventRecord.eventname}</h4>
-                        <p className={`${styles.eventp}`}>{months[parseInt(eventRecord.eventstarttime.slice(5,7))-1]} {eventRecord.eventstarttime.slice(8, 10)} { eventRecord.eventstarttime.slice(0,10) !== eventRecord.eventendtime.slice(0,10) && '- ' + months[parseInt(eventRecord.eventendtime.slice(5, 7))-1] + ' ' + eventRecord.eventendtime.slice(8, 10) }</p>
+                        <p className={`${styles.eventp}`}>{months[parseInt(eventRecord.eventstarttime.slice(5,7))-1]} {eventRecord.eventstarttime.slice(8, 10)} { parseInt(eventRecord.displaydate.slice(0, 4)) > now.getFullYear() ? eventRecord.displaydate.slice(0, 4) : eventRecord.eventstarttime.slice(0,10) !== eventRecord.eventendtime.slice(0,10) && '- ' + months[parseInt(eventRecord.eventendtime.slice(5, 7))-1] + ' ' + eventRecord.eventendtime.slice(8, 10) }</p>
                         <p className={`${styles.eventp}`}>{eventRecord.eventstarttime.slice(11, 16)} - {eventRecord.eventendtime.slice(11, 16)}</p>
                     </div>
                     <div className={`${sharedStyles.colflex} ${sharedStyles.cardbuttons}`}>
