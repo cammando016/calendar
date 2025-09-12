@@ -70,11 +70,12 @@ router.post('/signup', async (req, res) => {
             //Create event for new users birthday
             const birthdateEnd = new Date(birthdate);
             birthdateEnd.setHours(23,59,59,0);
+            const yearDiff = creationdate.getFullYear() - new Date(birthdate).getFullYear();
             await pool.query(
                 `INSERT INTO events 
-                (eventname, eventstarttime, eventcreationdate, eventstartdate, eventgroupid, eventcreatorid, eventendtime, eventenddate, eventtype)
-                VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
-                [`${username}'s Birthday`, birthdate, creationdate, birthdate, newGroupId, newUserId, birthdateEnd, birthdate, "birthdate"]
+                (eventname, eventstarttime, eventcreationdate, eventstartdate, eventgroupid, eventcreatorid, eventendtime, eventenddate, eventtype, eventnotes)
+                VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`,
+                [`${username}'s Birthday`, birthdate, creationdate, birthdate, newGroupId, newUserId, birthdateEnd, birthdate, "birthdate", yearDiff]
             )
 
             return res.status(201).json({message: 'User Registered'});

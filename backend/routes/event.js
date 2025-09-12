@@ -52,30 +52,46 @@ router.get('/events', async (req, res) => {
 
         const events = await pool.query(
             `SELECT e.eventcreationdate, e.eventendtime, e.eventid, e.eventname, e.eventnotes, e.eventstarttime, e.eventtype, e.eventgroupid, u.username, g.groupname, g.groupcolour,
-            CASE 
-                WHEN e.eventtype = $3 THEN
-                    make_date(
-                        EXTRACT(YEAR FROM CURRENT_DATE)::int +
-                            (CASE WHEN to_char(e.eventstarttime, 'MM-DD') < to_char(CURRENT_DATE, 'MM-DD') THEN 1 ELSE 0 END),
-                        EXTRACT(MONTH FROM e.eventstarttime)::int,
-                        EXTRACT(DAY FROM e.eventstarttime)::int
-                    )
-                ELSE e.eventstarttime
-            END AS displaydate,
-            CASE 
-                WHEN e.eventtype = $3 THEN EXTRACT(YEAR FROM AGE(e.eventstarttime))::int
-                ELSE NULL
-            END AS age
+                CASE 
+                    WHEN e.eventtype = $3 THEN
+                        make_date(
+                            EXTRACT(YEAR FROM CURRENT_DATE)::int +
+                                (CASE WHEN to_char(e.eventstarttime, 'MM-DD') < to_char(CURRENT_DATE, 'MM-DD') THEN 1 ELSE 0 END),
+                            EXTRACT(MONTH FROM e.eventstarttime)::int,
+                            EXTRACT(DAY FROM e.eventstarttime)::int
+                        )
+                    ELSE e.eventstarttime
+                END AS displaydate,
+                CASE 
+                    WHEN e.eventtype = $3 THEN EXTRACT(YEAR FROM AGE(e.eventstarttime))::int
+                    ELSE NULL
+                END AS age
             FROM events e
             JOIN users u ON e.eventcreatorid = u.userid
             JOIN groups g ON e.eventgroupid = g.groupid
-            WHERE EXISTS (
-                SELECT 1
-                FROM user_groups ug
-                WHERE ug.groupid = e.eventgroupid
-                AND ug.userid = $1
-            )
-            AND (e.eventtype = $3 OR e.eventstarttime >= $2)
+            WHERE 
+                (
+                    e.eventtype = $3
+                    AND e.eventcreatorid IN 
+                    (
+                        SELECT DISTINCT other_ug.userid
+                        FROM user_groups my_ug
+                        JOIN user_groups other_ug
+                        ON my_ug.groupid = other_ug.groupid
+                        WHERE my_ug.userid = $1
+                    )
+                )
+            OR
+                (
+                    e.eventstarttime >= $2
+                    AND EXISTS 
+                    (
+                        SELECT 1
+                        FROM user_groups ug
+                        WHERE ug.groupid = e.eventgroupid
+                        AND ug.userid = $1
+                    )
+                )
             ORDER BY displaydate ASC;`,
             [userQueryId, firstOfMonth, 'birthdate']
         );
