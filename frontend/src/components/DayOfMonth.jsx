@@ -42,7 +42,7 @@ export default function DayOfMonth({ date, inCurrentMonth }) {
 
                     {/* Add event to selected date */}
                     {
-                        dateObject >= today &&
+                        (dateObject >= today && user) &&
                         <div className={`${styles.row} ${styles.bottomrow}`}>
                             <div className="add-event">
                                 <Link style={{textDecoration: 'none'}} href={`/events/create/${date}`}><button style={{width: '5vw', height: '5vw', display: 'flex', justifyContent: 'center', alignItems: 'center'}} className={`${sharedStyles.btn} ${sharedStyles.smallbtn} ${theme[`btn${userTheme}`]}`}>+</button></Link>
