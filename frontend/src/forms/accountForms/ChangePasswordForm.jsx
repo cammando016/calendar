@@ -12,6 +12,7 @@ import Link from 'next/link';
 export default function ChangePasswordForm({}) {
     const router = useRouter();
     const { user } = useUser();
+    const userTheme = user?.theme || 'green';
     //Store and update state of user entry into account recovery fields
     const [fieldValues, setFieldValues] = useState({
         recoveryUsername: '',
@@ -78,7 +79,7 @@ export default function ChangePasswordForm({}) {
             <h3 className={sharedStyles.sectionheading}>Change Password</h3>
             <form onSubmit={handleSubmit}>
                 {/* User must enter their username first, to check if it is found in the DB and get recovery question */}
-                <fieldset className={`${styles.fieldset} ${user ? theme[`fldst${user.theme}`] : theme.fldstgreen}`}>
+                <fieldset className={`${styles.fieldset} ${theme[`fldst${userTheme}`]}`}>
                     <legend><h4 className={styles.legendHeading}>Account Reset</h4></legend>
                     <div className={sharedStyles.colflex}>
                         <label className={styles.inputLabel} htmlFor='recover-username'>Account Username *</label>
@@ -86,13 +87,13 @@ export default function ChangePasswordForm({}) {
                         <p className={fieldValues.recoveryUsername === '' ? styles.invalidMessage : styles.validMessage}><em>Username is required</em></p>
                     </div>
 
-                    <button className={`${usernameDisabled && styles.validMessage} ${sharedStyles.btn} ${sharedStyles.medbtn} ${user ? theme[`btn${user.theme}`] : theme.btngreen}`} onClick={fetchUserRecovery} disabled={fieldValues.recoveryUsername === ''}>Check Username</button>
+                    <button className={`${usernameDisabled && styles.validMessage} ${sharedStyles.btn} ${sharedStyles.medbtn} ${theme[`btn${userTheme}`]}`} onClick={fetchUserRecovery} disabled={fieldValues.recoveryUsername === ''}>Check Username</button>
                 </fieldset>
                 {
                     //If the username was found in DB, display recovery question and input to type answer
                     accountDetails.username && (
                         <>
-                            <fieldset className={`${styles.fieldset} ${user ? theme[`fldst${user.theme}`] : theme.fldstgreen}`}>
+                            <fieldset className={`${styles.fieldset} ${theme[`fldst${user.theme}`]}`}>
                                 <legend><h4 className={styles.legendHeading}>Account Recovery</h4></legend>
                                 <div className={sharedStyles.colflex}>
                                     <p style={{marginBottom: '15px', marginTop: '0'}}>Recovery Question:</p> 
@@ -105,7 +106,7 @@ export default function ChangePasswordForm({}) {
                                 </div>
                             </fieldset>
 
-                            <fieldset  className={`${styles.fieldset} ${user ? theme[`fldst${user.theme}`] : theme.fldstgreen}`}id="set-password" name="Set Password">
+                            <fieldset className={`${styles.fieldset} ${theme[`fldst${userTheme}`]}`}id="set-password" name="Set Password">
                                 <legend><h4 className={styles.legendHeading}>Reset Password</h4></legend>
 
                                 <div className={sharedStyles.colflex}>
@@ -123,9 +124,9 @@ export default function ChangePasswordForm({}) {
                             </fieldset>
 
                             <Link href={'/account'}>
-                                <button type='button' className={`${sharedStyles.btn} ${sharedStyles.medbtn} ${user ? theme[`btn${user.theme}`] : theme.btngreen}`}>Cancel</button>
+                                <button type='button' className={`${sharedStyles.btn} ${sharedStyles.medbtn} ${theme[`btn${userTheme}`]}`}>Cancel</button>
                             </Link>
-                            <button className={`${sharedStyles.btn} ${sharedStyles.medbtn} ${user ? theme[`btn${user.theme}`] : theme.btngreen}`} type="submit" id="change-password" disabled={!isValid}>Change Password</button>
+                            <button className={`${sharedStyles.btn} ${sharedStyles.medbtn} ${theme[`btn${userTheme}`]}`} type="submit" id="change-password" disabled={!isValid}>Change Password</button>
                         </> 
                     )
                 }

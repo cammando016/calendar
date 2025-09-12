@@ -21,6 +21,7 @@ export default function Page() {
     //Get context values to compare event creator and auth'd user
     const { eventList } = useEventList();
     const { user } = useUser();
+    const userTheme = user?.theme || 'green';
     
     const [createdPageNum, setCreatedPageNum] = useState(0);
     const [invitedPageNum, setInvitedPageNum] = useState(0);
@@ -109,7 +110,7 @@ export default function Page() {
                 <div id="event-list-user-created">
                     <div className={`${sharedStyles.rowflex} ${sharedStyles.sectionheading}`}>
                         <h4>Created Events</h4>
-                        <Link href='/events/create'><button type='button' className={`${sharedStyles.btn} ${sharedStyles.medbtn} ${user ? theme[`btn${user.theme}`] : theme.btngreen}`}>Create Event</button></Link>
+                        <Link href='/events/create'><button type='button' className={`${sharedStyles.btn} ${sharedStyles.medbtn} ${theme[`btn${userTheme}`]}`}>Create Event</button></Link>
                     </div>
                     {
                         createdEvents.slice(createdPageNum * 3, (createdPageNum + 1) * 3).map(evt => {

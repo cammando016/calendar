@@ -31,15 +31,15 @@ export default function AccountDetailsForm ({registerAccount, submitFunc, setFor
                     }
                     <div className={sharedStyles.colflex}>
                         <label className={formStyles.formLabel} htmlFor="first-name">First Name *</label>
-                        <input className={`${formStyles.formInput} ${form.firstname === '' ? formStyles.invalidInput : null }`} placeholder={!registerAccount ? `${user.firstname}` : 'Enter your first name' } type="text" id="first-name" name="first-name" value={form.firstname} onChange={(e) => setFormFunc({...form, firstname: e.target.value})} required />
+                        <input className={`${formStyles.formInput} ${form.firstname === '' ? formStyles.invalidInput : null }`} placeholder={'Enter your first name'} type="text" id="first-name" name="first-name" value={form.firstname} onChange={(e) => setFormFunc({...form, firstname: e.target.value})} required />
                     </div>
                     <div className={sharedStyles.colflex}>
                         <label className={formStyles.formLabel} htmlFor="account-birthday">Birthday *</label>
-                        <input className={`${formStyles.formInput} ${form.birthdate === '' ? formStyles.invalidInput : null }`} placeholder={!registerAccount ? `${user.birthdate}` : undefined } type="date" id="account-birthday" name="account-birthday" value={form.birthdate} onChange={(e) => setFormFunc({...form, birthdate: e.target.value})} required />
+                        <input className={`${formStyles.formInput} ${form.birthdate === '' ? formStyles.invalidInput : null }`} type="date" id="account-birthday" name="account-birthday" value={form.birthdate} onChange={(e) => setFormFunc({...form, birthdate: e.target.value})} required />
                     </div>
                     <div className={sharedStyles.colflex}>
                         <label className={formStyles.formLabel} htmlFor="default-view">Default Calendar View *</label>
-                        <select className={`${formStyles.formInput} ${form.defaultview === '' ? formStyles.invalidInput : null }`} placeholder={!registerAccount ? `${user.defaultView}` : 'Select your default calendar view' } id="default-view" name="default-view" size="1" value={form.defaultview} onChange={(e) => setFormFunc({...form, defaultview: e.target.value.toLowerCase()})} required>
+                        <select className={`${formStyles.formInput} ${form.defaultview === '' ? formStyles.invalidInput : null }`} placeholder={'Select your default calendar view' } id="default-view" name="default-view" size="1" value={form.defaultview} onChange={(e) => setFormFunc({...form, defaultview: e.target.value.toLowerCase()})} required>
                             <option value="year">Year</option>
                             <option value="month">Month</option>
                             <option value="week">Week</option>
@@ -48,7 +48,7 @@ export default function AccountDetailsForm ({registerAccount, submitFunc, setFor
                     {/* User theme currently inactive, only default theme in use initially */}
                     <div className={sharedStyles.colflex}>
                         <label className={formStyles.formLabel} htmlFor="account-theme">Theme *</label>
-                        <select className={`${formStyles.formInput} ${form.usertheme === '' ? formStyles.invalidInput : null }`} placeholder={!registerAccount ? `${user.theme}` : 'Select your colour theme' } id="account-theme" name="account-theme" size="1" value={form.usertheme} onChange={(e) => setFormFunc({...form, usertheme: e.target.value.toLowerCase()})} required>
+                        <select className={`${formStyles.formInput} ${form.usertheme === '' ? formStyles.invalidInput : null }`} placeholder={'Select your colour theme' } id="account-theme" name="account-theme" size="1" value={form.usertheme} onChange={(e) => setFormFunc({...form, usertheme: e.target.value.toLowerCase()})} required>
                             <option value='blue'>Blue</option>
                             <option value='green'>Green</option>
                             <option value='orange'>Orange</option>
@@ -62,11 +62,11 @@ export default function AccountDetailsForm ({registerAccount, submitFunc, setFor
                     <legend><h4 className={formStyles.legendHeading}>Account Recovery</h4></legend>
                     <div className={sharedStyles.colflex}>
                         <label className={formStyles.formLabel} htmlFor="recovery-question">Recovery Question *</label>
-                        <input className={`${formStyles.formInput} ${form.recquestion === '' ? formStyles.invalidInput : null }`} type="text" id="recovery-question" name="recovery-question" placeholder={!registerAccount ? `${user.recoveryQuestion}` : "Enter a password recovery question"} value={form.recquestion} onChange={(e) => setFormFunc({...form, recquestion: e.target.value})} required />
+                        <input className={`${formStyles.formInput} ${form.recquestion === '' ? formStyles.invalidInput : null }`} type="text" id="recovery-question" name="recovery-question" placeholder={"Enter a password recovery question"} value={form.recquestion} onChange={(e) => setFormFunc({...form, recquestion: e.target.value})} required />
                     </div>
                     <div className={sharedStyles.colflex}>
                         <label className={formStyles.formLabel} htmlFor="recovery-answer">Recovery Question Answer *</label>
-                        <input className={`${formStyles.formInput} ${form.recanswer === '' ? formStyles.invalidInput : null }`} type="text" id="recovery-answer" name="recovery-answer" placeholder={!registerAccount ? `${user.recoveryAnswer}` : "Enter the answer for your recovery question"} value={form.recanswer} onChange={(e) => setFormFunc({...form, recanswer: e.target.value})} required />
+                        <input className={`${formStyles.formInput} ${form.recanswer === '' ? formStyles.invalidInput : null }`} type="text" id="recovery-answer" name="recovery-answer" placeholder={"Enter the answer for your recovery question"} value={form.recanswer} onChange={(e) => setFormFunc({...form, recanswer: e.target.value})} required />
                     </div>
                 </fieldset>
 

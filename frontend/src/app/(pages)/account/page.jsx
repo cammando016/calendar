@@ -15,7 +15,7 @@ import theme from '@/styles/theme.module.css';
 export default function Page() {
     //Get current logged in user details
     const { user, updateUser } = useUser();
-
+    const userTheme = user?.theme || 'green';
     const router = useRouter();
 
     //Allow user to show delete account confirmation dialog modal if user clicks on 
@@ -51,26 +51,21 @@ export default function Page() {
                     <div id="acc-details-auth">
                         <div style={{paddingLeft: '5px'}} id="account-details">
                             <h4 style={{marginBottom: '0'}}>First Name</h4> <p style={{marginTop: '10px'}}>{user.firstname}</p>
-
                             <h4 style={{marginBottom: '0'}}>Username</h4> <p style={{marginTop: '10px'}}>{user.username}</p>
-
                             <h4 style={{marginBottom: '0'}}>Birthday</h4> <p style={{marginTop: '10px'}}>{user.birthdate}</p>
-
                             <h4 style={{marginBottom: '0'}}>Default View</h4> <p style={{marginTop: '10px'}}>{user.defaultView}</p>
-
                             <h4 style={{marginBottom: '0'}}>Theme</h4> <p style={{marginTop: '10px'}}>{user.theme}</p>
-
                             <h4 style={{marginBottom: '0'}}>Recovery Question</h4> <p style={{marginTop: '10px'}}>{user.recoveryQuestion}</p>
                         </div>
 
                         <div className={sharedStyles.rowflex} style={{justifyContent: 'center'}} id="account-updaters">
                             <Link key='change-password-button' href='/account/reset-password'>
-                                <button className={`${sharedStyles.btn} ${sharedStyles.medbtn} ${user ? theme[`btn${user.theme}`] : theme.btngreen}`} type="button">Change Password</button>
+                                <button className={`${sharedStyles.btn} ${sharedStyles.medbtn} ${theme[`btn${userTheme}`]}`} type="button">Change Password</button>
                             </Link>
                             <Link key='edit-account-button' href='/account/edit' >
-                                <button className={`${sharedStyles.btn} ${sharedStyles.medbtn} ${user ? theme[`btn${user.theme}`] : theme.btngreen}`} type="button">Edit Account</button>
+                                <button className={`${sharedStyles.btn} ${sharedStyles.medbtn} ${theme[`btn${userTheme}`]}`} type="button">Edit Account</button>
                             </Link>
-                            <button className={`${sharedStyles.btn} ${sharedStyles.medbtn} ${user ? theme[`btn${user.theme}`] : theme.btngreen}`} type="button" onClick={openDeleteModal}>Delete Account</button>
+                            <button className={`${sharedStyles.btn} ${sharedStyles.medbtn} ${theme[`btn${userTheme}`]}`} type="button" onClick={openDeleteModal}>Delete Account</button>
                         </div>
 
                         {/* Show delete account confirmation pop up if delete account button clicked */}

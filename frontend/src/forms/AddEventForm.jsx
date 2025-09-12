@@ -7,6 +7,7 @@ import { useMemo } from "react";
 
 export default function AddEventForm ({ groupList, form, setForm, submitFunc, edit, submitDisabled }) {
     const { user } = useUser();
+    const userTheme = user?.theme || 'green';
 
     const isValid = useMemo(() => {
         return (
@@ -22,7 +23,7 @@ export default function AddEventForm ({ groupList, form, setForm, submitFunc, ed
         <div>
             <h3 className={sharedStyles.sectionheading}>{ edit ? 'Edit Event' : 'Create Event' }</h3>
             <form onSubmit={submitFunc} style={{overflowY: scroll, maxHeight: '65dvh'}}>
-                <fieldset className={`${styles.fieldset} ${user ? theme[`fldst${user.theme}`] : theme.fldstgreen}`}>
+                <fieldset className={`${styles.fieldset} ${theme[`fldst${userTheme}`]}`}>
                     <legend><h4 className={styles.legendHeading}>Event Details</h4></legend>
                     <div className={sharedStyles.colflex}>
                         <label className={styles.formLabel} htmlFor="event-name">Event Name *</label>
@@ -84,7 +85,7 @@ export default function AddEventForm ({ groupList, form, setForm, submitFunc, ed
                     }
                 </fieldset>
 
-                <fieldset className={`${styles.fieldset} ${user ? theme[`fldst${user.theme}`] : theme.fldstgreen}`}>
+                <fieldset className={`${styles.fieldset} ${theme[`fldst${userTheme}`]}`}>
                     <legend><h4 className={styles.legendHeading}>Event Times</h4></legend>
                     <div className={sharedStyles.colflex}>
                         <label className={styles.formLabel} htmlFor="event-start">Event Start *</label>
@@ -102,12 +103,12 @@ export default function AddEventForm ({ groupList, form, setForm, submitFunc, ed
                 </fieldset>
 
                 <div>
-                    <Link href='/events'><button className={`${sharedStyles.btn} ${sharedStyles.medbtn} ${user ? theme[`btn${user.theme}`] : theme.btngreen}`} type="button">Cancel</button></Link>
+                    <Link href='/events'><button className={`${sharedStyles.btn} ${sharedStyles.medbtn} ${theme[`btn${userTheme}`]}`} type="button">Cancel</button></Link>
                     {
                         submitDisabled ? (
                             <p>No details changed.</p>
                         ) : (
-                            <button className={`${sharedStyles.btn} ${sharedStyles.medbtn} ${user ? theme[`btn${user.theme}`] : theme.btngreen}`} type="submit" disabled={!isValid}> { edit ? 'Edit Event' : 'Create Event' } </button>
+                            <button className={`${sharedStyles.btn} ${sharedStyles.medbtn} ${theme[`btn${userTheme}`]}`} type="submit" disabled={!isValid}> { edit ? 'Edit Event' : 'Create Event' } </button>
                         )
                     }
                 </div>

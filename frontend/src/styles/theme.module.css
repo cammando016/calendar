@@ -16,6 +16,10 @@
     box-shadow: 2px 2px 3px rgb(23, 182, 92);   
 }
 
+.inputgreen {
+    accent-color: rgb(23, 182, 92);
+}
+
 /* RED THEME */
 .btnred,
 .fldstred,
@@ -34,7 +38,11 @@
     box-shadow: 2px 2px 3px rgb(244, 90, 90);
 }
 
-/* YELLOW THEME */
+.inputred {
+    accent-color: rgb(244, 90, 90);
+}
+
+/* ORANGE THEME */
 .btnorange,
 .fldstorange,
 .activelinkorange {
@@ -50,6 +58,10 @@
 .cardorange {
     border-color: rgb(255, 185, 56);
     box-shadow: 2px 2px 3px rgb(255, 185, 56);
+}
+
+.inputorange {
+    accent-color: rgb(255, 185, 56);
 }
 
 /* BLUE THEME */
@@ -70,6 +82,10 @@
     box-shadow: 2px 2px 3px rgb(14, 206, 236);
 }
 
+.inputblue {
+    accent-color: rgb(14, 206, 236);
+}
+
 /* PURPLE THEME */
 .btnpurple,
 .fldstpurple,
@@ -86,4 +102,8 @@
 .cardpurple {
     border-color: rgb(198, 63, 236);
     box-shadow: 2px 2px 3px rgb(198, 63, 236);
+}
+
+.inputpurple {
+    accent-color: rgb(198, 63, 236);
 }

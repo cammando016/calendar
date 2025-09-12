@@ -14,6 +14,7 @@ const weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
 export default function Month ({ date }) {
     const { user } = useUser();
+    const userTheme = user?.theme || 'green';
     const { eventList } = useEventList();
     //Convert date prop from string to date object
     const dateObject = new Date(date);
@@ -29,11 +30,11 @@ export default function Month ({ date }) {
                 {/* Move between previous/subsequent months */}
                 <h3>{date}</h3>
                 <p className={styles.calendarnav}>
-                    <button className={`${sharedStyles.medbtn} ${sharedStyles.btn} ${user ? theme[`btn${user.theme}`] : theme.btngreen}`} onClick={decrementYear}>{`<- Year`}</button>
-                    <button className={`${sharedStyles.medbtn} ${sharedStyles.btn} ${user ? theme[`btn${user.theme}`] : theme.btngreen}`} onClick={decrementMonth}>{`<- Month`}</button>
-                    <button className={`${sharedStyles.medbtn} ${sharedStyles.btn} ${user ? theme[`btn${user.theme}`] : theme.btngreen}`} onClick={resetDate}>Today</button>
-                    <button className={`${sharedStyles.medbtn} ${sharedStyles.btn} ${user ? theme[`btn${user.theme}`] : theme.btngreen}`} onClick={incrementMonth}>{`Month ->`}</button>
-                    <button className={`${sharedStyles.medbtn} ${sharedStyles.btn} ${user ? theme[`btn${user.theme}`] : theme.btngreen}`} onClick={incrementYear}>{`Year ->`}</button>
+                    <button className={`${sharedStyles.medbtn} ${sharedStyles.btn} ${theme[`btn${userTheme}`]}`} onClick={decrementYear}>{`<- Year`}</button>
+                    <button className={`${sharedStyles.medbtn} ${sharedStyles.btn} ${theme[`btn${userTheme}`]}`} onClick={decrementMonth}>{`<- Month`}</button>
+                    <button className={`${sharedStyles.medbtn} ${sharedStyles.btn} ${theme[`btn${userTheme}`]}`} onClick={resetDate}>Today</button>
+                    <button className={`${sharedStyles.medbtn} ${sharedStyles.btn} ${theme[`btn${userTheme}`]}`} onClick={incrementMonth}>{`Month ->`}</button>
+                    <button className={`${sharedStyles.medbtn} ${sharedStyles.btn} ${theme[`btn${userTheme}`]}`} onClick={incrementYear}>{`Year ->`}</button>
                 </p>
             </div>
             <table>

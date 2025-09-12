@@ -12,12 +12,13 @@ export default function MonthOfYear ({ month, date }) {
     const { setNewMonthView } = useDate();
 
     const { user } = useUser();
+    const userTheme = user?.theme || 'green';
     const { eventList } = useEventList();
     const eventCount = eventList.filter(evt => (new Date(evt.eventstarttime.slice(0,10)).getMonth() === month && (new Date(evt.eventstarttime.slice(0, 10)).getFullYear() === dateObject.getFullYear()))).length
     return (
         //Show month name and number of events in the month
-        <div className={`${styles.monthofyear} ${sharedStyles.cardborder} ${user ? theme[`card${user.theme}`] : theme.cardgreen} ${sharedStyles.cardcolour}`}>
-            <button className={`${sharedStyles.btn} ${sharedStyles.medbtn} ${user ? theme[`btn${user.theme}`] : theme.btngreen}`} type='button' onClick={() => { setNewMonthView(month, dateObject.getFullYear()) }}>{months[month]}</button>
+        <div className={`${styles.monthofyear} ${sharedStyles.cardborder} ${theme[`card${userTheme}`]} ${sharedStyles.cardcolour}`}>
+            <button className={`${sharedStyles.btn} ${sharedStyles.medbtn} ${theme[`btn${userTheme}`]}`} type='button' onClick={() => { setNewMonthView(month, dateObject.getFullYear()) }}>{months[month]}</button>
             <p className={styles.monthp}>{eventCount} events</p>
         </div>
     )

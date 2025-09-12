@@ -39,6 +39,7 @@ export default function Navbar ({ user, handleLogout }) {
     ];
 
     const currentPage = usePathname();
+    const userTheme = user?.theme || 'green';
 
     return (
         // Navigation bar at the bottom of the page
@@ -52,7 +53,7 @@ export default function Navbar ({ user, handleLogout }) {
                                 <Link
                                     key={page.name.toLowerCase()}
                                     href={page.href}
-                                    className={`${styles.navitem} ${user ? theme[`nav${user.theme}`] : theme.navgreen} ${sharedStyles.colflex}`}
+                                    className={`${styles.navitem} ${theme[`nav${userTheme}`]} ${sharedStyles.colflex}`}
                                 >
                                     <Image 
                                         src={page.imgSrc}
@@ -60,7 +61,7 @@ export default function Navbar ({ user, handleLogout }) {
                                         width={30}
                                         height={30}
                                     />
-                                    <p className={`${styles.navtext} ${currentPage === page.href ? styles.activeLink : null} ${user ? theme[`activelink${user.theme}`] : theme.activelinkgreen}`}>{page.name}</p>
+                                    <p className={`${styles.navtext} ${currentPage === page.href ? styles.activeLink : null} ${theme[`activelink${userTheme}`]}`}>{page.name}</p>
                                 </Link>
                             )
                         })
@@ -76,7 +77,7 @@ export default function Navbar ({ user, handleLogout }) {
                                 width={30}
                                 height={30}
                             />
-                            <p className={`${styles.navtext} ${currentPage === '/account' ? styles.activeLink : null} ${user ? theme[`activelink${user.theme}`] : theme.activelinkgreen}`}>Account</p>
+                            <p className={`${styles.navtext} ${currentPage === '/account' ? styles.activeLink : null} ${theme[`activelink${userTheme}`]}`}>Account</p>
                         </Link>
                         <button onClick={handleLogout} id="nav-signout" style={{paddingTop: 0}} className={`${styles.navitem} ${sharedStyles.colflex} ${sharedStyles.logoutbtn}`}>
                             <Image 
@@ -101,7 +102,7 @@ export default function Navbar ({ user, handleLogout }) {
                                 width={30}
                                 height={30}
                             />
-                            <p className={`${styles.navtext} ${currentPage === '/' ? styles.activeLink : null} ${user ? theme[`activelink${user.theme}`] : theme.activelinkgreen}`}>Home</p>
+                            <p className={`${styles.navtext} ${currentPage === '/' ? styles.activeLink : null} ${theme[`activelink${userTheme}`]}`}>Home</p>
                         </Link>
                         <Link 
                             key={'signup'}
@@ -114,7 +115,7 @@ export default function Navbar ({ user, handleLogout }) {
                                 width={30}
                                 height={30}
                             />
-                            <p className={`${styles.navtext} ${currentPage === '/signup' ? styles.activeLink : null} ${user ? theme[`activelink${user.theme}`] : theme.activelinkgreen}`}>Sign Up</p>
+                            <p className={`${styles.navtext} ${currentPage === '/signup' ? styles.activeLink : null} ${theme[`activelink${userTheme}`]}`}>Sign Up</p>
                         </Link>
                         <Link
                             id="nav-signin" 
@@ -128,7 +129,7 @@ export default function Navbar ({ user, handleLogout }) {
                                 width={30}
                                 height={30}
                             />
-                            <p className={`${styles.navtext} ${currentPage === '/login' ? styles.activeLink : null} ${user ? theme[`activelink${user.theme}`] : theme.activelinkgreen}`}>Log In</p>
+                            <p className={`${styles.navtext} ${currentPage === '/login' ? styles.activeLink : null} ${theme[`activelink${userTheme}`]}`}>Log In</p>
                         </Link>
                     </>
                 )

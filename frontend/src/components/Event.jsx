@@ -14,12 +14,13 @@ export default function Event ({ eventRecord, updateEvent, setEdit, activeEvent,
     const handleEditClick = () => setEdit(eventRecord.eventid);
     const now = new Date();
     const { user } = useUser();
+    const userTheme = user?.theme || 'green';
 
     return (
-        <div className={`${sharedStyles.cardborder} ${user ? theme[`card${user.theme}`] : theme.cardgreen} ${sharedStyles.rowflex} ${styles.event}`}>
+        <div className={`${sharedStyles.cardborder} ${theme[`card${userTheme}`]} ${sharedStyles.rowflex} ${styles.event}`}>
             {
                 eventRecord.eventtype === 'birthdate' ?
-                <div className={`${sharedStyles.cardcolour} ${user.theme === 'blue' || user.theme === 'green' ? styles.birthdayalt : styles.birthday}`}></div> :
+                <div className={`${sharedStyles.cardcolour} ${userTheme === 'blue' || userTheme === 'green' ? styles.birthdayalt : styles.birthday}`}></div> :
                 <div className={sharedStyles.cardcolour} style={{backgroundColor: eventRecord.groupcolour, width: '5%'}}></div>
             }
             <div style={{width: '95%'}} className={`${sharedStyles.colflex} ${sharedStyles.cardtext}`}>
@@ -34,15 +35,15 @@ export default function Event ({ eventRecord, updateEvent, setEdit, activeEvent,
                         {
                             (userCreated && new Date(eventRecord.eventstarttime) > now) && (
                                 <div className={`${sharedStyles.rowflex}`}>
-                                    <Link href={`/events/${eventRecord.eventid}`}><button className={`${sharedStyles.medbtn} ${sharedStyles.btn} ${user ? theme[`btn${user.theme}`] : theme.btngreen}`} type="button" onClick={handleEditClick}>Edit</button></Link>
-                                    <button className={`${sharedStyles.medbtn} ${sharedStyles.btn} ${user ? theme[`btn${user.theme}`] : theme.btngreen}`} type="button" onClick={() => deleteEvent(eventRecord.eventid)}>Delete</button>
+                                    <Link href={`/events/${eventRecord.eventid}`}><button className={`${sharedStyles.medbtn} ${sharedStyles.btn} ${theme[`btn${userTheme}`]}`} type="button" onClick={handleEditClick}>Edit</button></Link>
+                                    <button className={`${sharedStyles.medbtn} ${sharedStyles.btn} ${theme[`btn${userTheme}`]}`} type="button" onClick={() => deleteEvent(eventRecord.eventid)}>Delete</button>
                                 </div>
                             )
                         }
                         {
                             !hideToggle && (
                                 <div>
-                                <button className={`${sharedStyles.medbtn} ${sharedStyles.btn} ${user ? theme[`btn${user.theme}`] : theme.btngreen}`} type="button" onClick={handleClick}>Toggle Details</button>
+                                <button className={`${sharedStyles.medbtn} ${sharedStyles.btn} ${theme[`btn${userTheme}`]}`} type="button" onClick={handleClick}>Toggle Details</button>
                                 </div>
                             )
                         }

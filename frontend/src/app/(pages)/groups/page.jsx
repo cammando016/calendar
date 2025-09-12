@@ -14,6 +14,7 @@ import { incrementPage, decrementPage, firstPage, lastPage } from "@/utils/pagin
 export default function Page() {
     const { updateActiveGroup } = useGroup();
     const { user } = useUser();
+    const userTheme = user?.theme || 'green';
     const { usersGroups, fetchUsersGroups } = useGroupList();
 
     const [createdPageNum, setCreatedPageNum] = useState(0);
@@ -40,7 +41,7 @@ export default function Page() {
             <div className={sharedStyles.overflow}>
                 <div className={`${sharedStyles.sectionheading} ${sharedStyles.rowflex}`}>
                     <h4>Created groups</h4>
-                    <Link href={'/groups/create'}><button type="button" className={`${sharedStyles.btn} ${sharedStyles.medbtn} ${user ? theme[`btn${user.theme}`] : theme.btngreen}`}>Create Group</button></Link>
+                    <Link href={'/groups/create'}><button type="button" className={`${sharedStyles.btn} ${sharedStyles.medbtn} ${theme[`btn${userTheme}`]}`}>Create Group</button></Link>
                 </div>
                 {
                     user ? (

@@ -6,22 +6,23 @@ import { useUser } from '@/context/UserContext';
 
 export default function SelectViewMode ({ viewMode, setViewMode }) {
     const { user } = useUser();
+    const userTheme = user?.theme || 'green';
     return (
         <form>
-          <fieldset id="view-mode" className={`${sharedStyles.rowflex} ${styles.viewselect} ${user ? theme[`fldst${user.theme}`] : theme.fldstgreen}`}>
+          <fieldset id="view-mode" className={`${sharedStyles.rowflex} ${styles.viewselect} ${theme[`fldst${userTheme}`]}`}>
             <legend>View Mode</legend>
             <div>
-                <input type="radio" value="year" id="year" name="view_mode" checked={viewMode === 'year'} onChange={() => setViewMode('year')} />
+                <input className={theme[`input${userTheme}`]} type="radio" value="year" id="year" name="view_mode" checked={viewMode === 'year'} onChange={() => setViewMode('year')} />
                 <label htmlFor="year">Year</label>
             </div>
 
             <div>
-                <input type="radio" value="month" id="month" name="view_mode" checked={viewMode === 'month'} onChange={() => setViewMode('month')} />
+                <input className={theme[`input${userTheme}`]} type="radio" value="month" id="month" name="view_mode" checked={viewMode === 'month'} onChange={() => setViewMode('month')} />
                 <label htmlFor="month">Month</label>
             </div>
             
             <div>
-                <input type="radio" value="week" id="week" name="view_mode" checked={viewMode === 'week'} onChange={() => setViewMode('week')} />
+                <input className={theme[`input${userTheme}`]} type="radio" value="week" id="week" name="view_mode" checked={viewMode === 'week'} onChange={() => setViewMode('week')} />
                 <label htmlFor="week">Week</label>
             </div>
           </fieldset>

@@ -12,11 +12,12 @@ export default function DayOfMonth({ date, inCurrentMonth }) {
     const { eventList } = useEventList();
     const dailyEvents = eventList.filter(listedEvent => matchDates(dateObject, listedEvent.displaydate.slice(0, 10)));
     const { user } = useUser();
+    const userTheme = user?.theme || 'green';
     const today = new Date();
     today.setHours(0,0,0,0);
 
     return (
-        <div className={`${sharedStyles.cardborder} ${user ? theme[`card${user.theme}`] : theme.cardgreen} ${styles.dayofmonth} ${sharedStyles.rowflex} ${inCurrentMonth ? '' : styles.offmonth} ${matchDates(new Date(), dateObject) ? user ? theme[`today${user.theme}`] : theme.todaygreen : ''}`}>
+        <div className={`${sharedStyles.cardborder} ${theme[`card${userTheme}`]} ${styles.dayofmonth} ${sharedStyles.rowflex} ${inCurrentMonth ? '' : styles.offmonth} ${matchDates(new Date(), dateObject) ? theme[`today${userTheme}`] : ''}`}>
             {/* Display dot icons for list of events user is part of for the day */}
             {
                 dailyEvents.length > 0 && (
@@ -24,7 +25,7 @@ export default function DayOfMonth({ date, inCurrentMonth }) {
                         {
                             dailyEvents.slice(0,4).map(dailyEvent => (
                                 dailyEvent.eventtype === 'birthdate' ?
-                                <div key={dailyEvent.eventid} className={`${user.theme === 'blue' || user.theme === 'green' ? styles.birthdayiconalt : styles.birthdayicon}`}></div> :
+                                <div key={dailyEvent.eventid} className={`${userTheme === 'blue' || userTheme === 'green' ? styles.birthdayiconalt : styles.birthdayicon}`}></div> :
                                 <div key={dailyEvent.eventid} style={{backgroundColor: dailyEvent.groupcolour}} className={styles.eventicon}></div>
                             ))
                         }
@@ -44,7 +45,7 @@ export default function DayOfMonth({ date, inCurrentMonth }) {
                         dateObject >= today &&
                         <div className={`${styles.row} ${styles.bottomrow}`}>
                             <div className="add-event">
-                                <Link style={{textDecoration: 'none'}} href={`/events/create/${date}`}><button style={{width: '5vw', height: '5vw', display: 'flex', justifyContent: 'center', alignItems: 'center'}} className={`${sharedStyles.btn} ${sharedStyles.smallbtn} ${user ? theme[`btn${user.theme}`] : theme.btngreen }`}>+</button></Link>
+                                <Link style={{textDecoration: 'none'}} href={`/events/create/${date}`}><button style={{width: '5vw', height: '5vw', display: 'flex', justifyContent: 'center', alignItems: 'center'}} className={`${sharedStyles.btn} ${sharedStyles.smallbtn} ${theme[`btn${userTheme}`]}`}>+</button></Link>
                             </div>  
                         </div>
                     }

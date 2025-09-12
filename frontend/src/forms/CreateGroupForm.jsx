@@ -8,6 +8,7 @@ import Link from 'next/link';
 import { compareMemberArrays } from '@/utils/createGroup';
 
 export default function CreateGroupForm ({submitGroupFunc, createGroupForm, setGroupForm, addedUsers, setAddedUsers, user, editableGroup}) {
+    const userTheme = user?.theme || 'green';
     //Empty array that will update with users added to the group before submitting
     const [newMember, setNewMember] = useState('');
     const submitText = editableGroup ? 'Edit Group' : 'Create Group';
@@ -52,7 +53,7 @@ export default function CreateGroupForm ({submitGroupFunc, createGroupForm, setG
                 <h3>{submitText}</h3>
             </div>
             <form id='create-group' onSubmit={submitGroupFunc}>
-                <fieldset className={`${styles.fieldset} ${user ? theme[`fldst${user.theme}`] : theme.fldstgreen}`}>
+                <fieldset className={`${styles.fieldset} ${theme[`fldst${userTheme}`]}`}>
                     <div className={sharedStyles.colflex}>
                         <label className={styles.formLabel} htmlFor="group-name">Group Name *</label>
                         <input className={`${styles.formInput} ${createGroupForm.groupName === '' ? styles.invalidInput : null}`} maxLength={18} type="text" id="group-name" name="group-name" placeholder={ editableGroup ? editableGroup.groupname : 'Enter name for new group.' }  value={createGroupForm.groupName} onChange={(e) => setGroupForm({...createGroupForm, groupName: e.target.value})} required autoFocus />
@@ -73,7 +74,7 @@ export default function CreateGroupForm ({submitGroupFunc, createGroupForm, setG
                                     newMember === user.username ? (
                                         <p className={`${styles.invalidMessage}`}><em>Group creator cannot be added to group as a member</em></p>
                                     ) : (
-                                        <button className={`${sharedStyles.btn} ${sharedStyles.medbtn} ${user ? theme[`btn${user.theme}`] : theme.btngreen}`} type='button' onClick={addMember} disabled={newMember === ''}>Add To Member List</button>
+                                        <button className={`${sharedStyles.btn} ${sharedStyles.medbtn} ${theme[`btn${userTheme}`]}`} type='button' onClick={addMember} disabled={newMember === ''}>Add To Member List</button>
                                     )
                                 }
                             </div>
@@ -83,8 +84,8 @@ export default function CreateGroupForm ({submitGroupFunc, createGroupForm, setG
                 </fieldset>
 
                 <div>
-                    <Link href='/groups'><button type='button' className={`${sharedStyles.btn} ${sharedStyles.medbtn} ${user ? theme[`btn${user.theme}`] : theme.btngreen}`}>Cancel</button></Link>
-                    <button className={`${sharedStyles.btn} ${sharedStyles.medbtn} ${user ? theme[`btn${user.theme}`] : theme.btngreen}`} type="submit" disabled={!validForm}>{submitText}</button>  
+                    <Link href='/groups'><button type='button' className={`${sharedStyles.btn} ${sharedStyles.medbtn} ${theme[`btn${userTheme}`]}`}>Cancel</button></Link>
+                    <button className={`${sharedStyles.btn} ${sharedStyles.medbtn} ${theme[`btn${userTheme}`]}`} type="submit" disabled={!validForm}>{submitText}</button>  
                 </div>
                 
             </form>
@@ -97,8 +98,8 @@ export default function CreateGroupForm ({submitGroupFunc, createGroupForm, setG
                 {
                     addedUsers.filter(users => (users !== user.username)).map((addedUser, i) => {
                         return (
-                            <div key={addedUser} className={`${styles.memberList} ${sharedStyles.rowflex} ${sharedStyles.cardborder}  ${user ? theme[`card${user.theme}`] : theme.cardgreen} ${sharedStyles.cardcolour}`}>
-                                    <button className={`${sharedStyles.btn} ${sharedStyles.smallbtn} ${user ? theme[`btn${user.theme}`] : theme.btngreen}`} type='button' onClick={() => removeMember(addedUser)}>X</button>
+                            <div key={addedUser} className={`${styles.memberList} ${sharedStyles.rowflex} ${sharedStyles.cardborder}  ${theme[`card${userTheme}`]} ${sharedStyles.cardcolour}`}>
+                                    <button className={`${sharedStyles.btn} ${sharedStyles.smallbtn} ${theme[`btn${userTheme}`]}`} type='button' onClick={() => removeMember(addedUser)}>X</button>
                                     <p className={styles.memberName}>{addedUser}</p>
                             </div>
                         )
