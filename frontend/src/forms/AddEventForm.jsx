@@ -22,7 +22,7 @@ export default function AddEventForm ({ groupList, form, setForm, submitFunc, ed
     return (
         <div>
             <h3 className={sharedStyles.sectionheading}>{ edit ? 'Edit Event' : 'Create Event' }</h3>
-            <form onSubmit={submitFunc} style={{overflowY: scroll, maxHeight: '65dvh'}}>
+            <form onSubmit={submitFunc} style={{overflowY: scroll}}>
                 <fieldset className={`${styles.fieldset} ${theme[`fldst${userTheme}`]}`}>
                     <legend><h4 className={styles.legendHeading}>Event Details</h4></legend>
                     <div className={sharedStyles.colflex}>

@@ -55,12 +55,14 @@ export default function Navbar ({ user, handleLogout }) {
                                     href={page.href}
                                     className={`${styles.navitem} ${theme[`nav${userTheme}`]} ${sharedStyles.colflex}`}
                                 >
-                                    <Image 
-                                        src={page.imgSrc}
-                                        alt={page.alt}
-                                        width={30}
-                                        height={30}
-                                    />
+                                    <div className={styles.navimgwrapper}>
+                                        <Image 
+                                            src={page.imgSrc}
+                                            alt={page.alt}
+                                            fill
+                                            className={styles.navimg}
+                                        />
+                                    </div>
                                     <p className={`${styles.navtext} ${currentPage === page.href ? styles.activeLink : null} ${theme[`activelink${userTheme}`]}`}>{page.name}</p>
                                 </Link>
                             )
@@ -71,21 +73,25 @@ export default function Navbar ({ user, handleLogout }) {
                             href={'/account'}
                             className={`${styles.navitem} ${sharedStyles.colflex}`}
                         >
-                            <Image 
-                                src='/account.png'
-                                alt='link to account icon'
-                                width={30}
-                                height={30}
-                            />
+                            <div className={styles.navimgwrapper}>
+                                <Image 
+                                    src='/account.png'
+                                    alt='link to account icon'
+                                    fill
+                                    className={styles.navimg}
+                                />
+                            </div>
                             <p className={`${styles.navtext} ${currentPage === '/account' ? styles.activeLink : null} ${theme[`activelink${userTheme}`]}`}>Account</p>
                         </Link>
                         <button onClick={handleLogout} id="nav-signout" style={{paddingTop: 0}} className={`${styles.navitem} ${sharedStyles.colflex} ${sharedStyles.logoutbtn}`}>
-                            <Image 
-                                src='/signout.png'
-                                alt='signout icon'
-                                width={30}
-                                height={30}
-                            />
+                            <div className={styles.navimgwrapper}>
+                                <Image 
+                                    src='/signout.png'
+                                    alt='signout icon'
+                                    fill
+                                    className={styles.navimg}
+                                />
+                            </div>
                             <p className={styles.navtext}>Log Out</p>
                         </button>
                     </>
@@ -96,12 +102,14 @@ export default function Navbar ({ user, handleLogout }) {
                             href={'/'}
                             className={`${styles.navitem} ${sharedStyles.colflex}`}
                         >
-                            <Image
-                                src={'/home.png'}
-                                alt={'home page link'}
-                                width={30}
-                                height={30}
-                            />
+                            <div className={styles.navimgwrapper}>
+                                <Image
+                                    src={'/home.png'}
+                                    alt={'home page link'}
+                                    fill
+                                    className={styles.navimg}
+                                />
+                            </div>
                             <p className={`${styles.navtext} ${currentPage === '/' ? styles.activeLink : null} ${theme[`activelink${userTheme}`]}`}>Home</p>
                         </Link>
                         <Link 
@@ -109,12 +117,14 @@ export default function Navbar ({ user, handleLogout }) {
                             href={'/signup'}
                             className={`${styles.navitem} ${sharedStyles.colflex}`}
                         >
-                            <Image 
-                                src='/signup.png'
-                                alt='link to signup page icon'
-                                width={30}
-                                height={30}
-                            />
+                            <div className={styles.navimgwrapper}>
+                                <Image 
+                                    src='/signup.png'
+                                    alt='link to signup page icon'
+                                    fill
+                                    className={styles.navimg}
+                                />
+                            </div>
                             <p className={`${styles.navtext} ${currentPage === '/signup' ? styles.activeLink : null} ${theme[`activelink${userTheme}`]}`}>Sign Up</p>
                         </Link>
                         <Link
@@ -123,12 +133,14 @@ export default function Navbar ({ user, handleLogout }) {
                             key='signin'
                             href='/login'
                         >
-                            <Image 
-                                src='/login.png'
-                                alt='login link icon'
-                                width={30}
-                                height={30}
-                            />
+                            <div className={styles.navimgwrapper}>
+                                <Image 
+                                    src='/login.png'
+                                    alt='login link icon'
+                                    fill
+                                    className={styles.navimg}
+                                />
+                            </div>
                             <p className={`${styles.navtext} ${currentPage === '/login' ? styles.activeLink : null} ${theme[`activelink${userTheme}`]}`}>Log In</p>
                         </Link>
                     </>
