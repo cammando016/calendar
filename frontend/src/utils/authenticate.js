@@ -3,7 +3,7 @@ const urlWithPort = `${process.env.NEXT_PUBLIC_API_BASE}${process.env.NEXT_PUBLI
 
 //Backend connection to check if submitted username/password matches user details in db
 export const logUserIn = async (credentials) => {
-    const res = await fetch(`${urlWithPort}/api/auth/login`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE}/api/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(credentials)
@@ -25,7 +25,7 @@ export const logUserIn = async (credentials) => {
 
 //Backend connection to post account details to DB on successful signup
 export const userSignup = async (details) => {
-    const res = await fetch(`${urlWithPort}/api/auth/signup`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE}/api/auth/signup`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(details)
@@ -34,7 +34,7 @@ export const userSignup = async (details) => {
 };
 
 export const getAccountRecovery = async (username) => {
-    const res = await fetch(`${urlWithPort}/api/auth/recover?username=${encodeURIComponent(username)}`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE}/api/auth/recover?username=${encodeURIComponent(username)}`, {
         method: 'GET'
     });
     return await res.json();

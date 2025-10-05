@@ -13,7 +13,7 @@ export const matchDates = (date1, date2) => {
 
 //Create new event record in db
 export const createEvent = async (details) => {
-    const res = await fetch(`${urlWithPort}/api/events`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE}/api/events`, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(details)
@@ -23,7 +23,7 @@ export const createEvent = async (details) => {
 
 //Submit event data to edit existing record
 export const editEvent = async(details) => {
-    const res = await fetch(`${urlWithPort}/api/events`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE}/api/events`, {
         method: 'PATCH',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(details)
@@ -33,14 +33,14 @@ export const editEvent = async(details) => {
 
 //Get list of all events authenticated user is part of
 export const fetchEvents = async(username) => {
-    const res = await fetch(`${urlWithPort}/api/events?username=${encodeURIComponent(username)}`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE}/api/events?username=${encodeURIComponent(username)}`, {
         method: 'GET'
     });
     return await res.json();
 }
 
 export const deleteEvent = async(eventid) => {
-    const res = await fetch(`${urlWithPort}/api/events`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE}/api/events`, {
         method: 'DELETE',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(eventid)
