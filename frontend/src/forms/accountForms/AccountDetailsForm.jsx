@@ -8,30 +8,19 @@ import { useState, useRef } from 'react';
 import ReCAPTCHA from 'react-google-recaptcha';
 
 export default function AccountDetailsForm ({registerAccount, submitFunc, setFormFunc, form, submitDisabled, createPassword, updatePassword, user}) {
-    const [recapPassed, setRecapPassed] = useState(false);
-    const recapref = useRef();
+    //const [recapPassed, setRecapPassed] = useState(false);
+    //const recapref = useRef();
 
-    const handleRecapChange = (value) => {
-        if (value) setRecapPassed(true);
-    }
+    // const handleRecapChange = (value) => {
+    //     if (value) setRecapPassed(true);
+    // }
     return (
         <div>
             {
                 registerAccount ? 
                 <div className={`${sharedStyles.sectionheading} ${sharedStyles.rowflex}`}>
                     <h3>Sign Up</h3>
-                    {
-                        recapPassed ?
-                        <button form='account' className={`${sharedStyles.btn} ${sharedStyles.medbtn} ${theme[`btn${form.usertheme}`]}`} type="submit" disabled={submitDisabled}>Create Account</button> :
-                        <div>
-                            <ReCAPTCHA 
-                                sitekey='6LfFdscrAAAAAFFVlSNnjEgHJ1dRjOM3z7sUmZfl'
-                                onChange={handleRecapChange}
-                                ref={recapref}
-                            />
-                        </div>
-                    }
-                    
+                    <button form='account' className={`${sharedStyles.btn} ${sharedStyles.medbtn} ${theme[`btn${form.usertheme}`]}`} type="submit" disabled={submitDisabled}>Create Account</button>
                 </div>
                 :
                 <div className={`${sharedStyles.sectionheading} ${sharedStyles.rowflex}`}>
