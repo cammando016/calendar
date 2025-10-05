@@ -75,7 +75,7 @@ export default function CreateGroupForm ({submitGroupFunc, createGroupForm, setG
                     <div className={sharedStyles.colflex}>
                         <label className={styles.formLabel} htmlFor="group-members">Group Members *</label>
                         <div className={sharedStyles.colflex}>
-                            <input className={`${styles.formInput} ${addedUsers.length === 0 ? styles.invalidInput : null}`} type="text" id="group-members" name="group-members" value={newMember} placeholder='Enter username for new member.' onChange={(e) => setNewMember(e.target.value)} />
+                            <input className={`${styles.formInput} ${addedUsers.length === 0 ? styles.invalidInput : null}`} type="text" id="group-members" name="group-members" value={newMember} placeholder='Enter username for new member.' onChange={(e) => setNewMember(e.target.value.toLowerCase())} />
                             <div>
                                 {
                                     newMember === user.username ? (
