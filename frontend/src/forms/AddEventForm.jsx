@@ -49,7 +49,7 @@ export default function AddEventForm ({ groupList, form, setForm, submitFunc, ed
 
                     <div className={sharedStyles.colflex}>
                         <label className={styles.formLabel} htmlFor="event-notes">Event Notes</label>
-                        <textarea className={styles.formInput} style={{height: '5em'}} placeholder="Optional notes for more information regarding event" rows={4} maxLength={255} type='text' name="event-notes" id="event-notes" value={form.eventNotes} onChange={(e) => setForm({...form, eventNotes: e.target.value.trim()})} />
+                        <textarea className={styles.formInput} style={{height: '5em'}} placeholder="Optional notes for more information regarding event" rows={4} maxLength={255} type='text' name="event-notes" id="event-notes" value={form.eventNotes} onChange={(e) => setForm({...form, eventNotes: e.target.value})} />
                     </div>
 
                     {
