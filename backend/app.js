@@ -20,5 +20,6 @@ app.use('/api/auth', authRoutes);
 app.use('/api', groupRoutes);
 app.use('/api/account', accountRoutes);
 app.use('/api', eventRoutes);
+app.get('/api/warmup', (req, res) => {res.status(200).send('OK');});
 
 app.listen(process.env.PORT, () => console.log(`Server running on port ${process.env.PORT}`));

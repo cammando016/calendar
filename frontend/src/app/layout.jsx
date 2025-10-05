@@ -9,12 +9,24 @@ import styles from '../styles/layout.module.css';
 import useLogout from "@/utils/useLogout";
 import Navbar from "@/components/Navbar";
 import { EventListProvider } from "@/context/EventListContext";
+import { useEffect } from "react";
 
 function LayoutContent({ children }) {
   //Import logout function
   const handleLogout = useLogout();
   //Get user if authenticated
   const { user } = useUser();
+
+  useEffect(() => {
+    const warmup = async () => {
+      try {
+        await fetch(process.env.NEXT_PUBLIC_API_BASE + "/api/warmup", {method: "GET"});
+      } catch (err) {
+        console.warn("Backend warmup failed:", err);
+      }
+    }
+    warmup();
+  }, [])
 
   return (
     <html>

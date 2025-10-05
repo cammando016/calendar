@@ -6,11 +6,10 @@ dotenv.config();
 types.setTypeParser(1082, val => val);
 
 const pool = new Pool({
-    host: process.env.HOST,
-    user: process.env.DATABASE_USER,
-    database: process.env.DATABASE,
-    password: process.env.DATABASE_PASSWORD,
-    port: Number(process.env.DATABASE_PORT)
+    connectionString: process.env.DATABASE_URL,
+    ssl: {
+        rejectUnauthorized: false,
+    },
 });
 
 export default pool;
