@@ -11,7 +11,7 @@ router.get('/recover', async(req, res) => {
     try {
         console.log('Received account recovery request', req.query);
         const { username } = req.query;
-        const usernameQuery = await pool.query('SELECT * FROM users WHERE username = $1', [username])
+        const usernameQuery = await pool.query('SELECT * FROM users WHERE username = $1', [username.toLowerCase()])
         const user = usernameQuery.rows[0]
 
         if (!user) {
@@ -94,7 +94,7 @@ router.post('/signup', async (req, res) => {
 router.post('/login', async (req, res) => {
     const { username, password } = req.body;
     try {
-        const result = await pool.query('SELECT * FROM users WHERE username = $1', [username]);
+        const result = await pool.query('SELECT * FROM users WHERE username = $1', [username.toLowerCase()]);
         const user = result.rows[0];
 
         if (!user) {
