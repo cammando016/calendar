@@ -109,23 +109,23 @@
 }
 
 /* PINK THEME */
-.btngreen,
-.fldstgreen,
-.activelinkgreen {
+.btnpink,
+.fldstpink,
+.activelinkpink {
     border-color: rgb(245, 144, 227);
 }
 
-.btngreen:hover,
-.navgreen:hover,
-.todaygreen {
+.btnpink:hover,
+.navpink:hover,
+.todaypink {
     background-color: rgba(245, 144, 227, 0.3);
 }
 
-.cardgreen {
+.cardpink {
     border-color: rgb(245, 144, 227);
     box-shadow: 2px 2px 3px rgb(245, 144, 227);   
 }
 
-.inputgreen {
+.inputpink {
     accent-color: rgb(245, 144, 227);
 }
