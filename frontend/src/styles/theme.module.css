@@ -107,3 +107,25 @@
 .inputpurple {
     accent-color: rgb(198, 63, 236);
 }
+
+/* PINK THEME */
+.btngreen,
+.fldstgreen,
+.activelinkgreen {
+    border-color: rgb(245, 144, 227);
+}
+
+.btngreen:hover,
+.navgreen:hover,
+.todaygreen {
+    background-color: rgba(245, 144, 227, 0.3);
+}
+
+.cardgreen {
+    border-color: rgb(245, 144, 227);
+    box-shadow: 2px 2px 3px rgb(245, 144, 227);   
+}
+
+.inputgreen {
+    accent-color: rgb(245, 144, 227);
+}

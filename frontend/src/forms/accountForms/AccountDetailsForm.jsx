@@ -61,6 +61,7 @@ export default function AccountDetailsForm ({registerAccount, submitFunc, setFor
                             <option value='blue'>Blue</option>
                             <option value='green'>Green</option>
                             <option value='orange'>Orange</option>
+                            <option value='pink'>Pink</option>
                             <option value='purple'>Purple</option>
                             <option value='red'>Red</option>
                         </select>
