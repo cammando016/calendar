@@ -1,6 +1,7 @@
 # Calendar
 
 _About This Project_
+
 A major project I created was a full stack event planning calendar designed for mobile browsers, used by myself and friends when planning group events.
 
 Users can create groups with different users, and see all upcoming events on a calendar that they have created or were created for a group they are added to. They can additionally view & manage groups or events on dedicated tabs, along with user management and account recovery.
